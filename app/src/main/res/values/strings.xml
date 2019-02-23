@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">格林办公</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="message">消息</string>
+    <string name="contacts">通讯录</string>
+    <string name="application">应用</string>
+    <string name="personal">个人中心</string>
+    <string name="userNameTest">张三丰</string>
+    <string name="employeeCode">员工号:</string>
+    <string name="employeeCodeDemo">H007</string>
+    <string name="employeeDeptDemo">创新孵化部</string>
+    <string name="employeePostDemo">Android工程师</string>
+    <string name="about">关于</string>
+    <string name="logout">退出登录</string>
+    <string name="company">公司信息</string>
+    <string name="services">订阅服务</string>
+    <string name="setting">设置</string>
+    <string name="feedback">帮助与反馈</string>
+</resources>

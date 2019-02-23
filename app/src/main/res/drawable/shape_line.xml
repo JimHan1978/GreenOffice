@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- popwindow样式下拉菜单列表背景 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!-- 填充 -->
+	<size android:height="@dimen/dp_1"/>
+	<solid android:color="@color/colorBorderGray" />
+</shape>
