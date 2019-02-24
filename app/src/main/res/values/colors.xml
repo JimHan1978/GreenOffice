@@ -3,7 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-
     <color name="colorBlack">#212121</color>
     <color name="colorSecondary">#757575</color>
     <color name="colorWhite">#ffffff</color>
@@ -154,6 +153,5 @@
     <color name="darkblue">#00008b</color><!--暗蓝色 -->
     <color name="navy">#000080</color><!--海军色 -->
     <color name="black">#000000</color><!--黑色 -->
-
 
 </resources>

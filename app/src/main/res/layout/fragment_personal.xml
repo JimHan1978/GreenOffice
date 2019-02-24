@@ -33,6 +33,7 @@
             android:id="@+id/tv_userName"
             android:text="@string/userNameTest"
             app:layout_constraintLeft_toRightOf="@+id/iv_avatar"
+            app:layout_constraintTop_toTopOf="@+id/iv_avatar"
             style="@style/nameTextStyle" />
 
         <TextView

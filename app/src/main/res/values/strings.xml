@@ -2,7 +2,6 @@
     <string name="app_name">格林办公</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="message">消息</string>
     <string name="contacts">通讯录</string>
     <string name="application">应用</string>
