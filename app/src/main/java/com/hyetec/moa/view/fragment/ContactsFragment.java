@@ -3,22 +3,46 @@ package com.hyetec.moa.view.fragment;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
-import com.hyetec.moa.R;
-import com.hyetec.moa.viewmodel.ContactsViewModel;
 import com.hyetec.hmdp.core.base.BaseFragment;
+import com.hyetec.hmdp.view.EditText_Clear;
+import com.hyetec.moa.R;
+import com.hyetec.moa.view.ui.SideBar;
+import com.hyetec.moa.viewmodel.ContactsViewModel;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ContactsFragment extends BaseFragment<ContactsViewModel> {
 
+
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
+    @BindView(R.id.et_search)
+    EditText_Clear mSearchView;
+    @BindView(R.id.sticky_header)
+    ConstraintLayout mOrgView;
+    @BindView(R.id.lv_contacts)
+    StickyListHeadersListView mContactsListView;
+    @BindView(R.id.sidebar)
+    SideBar mSidebar;
+    @BindView(R.id.fl_content)
+    FrameLayout mContentFrame;
+
+    Unbinder unbinder;
 
     public ContactsFragment() {
         // Required empty public constructor
@@ -30,7 +54,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     }
 
 
-      /**
+    /**
      * UI 初始化
      *
      * @param inflater           LayoutInflater
@@ -41,7 +65,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -69,5 +93,23 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     @Override
     public void setData(Object data) {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.sticky_header)
+    public void onViewClicked() {
     }
 }

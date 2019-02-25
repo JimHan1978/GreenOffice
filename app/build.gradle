@@ -89,6 +89,7 @@ dependencies {
     }
 
     implementation 'com.makeramen:roundedimageview:2.3.0'
+    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
 
     //test
     implementation rootProject.ext.dependencies["timber"]
