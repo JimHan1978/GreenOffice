@@ -3,9 +3,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".view.fragment.MessageFragment">
+    <include layout="@layout/base_top_bar"/>
+    <com.hyetec.hmdp.view.EditText_Clear
+        android:id="@+id/et_search"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/shape_background_block"
+        android:drawablePadding="8dp"
+        android:gravity="start|center_vertical"
+        android:imeOptions="actionSearch"
+        android:singleLine="true"/>
+    <FrameLayout
+        android:id="@+id/fl_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+        <com.hyetec.hmdp.view.StickyLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <LinearLayout
+                android:id="@+id/sticky_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+                <include layout="@layout/layout_personl_item_setting"/>
+            </LinearLayout>
 
+        </com.hyetec.hmdp.view.StickyLayout>
+
+
+    </FrameLayout>
+
+   <!-- <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </LinearLayout>
+    </ScrollView>-->
+    
 
 
 </LinearLayout>
