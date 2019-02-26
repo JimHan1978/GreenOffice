@@ -1,20 +1,37 @@
 package com.hyetec.moa.view.fragment;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.moa.R;
 import com.hyetec.moa.viewmodel.PersonalViewModel;
-import com.hyetec.hmdp.core.base.BaseFragment;
+import com.makeramen.roundedimageview.RoundedImageView;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class PersonalFragment extends BaseFragment<PersonalViewModel> {
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
+    @BindView(R.id.iv_avatar)
+    RoundedImageView mAvatarView;
+    @BindView(R.id.tv_userName)
+    TextView mUserNameView;
+    @BindView(R.id.tv_dept)
+    TextView mDeptView;
+    @BindView(R.id.tv_empCode)
+    TextView mEmpCodeView;
+    Unbinder unbinder;
+
     public static PersonalFragment newInstance() {
         PersonalFragment personalFragment = new PersonalFragment();
         return personalFragment;
@@ -31,14 +48,18 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_personal, container, false);
-        ButterKnife.bind(this,view);
-        ConstraintLayout setting = view.findViewById(R.id.setting);
+        ButterKnife.bind(this, view);
+        mTitleView.setText(getResources().getString(R.string.personal));
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PersonalViewModel.class);
+
+
+        /*ConstraintLayout setting = view.findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(PersonalFragment.this.getContext(),"xxxx",Toast.LENGTH_LONG).show();
+                Toast.makeText(PersonalFragment.this.getContext(), "xxxx", Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
         return view;
     }
 
@@ -49,7 +70,12 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        mViewModel.getUserInfo().observe(PersonalFragment.this, userEntity -> {
+            if(userEntity!=null){
+                mUserNameView.setText(userEntity.getUserName());
+                mDeptView.setText(userEntity.getOrgName());
+            }
+        });
     }
 
     /**
@@ -66,5 +92,19 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     @Override
     public void setData(Object data) {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

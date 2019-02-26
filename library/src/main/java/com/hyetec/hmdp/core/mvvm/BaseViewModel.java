@@ -6,6 +6,8 @@ import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
 
+import com.hyetec.hmdp.repository.http.Status;
+
 import org.simple.eventbus.EventBus;
 
 

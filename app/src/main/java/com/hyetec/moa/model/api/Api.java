@@ -9,7 +9,7 @@ public interface Api {
     /**
      * HTTP Url
      */
-    String APP_DOMAIN = "https://api.seniverse.com/v3/";
+    String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
 
     /**
      * 心知天气API密钥
@@ -40,4 +40,9 @@ public interface Api {
      * Api location
      */
     String API_KEY_LOCATION = "location";
+
+    /**
+     * userId Key
+     */
+    String API_USER_ID_KEY = "userId";
 }

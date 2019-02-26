@@ -18,7 +18,7 @@ public class OfficeApp extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        DoraemonKit.install(this);
+        //DoraemonKit.install(this);
         mAppComponent = DaggerAppComponent
                 .builder()
                 .archComponent(getArchComponent())
