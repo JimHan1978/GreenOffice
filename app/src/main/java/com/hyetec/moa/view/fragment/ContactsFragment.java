@@ -1,21 +1,37 @@
 package com.hyetec.moa.view.fragment;
 
 
+import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.room.Room;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.hmdp.view.EditText_Clear;
+import com.hyetec.hmdp.view.StickyLayout;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.db.GreenOfficeDb;
+import com.hyetec.moa.model.db.UserDao;
+import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.view.adapter.SearchListAdapter;
+import com.hyetec.moa.view.adapter.TestBaseAdapter;
 import com.hyetec.moa.view.ui.SideBar;
 import com.hyetec.moa.viewmodel.ContactsViewModel;
+import com.hyetec.moa.viewmodel.PersonalViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +42,7 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ContactsFragment extends BaseFragment<ContactsViewModel> {
+public class ContactsFragment extends BaseFragment<ContactsViewModel> implements StickyLayout.OnGiveUpTouchEventListener {
 
 
     @BindView(R.id.tv_title)
@@ -41,9 +57,20 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     SideBar mSidebar;
     @BindView(R.id.fl_content)
     FrameLayout mContentFrame;
+    @BindView(R.id.sticky_layout)
+    StickyLayout stickyLayout;
+    @BindView(R.id.sticky_content)
+    ConstraintLayout stickyContent;
+    @BindView(R.id.tv_dialog)
+    TextView tvDialog;
 
+    private TestBaseAdapter adapter;
+    private SearchListAdapter searchAdapter;
     Unbinder unbinder;
-
+    private UserDao mUserDao;
+    private UserEntity userEntity;
+    private List<UserEntity> mUserList=new ArrayList<>();
+    private GreenOfficeDb db;
     public ContactsFragment() {
         // Required empty public constructor
     }
@@ -65,6 +92,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ContactsViewModel.class);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -77,6 +105,54 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
 
+
+        db = Room.inMemoryDatabaseBuilder(this.getContext(),
+                GreenOfficeDb.class).build();
+
+
+
+        stickyLayout.setOnGiveUpTouchEventListener(ContactsFragment.this);
+        mContentFrame.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                getActivity().onTouchEvent(event);
+                return false;
+            }
+        });
+
+        mSidebar.setTextView(tvDialog);
+        // 设置右侧[A-Z]快速导航栏触摸监听
+        mSidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
+
+            @Override
+            public void onTouchingLetterChanged(String s) {
+                // scrollView.requestDisallowInterceptTouchEvent(true);
+                // 该字母首次出现的位置
+                int position = adapter.getPositionForSection(s);
+                if (position != -1) {
+                    mContactsListView.setSelection(position);
+                }
+            }
+        });
+
+        mContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                // TODO Auto-generated method stub
+//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+//                intent.putExtra("info", listContact.get(position));
+//                startActivity(intent);
+            }
+        });
+
+
+        mViewModel.getUserList().observe(ContactsFragment.this, mUserList -> {
+            if(mUserList.size()>0){
+                Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
+            }
+
+        });
     }
 
     /**
@@ -111,5 +187,17 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> {
 
     @OnClick(R.id.sticky_header)
     public void onViewClicked() {
+
+    }
+
+    @Override
+    public boolean giveUpTouchEvent(MotionEvent event) {
+        if (mContactsListView.getFirstVisiblePosition() == 0) {
+            View view = mContactsListView.getChildAt(0);
+            if (view != null && view.getTop() >= 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }
