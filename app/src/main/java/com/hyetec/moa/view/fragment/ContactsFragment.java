@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import com.hyetec.hmdp.view.StickyLayout;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.db.GreenOfficeDb;
 import com.hyetec.moa.model.db.UserDao;
+import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.adapter.SearchListAdapter;
 import com.hyetec.moa.view.adapter.TestBaseAdapter;
@@ -69,8 +71,9 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     Unbinder unbinder;
     private UserDao mUserDao;
     private UserEntity userEntity;
-    private List<UserEntity> mUserList=new ArrayList<>();
+    private List<ContactEntity> mContactList = new ArrayList<>();
     private GreenOfficeDb db;
+
     public ContactsFragment() {
         // Required empty public constructor
     }
@@ -106,11 +109,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     public void initData(Bundle savedInstanceState) {
 
 
-        db = Room.inMemoryDatabaseBuilder(this.getContext(),
-                GreenOfficeDb.class).build();
-
-
-
         stickyLayout.setOnGiveUpTouchEventListener(ContactsFragment.this);
         mContentFrame.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -136,24 +134,26 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
         });
 
         mContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
                 // TODO Auto-generated method stub
-//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                intent.putExtra("info", listContact.get(position));
-//                startActivity(intent);
+            }
+        });
+        mViewModel.getUserList();
+        mViewModel.getPositionList();
+        mViewModel.getGroupList();
+
+        mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+            if (contactUserList != null ) {
+                mContactList = contactUserList;
+                adapter = new TestBaseAdapter(getActivity(), mContactList);
+                mContactsListView.setAdapter(adapter);
             }
         });
 
-
-        mViewModel.getUserList().observe(ContactsFragment.this, mUserList -> {
-            if(mUserList.size()>0){
-                Toast.makeText(getActivity(),"ss",Toast.LENGTH_LONG).show();
-            }
-
-        });
     }
+
+
 
     /**
      * Activity 与 Fragment 通信接口

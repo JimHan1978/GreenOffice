@@ -2,6 +2,7 @@ package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.GroupEntity;
+import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.List;
@@ -27,5 +28,8 @@ public interface ContactsService {
     Flowable<BaseResponse<List<UserEntity>>> getUserList(@QueryMap Map<String, String> request);
 
     @POST("urm/org/mlist.json")
-    Flowable<BaseResponse<GroupEntity>> getOrgList(@QueryMap Map<String, String> request);
+    Flowable<BaseResponse<List<GroupEntity>>> getGroupList(@QueryMap Map<String, String> request);
+
+    @POST("urm/position/mlist.json")
+    Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 }

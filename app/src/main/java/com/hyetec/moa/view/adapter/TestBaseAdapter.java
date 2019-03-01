@@ -24,7 +24,6 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 public class TestBaseAdapter extends BaseAdapter implements
 		StickyListHeadersAdapter, SectionIndexer {
 
-//	private LayoutInflater inflater;
 	private List<ContactEntity> list;
 	private Context context;
 	/** 选中目录 */
@@ -33,12 +32,16 @@ public class TestBaseAdapter extends BaseAdapter implements
 	private Character[] sectionsLetters;
 
 	public TestBaseAdapter(Context context, List<ContactEntity> list) {
-//		inflater = LayoutInflater.from(context);
 		this.list = list;
 		this.context = context;
 		sectionIndices = getSectionIndices();
 		sectionsLetters = getStartingLetters();
 	}
+
+	public void setList(List<ContactEntity> list) {
+		this.list = list;
+	}
+
 
 	@Override
 	public int getCount() {
@@ -68,13 +71,13 @@ public class TestBaseAdapter extends BaseAdapter implements
 			c.iv_head = (ImageView) v.findViewById(R.id.iv_head);
 			c.iv_arrow = (ImageView) v.findViewById(R.id.iv_arrow);
 			c.cb_sel = (CheckBox) v.findViewById(R.id.cb_sel);
-			c.name = (TextView) v.findViewById(R.id.name);
+			c.tv_head_name = (TextView) v.findViewById(R.id.tv_head_name);
 			v.setTag(c);
 		} else {
 			c = (ChildHeple) v.getTag();
 		}
 		final ContactEntity ce = list.get(position);
-		c.catalog.setText(ce.getSortLetters());
+		c.catalog.setText(ce.getInitialIndex());
 		String userName = ce.getName();
 		c.tv_name.setText(userName);
 		String num = ce.getNumber();
@@ -84,17 +87,15 @@ public class TestBaseAdapter extends BaseAdapter implements
 		if (ce.getPhoto() == null || ce.getPhoto().equals("")) {
 			if (userName.length() > 2) {
 				String name = userName.substring(userName.length() - 2, userName.length());
-				c.name.setText(name);
+				c.tv_head_name.setText(name);
 			}else {
-				c.name.setText(userName);
+				c.tv_head_name.setText(userName);
 			}
-			
-			//c.iv_head.setImageResource(R.drawable.shape_bg_green);
+
 			c.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
-			c.name.setText("");
-			Glide.with(context).load(ce.getPhoto()).into(c.iv_head);
-		//	Utility.loadImage(context, c.iv_head, ce.getPhoto(), -1);
+			c.tv_head_name.setText("");
+			Glide.with(context).load("http://hyserver.hyetec.com:8180/urm/"+ce.getPhoto()).into(c.iv_head);
 		}
 
 			c.catalog.setVisibility(View.GONE);
@@ -119,7 +120,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 	public int getPositionForSection(String buMen) {
 		if (!buMen.equals("")) {
 			for (int i = 0; i < getCount(); i++) {
-				if (buMen.equals(list.get(i).getSortLetters())) {
+				if (buMen.equals(list.get(i).getInitialIndex())) {
 					return i;
 				}
 			}
@@ -135,7 +136,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 		ImageView iv_head;
 		ImageView iv_arrow;
 		CheckBox cb_sel;
-		TextView name;
+		TextView tv_head_name;
 	}
 
 	private int[] getSectionIndices() {
@@ -149,7 +150,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 	private Character[] getStartingLetters() {
 		Character[] letters = new Character[sectionIndices.length];
 		for (int i = 0; i < sectionIndices.length; i++) {
-			letters[i] = list.get(sectionIndices[i]).getSortLetters().charAt(0);
+			letters[i] = list.get(sectionIndices[i]).getInitialIndex().charAt(0);
 		}
 		return letters;
 	}
@@ -169,7 +170,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 	public long getHeaderId(int position) {
 		// return the first character of the country as ID because this is what
 		// headers are based upon
-		return list.get(position).getSortLetters().charAt(0);
+		return list.get(position).getInitialIndex().charAt(0);
 	}
 
 	@Override
@@ -199,7 +200,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 		}
 		TextView txt = (TextView) convertView.findViewById(R.id.header_text);
 		// set header text as first char in name
-		txt.setText(list.get(position).getSortLetters().charAt(0) + "");
+		txt.setText(list.get(position).getInitialIndex().charAt(0) + "");
 		return convertView;
 	}
 

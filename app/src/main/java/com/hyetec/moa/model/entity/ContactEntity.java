@@ -24,10 +24,10 @@ public class ContactEntity implements Serializable {
 	private String head_url;// 本地地址
 	private String photo;// 网络地址
 	private String depName;//工作中心
-	private String simpleSpell;// 简拼
-	private String wholeSpell;// 全拼
-	private String sortLetters;// 首字母
-	private String e_mail;
+	private String shortName;// 简拼
+	private String pinyinName;// 全拼
+	private String initialIndex;// 首字母
+	private String email;
 	private String qq;
 	private String positionName;// 职务
 	private String sex;
@@ -35,53 +35,6 @@ public class ContactEntity implements Serializable {
 	private String job_number;
 	private String code;
 	private int sortNo;
-	
-	public int getSortNo() {
-		return sortNo;
-	}
-
-	public void setSortNo(int sortNo) {
-		this.sortNo = sortNo;
-	}
-
-	public String getDepName() {
-		return depName;
-	}
-
-	public void setDepName(String depName) {
-		this.depName = depName;
-	}
-	public String getSex() {
-		return sex;
-	}
-
-	public void setSex(String sex) {
-		this.sex = sex;
-	}
-
-	public String getAge() {
-		return age;
-	}
-
-	public void setAge(String age) {
-		this.age = age;
-	}
-
-	public String getJob_number() {
-		return job_number;
-	}
-
-	public void setJob_number(String job_number) {
-		this.job_number = job_number;
-	}
-
-	public String getPhoto() {
-		return photo;
-	}
-
-	public void setPhoto(String photo) {
-		this.photo = photo;
-	}
 
 	public int getUserId() {
 		return userId;
@@ -91,63 +44,12 @@ public class ContactEntity implements Serializable {
 		this.userId = userId;
 	}
 
-
-
-	public String getE_mail() {
-		return e_mail;
-	}
-
-	public void setE_mail(String e_mail) {
-		this.e_mail = e_mail;
-	}
-
-	public String getPositionName() {
-		return positionName;
-	}
-
-	public void setPositionName(String positionName) {
-		this.positionName = positionName;
-	}
-
-	public String getQq() {
-		return qq;
-	}
-
-	public void setQq(String qq) {
-		this.qq = qq;
-	}
-
-
 	public String getGroupName() {
 		return groupName;
 	}
 
 	public void setGroupName(String groupName) {
 		this.groupName = groupName;
-	}
-
-	public String getSimpleSpell() {
-		return simpleSpell;
-	}
-
-	public void setSimpleSpell(String simpleSpell) {
-		this.simpleSpell = simpleSpell;
-	}
-
-	public String getWholeSpell() {
-		return wholeSpell;
-	}
-
-	public void setWholeSpell(String wholeSpell) {
-		this.wholeSpell = wholeSpell;
-	}
-
-	public String getSortLetters() {
-		return sortLetters;
-	}
-
-	public void setSortLetters(String sortLetters) {
-		this.sortLetters = sortLetters;
 	}
 
 	public String getName() {
@@ -182,6 +84,94 @@ public class ContactEntity implements Serializable {
 		this.head_url = head_url;
 	}
 
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+
+	public String getDepName() {
+		return depName;
+	}
+
+	public void setDepName(String depName) {
+		this.depName = depName;
+	}
+
+	public String getShortName() {
+		return shortName;
+	}
+
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
+	}
+
+	public String getPinyinName() {
+		return pinyinName;
+	}
+
+	public void setPinyinName(String pinyinName) {
+		this.pinyinName = pinyinName;
+	}
+
+	public String getInitialIndex() {
+		return initialIndex;
+	}
+
+	public void setInitialIndex(String initialIndex) {
+		this.initialIndex = initialIndex;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getQq() {
+		return qq;
+	}
+
+	public void setQq(String qq) {
+		this.qq = qq;
+	}
+
+	public String getPositionName() {
+		return positionName;
+	}
+
+	public void setPositionName(String positionName) {
+		this.positionName = positionName;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getAge() {
+		return age;
+	}
+
+	public void setAge(String age) {
+		this.age = age;
+	}
+
+	public String getJob_number() {
+		return job_number;
+	}
+
+	public void setJob_number(String job_number) {
+		this.job_number = job_number;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -189,6 +179,17 @@ public class ContactEntity implements Serializable {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+	public int getSortNo() {
+		return sortNo;
+	}
+
+	public void setSortNo(int sortNo) {
+		this.sortNo = sortNo;
+	}
+
+
+
 	
 	
 

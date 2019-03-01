@@ -19,21 +19,13 @@ public class GroupEntity {
 
 	@NonNull
 	@PrimaryKey
-	private int id;
 	private int groupId;
+
 	private int prarentGroupId;
 	private String groupName;// 组名
 	private Boolean delFlag;
 	private String code;
 
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public int getGroupId() {
 		return groupId;
