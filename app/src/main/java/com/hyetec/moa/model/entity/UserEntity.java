@@ -1,6 +1,8 @@
 package com.hyetec.moa.model.entity;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
@@ -32,12 +34,24 @@ public class UserEntity {
     private int userId;
 
     private int orgId;
+
+    public int getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(int deptId) {
+        this.deptId = deptId;
+    }
+
+    private int deptId;
     private String email;
     private int positionId;
 
     private String userName;
     private String code;
     private String orgName;
+
+    //@ColumnInfo()
     private String positionName;
     private String photo;
     private String mobile;

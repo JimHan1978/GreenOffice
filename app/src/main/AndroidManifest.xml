@@ -18,7 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".app.OfficeApp"
+        android:name=".app.MoaApp"
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity android:name=".view.activity.MainActivity"
@@ -27,6 +27,11 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+
+        <activity android:name=".view.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
 
         <!--arms配置-->

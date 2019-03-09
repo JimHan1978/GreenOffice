@@ -18,4 +18,7 @@
     <string name="setting">设置</string>
     <string name="feedback">帮助与反馈</string>
     <string name="organization">组织结构</string>
+    <string name="appLogo">应用图标</string>
+    <string name="resetPassword">忘记密码</string>
+    <string name="login">登录</string>
 </resources>

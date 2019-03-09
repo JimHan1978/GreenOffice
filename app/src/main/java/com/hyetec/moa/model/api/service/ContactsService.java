@@ -32,4 +32,7 @@ public interface ContactsService {
 
     @POST("urm/position/mlist.json")
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
+
+    @POST("urm/mobileLogin.json")
+    Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
 }

@@ -9,7 +9,11 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="colorBackgroundGray">#EFEDEE</color>
     <color name="colorBorderGray">#D9D9D9</color>
+
     <color name="colorText">#5F5F5F</color><!--黑色 -->
+    <color name="colorFocus">#008577</color><!--黑色 -->
+    <color name="colorDeafult">#999999</color><!--黑色 -->
+
     <color name="white">#ffffff</color><!--白色 -->
     <color name="ivory">#fffff0</color><!--象牙色 -->
     <color name="lightyellow">#ffffe0</color><!--亮黄色 -->

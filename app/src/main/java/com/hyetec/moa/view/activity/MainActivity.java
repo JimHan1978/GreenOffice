@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
@@ -18,7 +19,6 @@ import com.hyetec.moa.view.fragment.ContactsFragment;
 import com.hyetec.moa.view.fragment.MessageFragment;
 import com.hyetec.moa.view.fragment.PersonalFragment;
 import com.hyetec.moa.viewmodel.MainViewModel;
-import com.hyetec.hmdp.core.base.BaseActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +47,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public int initView(Bundle savedInstanceState) {
+        if()
+
 
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);
