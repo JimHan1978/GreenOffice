@@ -1,6 +1,7 @@
 package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -11,8 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;
 import com.hyetec.moa.view.fragment.ContactsFragment;
@@ -47,8 +50,10 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public int initView(Bundle savedInstanceState) {
-        if()
-
+        String isLogin = ACache.get(this.getApplicationContext()).getAsString(MoaApp.IS_LOGIN);
+        if(isLogin==null|| isLogin.equals("false")){
+            startActivity(new Intent(this,LoginActivity.class));
+        }
 
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);

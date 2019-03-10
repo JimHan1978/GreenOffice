@@ -6,6 +6,8 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * @author : created by jimhan
  * 版本：1.0
@@ -13,7 +15,7 @@ import android.support.annotation.NonNull;
  * 描述：用户实体类
  **/
 @Entity(tableName = "User")
-public class UserEntity {
+public class UserEntity implements Serializable {
 
 
     /**

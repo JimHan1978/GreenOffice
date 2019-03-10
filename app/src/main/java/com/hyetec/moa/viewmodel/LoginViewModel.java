@@ -4,6 +4,7 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.util.Base64;
 
 import com.hyetec.hmdp.core.mvvm.BaseViewModel;
 import com.hyetec.hmdp.repository.http.Resource;
@@ -39,10 +40,13 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
     /**
      *
      * @return
+     * @param userName
+     * @param password
      */
-    public LiveData<BaseResponse<UserEntity>> login() {
+    public LiveData<BaseResponse<UserEntity>> login(String userName, String password) {
         Map<String, String> request = new HashMap<>(1);
-        request.put(Api.API_USER_ID_KEY, "44");
+        request.put(Api.API_USER_NAME_KEY, userName);
+        request.put(Api.API_USER_PASSWORD_KEY, Base64.encodeToString(password.getBytes(),Base64.NO_WRAP));
         if (mLoginResponse != null) {
             mLoginData.removeSource(mLoginResponse);
         }

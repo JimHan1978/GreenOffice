@@ -13,6 +13,8 @@ import com.hyetec.moa.di.component.DaggerAppComponent;
  */
 public class MoaApp extends BaseApplication {
 
+    public static final String IS_LOGIN = "isLogin";
+    public static final String USER_DATA = "userData";
     private AppComponent mAppComponent;
 
     @Override
