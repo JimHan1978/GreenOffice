@@ -5,14 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.hmdp.view.SuperEditText;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
-import com.hyetec.moa.model.api.Api;
-import com.hyetec.moa.view.fragment.PersonalFragment;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 
 import butterknife.BindView;
@@ -43,11 +40,11 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
      */
     @Override
     public int initView(Bundle savedInstanceState) {
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
-        return R.layout.login_activity;
+        return R.layout.activity_login;
     }
 
     /**

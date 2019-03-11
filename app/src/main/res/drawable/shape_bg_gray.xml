@@ -2,6 +2,7 @@
 <!-- popwindow样式下拉菜单列表背景 -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
+	<!-- 描边 -->
 	<!-- 填充 -->
 	<solid android:color="@color/gray" />
 </shape>
