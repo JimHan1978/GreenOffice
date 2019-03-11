@@ -50,10 +50,10 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public int initView(Bundle savedInstanceState) {
-        String isLogin = ACache.get(this.getApplicationContext()).getAsString(MoaApp.IS_LOGIN);
-        if(isLogin==null|| isLogin.equals("false")){
-            startActivity(new Intent(this,LoginActivity.class));
-        }
+//        String isLogin = ACache.get(this.getApplicationContext()).getAsString(MoaApp.IS_LOGIN);
+//        if(isLogin==null|| isLogin.equals("false")){
+//            startActivity(new Intent(this,LoginActivity.class));
+//        }
 
         setContentView(R.layout.main_activity);
         ButterKnife.bind(this);

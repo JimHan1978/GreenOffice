@@ -32,7 +32,7 @@ public class UserEntity implements Serializable {
      */
 
     @NonNull
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey()
     private int userId;
 
     private int orgId;

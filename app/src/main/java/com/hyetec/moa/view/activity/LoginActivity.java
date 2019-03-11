@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
         String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
-
+        startActivity(new Intent(this,MainActivity.class));
         mViewModel.login(userName,password).observe(this, loginData -> {
             if(loginData!=null && loginData.isSuccess()){
                 //登录成功，跳转到主界面
