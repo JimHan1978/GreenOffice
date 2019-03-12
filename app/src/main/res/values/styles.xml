@@ -58,4 +58,27 @@
         <item name="android:padding">@dimen/dp_10</item>
     </style>
 
+    <style name="SettingArrowStyle">
+        <item name="android:layout_width">@dimen/dp_24</item>
+        <item name="android:layout_height">@dimen/dp_24</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:layout_marginRight">@dimen/dp_24</item>
+    </style>
+
+    <style name="SettingTextStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/sp_16</item>
+    </style>
+
+    <style name="SettingItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/background_item_selector</item>
+        <item name="android:paddingTop">@dimen/dp_10</item>
+        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:paddingLeft">@dimen/dp_24</item>
+        <item name="android:layout_marginTop">@dimen/dp_1</item>
+    </style>
+
 </resources>

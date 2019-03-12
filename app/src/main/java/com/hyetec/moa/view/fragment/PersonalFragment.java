@@ -1,24 +1,25 @@
 package com.hyetec.moa.view.fragment;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Message;
-import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.viewmodel.PersonalViewModel;
 import com.makeramen.roundedimageview.RoundedImageView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class PersonalFragment extends BaseFragment<PersonalViewModel> {
@@ -32,6 +33,12 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     TextView mDeptView;
     @BindView(R.id.tv_empCode)
     TextView mEmpCodeView;
+
+
+    @BindView(R.id.layout_setting)
+    View mSettingView;
+
+
     Unbinder unbinder;
 
     public static PersonalFragment newInstance() {
@@ -73,11 +80,11 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         mViewModel.getUserInfo().observe(PersonalFragment.this, userEntity -> {
-            if(userEntity!=null){
+            if (userEntity != null) {
                 mUserNameView.setText(userEntity.getUserName());
                 mDeptView.setText(userEntity.getOrgName());
 
-                Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
+                Glide.with(this).load(Api.APP_DOMAIN + "urm/" + userEntity.getPhoto()).into(mAvatarView);
             }
         });
     }
@@ -110,5 +117,10 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.layout_setting)
+    public void onSettingViewClicked() {
+        startActivity(new Intent(PersonalFragment.this.getActivity(), SettingActivity.class));
     }
 }

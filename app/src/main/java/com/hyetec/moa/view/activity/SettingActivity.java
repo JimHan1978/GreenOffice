@@ -34,7 +34,7 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        ((TextView)mLayoutAccount.findViewById(R.id.tv_text)).setText("账户设置");
+        //((TextView)mLayoutAccount.findViewById(R.id.tv_text)).setText("账户设置");
 
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SettingViewModel.class);
