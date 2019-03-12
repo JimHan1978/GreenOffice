@@ -42,6 +42,7 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
         return R.layout.activity_login;

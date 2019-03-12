@@ -9,8 +9,8 @@ public interface Api {
     /**
      * HTTP Url
      */
-    //String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
-    String APP_DOMAIN = "http://192.168.10.10:8180/";
+    String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
+    //String APP_DOMAIN = "http://192.168.10.10:8180/";
     /**
      * 心知天气API密钥
      */

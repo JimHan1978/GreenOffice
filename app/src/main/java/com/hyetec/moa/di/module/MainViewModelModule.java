@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 import com.hyetec.moa.viewmodel.MainViewModel;
 import com.hyetec.hmdp.core.di.scope.ViewModelScope;
+import com.hyetec.moa.viewmodel.SettingViewModel;
 
 import dagger.Binds;
 import dagger.Module;
@@ -28,4 +29,9 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(LoginViewModel.class)
     abstract ViewModel bindLoginViewModel(LoginViewModel loginViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(SettingViewModel.class)
+    abstract ViewModel bindSettingViewModel(SettingViewModel settingViewModel);
 }
