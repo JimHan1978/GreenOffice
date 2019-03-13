@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorBackgroundGray">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include
+        layout="@layout/layout_top_bar"
+        android:id="@+id/layout_top_bar" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:padding="@dimen/dp_1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/shape_background_block"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_1">
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_account"
+                style="@style/SettingItemStyle">
+                <TextView
+                    android:id="@+id/tv_text"
+                    android:text="@string/accountSetting"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingTextStyle" />
+                <ImageView
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingArrowStyle" />
+            </android.support.constraint.ConstraintLayout >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/shape_background_block"
+            android:divider="@drawable/shape_bottom_line_10"
+            android:showDividers="middle"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_1">
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_msg"
+                style="@style/SettingItemStyle">
+                <TextView
+                    android:text="@string/messageSetting"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingTextStyle" />
+                <ImageView
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingArrowStyle" />
+            </android.support.constraint.ConstraintLayout >
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_general"
+                style="@style/SettingItemStyle">
+                <TextView
+                    android:text="@string/general"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingTextStyle" />
+                <ImageView
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingArrowStyle" />
+            </android.support.constraint.ConstraintLayout >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/shape_background_block"
+            android:divider="@drawable/shape_bottom_line_10"
+            android:showDividers="middle"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_1">
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_version"
+                style="@style/SettingItemStyle">
+                <TextView
+                    android:text="@string/version"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingTextStyle" />
+                <ImageView
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingArrowStyle" />
+            </android.support.constraint.ConstraintLayout >
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_about"
+                style="@style/SettingItemStyle">
+                <TextView
+                    android:text="@string/about"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingTextStyle" />
+                <ImageView
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    style="@style/SettingArrowStyle" />
+            </android.support.constraint.ConstraintLayout >
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_24"
+        android:text="@string/logout"
+        android:textColor="@color/red"
+        android:padding="@dimen/dp_12"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        android:background="@drawable/background_btn_selector"/>
+</LinearLayout>

@@ -12,41 +12,42 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".app.MoaApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".app.MoaApp"
         tools:ignore="GoogleAppIndexingWarning">
-
-        <activity android:name=".view.activity.MainActivity"
+        <activity
+            android:name=".view.activity.SplashActivity"
             android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-
-        <activity android:name=".view.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".view.activity.MainActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".view.activity.LoginActivity"
+            android:windowSoftInputMode="adjustPan" />
 
-        <!--arms配置-->
+        <!-- arms配置 -->
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"
-            android:value="ConfigRepository"/>
+            android:value="ConfigRepository" />
         <meta-data
             android:name="com.hyetec.moa.app.LifecycleConfiguration"
-            android:value="ConfigLifecycle"/>
+            android:value="ConfigLifecycle" />
         <meta-data
             android:name="com.hyetec.moa.app.ArchConfiguration"
-            android:value="ConfigArms"/>
-    </application>
+            android:value="ConfigArms" />
 
+        <activity android:name=".view.activity.SettingActivity"></activity>
+    </application>
 
 </manifest>

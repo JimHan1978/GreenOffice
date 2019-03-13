@@ -50,12 +50,9 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public int initView(Bundle savedInstanceState) {
-//        String isLogin = ACache.get(this.getApplicationContext()).getAsString(MoaApp.IS_LOGIN);
-//        if(isLogin==null|| isLogin.equals("false")){
-//            startActivity(new Intent(this,LoginActivity.class));
-//        }
 
-        setContentView(R.layout.main_activity);
+
+        setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel.class);
@@ -63,7 +60,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             //Restore data
             mReplace = savedInstanceState.getInt(EventBusTags.ACTIVITY_FRAGMENT_REPLACE);
         }
-        return R.layout.main_activity;
+        return R.layout.activity_main;
     }
 
     @Override
