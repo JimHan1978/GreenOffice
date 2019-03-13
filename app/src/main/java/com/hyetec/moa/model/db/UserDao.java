@@ -37,14 +37,22 @@ public interface UserDao {
 //    @Query("SELECT * FROM User ")
 //    List<UserEntity> getUserAll();
 
-    @Query("SELECT userId,userName,User.code,orgId,deptId,User.delFlag,email,User.positionId,orgName,photo,mobile," +
-            "position.name AS positionName,User.delFlag, shortName, pinyinName, initialIndex " +
-            "FROM User,position WHERE user.positionId=position.positionId AND  user.delFlag =:delFlag" )
+//    @Query("SELECT userId,userName,User.code,orgId,deptId,User.delFlag,email,User.positionId,orgName,photo,mobile," +
+//            "position.name AS positionName,User.delFlag, shortName, pinyinName, initialIndex " +
+//            "FROM User,position WHERE user.positionId=position.positionId AND  user.delFlag =:delFlag" )
+//    Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
+
+    @Query("SELECT  userId,userName,User.code,User.orgId,deptId,User.delFlag,email,User.positionId,User.orgName,photo,mobile,User.delFlag," +
+            " shortName, pinyinName, initialIndex,position.name AS positionName ,`Group`.name AS orgName  FROM User,position,`Group` " +
+            "WHERE user.positionId=position.positionId AND user.orgId=`Group`.orgId  AND   user.delFlag =:delFlag" )
     Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
 
-    @Query("SELECT * FROM User" )
-    Flowable<List<UserEntity>>  getUserAll2();
-    /**
+//    @Query("SELECT * FROM User INNER JOIN position ON position.name = User.positionName  WHERE User.positionId=position.positionId AND  user.delFlag =:delFlag" )
+//    Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
+
+//    @Query("SELECT * FROM User WHERE user.delFlag =:delFlag" )
+//    Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
+    /**ANDANDANDAND
      * 查询
      * @param
      */

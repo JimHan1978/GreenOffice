@@ -19,6 +19,10 @@ public class PositionEntity {
 	@NonNull
 	@PrimaryKey
 	private int positionId;
+	private String name;
+	private String code;
+
+
 
 	public String getName() {
 		return name;
@@ -28,9 +32,7 @@ public class PositionEntity {
 		this.name = name;
 	}
 
-	private String name;
-	private String code;
-	
+
 	
 	
 	

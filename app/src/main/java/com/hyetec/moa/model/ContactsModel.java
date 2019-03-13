@@ -287,7 +287,7 @@ public class ContactsModel extends BaseModel {
     public void saveGroup(List<GroupEntity> groupEntities) {
 
         for (int i = 0; i < groupEntities.size(); i++) {
-            if (db.groupDao().getGroupBgid(groupEntities.get(i).getGroupId()) == null) {
+            if (db.groupDao().getGroupById(groupEntities.get(i).getOrgId()) == null) {
                 db.groupDao().insertGroup(groupEntities.get(i));
             } else {
                 db.groupDao().updata(groupEntities.get(i));

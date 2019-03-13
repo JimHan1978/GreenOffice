@@ -17,38 +17,41 @@ import android.support.annotation.NonNull;
 @Entity(tableName = "Group")
 public class GroupEntity {
 
+
+
 	@NonNull
 	@PrimaryKey
-	private int groupId;
-
-	private int prarentGroupId;
-	private String groupName;// 组名
+	private int orgId;
+	private int parentId;
+	private String name;// 组名
 	private Boolean delFlag;
+	private String postCode;
 	private String code;
 
 
-	public int getGroupId() {
-		return groupId;
+	@NonNull
+	public int getOrgId() {
+		return orgId;
 	}
 
-	public void setGroupId(int groupId) {
-		this.groupId = groupId;
+	public void setOrgId(@NonNull int orgId) {
+		this.orgId = orgId;
 	}
 
-	public int getPrarentGroupId() {
-		return prarentGroupId;
+	public int getParentId() {
+		return parentId;
 	}
 
-	public void setPrarentGroupId(int prarentGroupId) {
-		this.prarentGroupId = prarentGroupId;
+	public void setParentId(int parentId) {
+		this.parentId = parentId;
 	}
 
-	public String getGroupName() {
-		return groupName;
+	public String getName() {
+		return name;
 	}
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Boolean getDelFlag() {
@@ -59,6 +62,14 @@ public class GroupEntity {
 		this.delFlag = delFlag;
 	}
 
+	public String getPostCode() {
+		return postCode;
+	}
+
+	public void setPostCode(String postCode) {
+		this.postCode = postCode;
+	}
+
 	public String getCode() {
 		return code;
 	}
@@ -66,5 +77,9 @@ public class GroupEntity {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+
+
+
 
 }

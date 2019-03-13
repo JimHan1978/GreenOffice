@@ -37,13 +37,6 @@ public class UserEntity implements Serializable {
 
     private int orgId;
 
-    public int getDeptId() {
-        return deptId;
-    }
-
-    public void setDeptId(int deptId) {
-        this.deptId = deptId;
-    }
 
     private int deptId;
     private String email;
@@ -53,7 +46,6 @@ public class UserEntity implements Serializable {
     private String code;
     private String orgName;
 
-    //@ColumnInfo()
     private String positionName;
     private String photo;
     private String mobile;
@@ -63,6 +55,13 @@ public class UserEntity implements Serializable {
     private String pinyinName;// 全拼
     private String initialIndex;// 首字母
 
+    public int getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(int deptId) {
+        this.deptId = deptId;
+    }
 
     public UserEntity(@NonNull int userId, String userName) {
         this.userId = userId;

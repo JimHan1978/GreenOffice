@@ -123,7 +123,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
      */
     public LiveData<List <PositionEntity>> getPositionList() {
         Map<String, String> request = new HashMap<>(1);
-        request.put("since", "");
+      //  request.put("since", "");
         if (mPositionListResponse != null) {
             mPositionListData.removeSource(mPositionListResponse);
         }

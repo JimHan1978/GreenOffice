@@ -32,8 +32,8 @@ public interface GroupDao {
     @Query("SELECT * FROM `Group` WHERE delFlag = 0 ")
     List<GroupEntity> getGroupAll();
 
-    @Query("SELECT * FROM `Group` WHERE groupId = :id ")
-    GroupEntity getGroupBgid(int id);
+    @Query("SELECT * FROM `Group` WHERE orgId = :id ")
+    GroupEntity getGroupById(int id);
 
     /**
      * 修改
