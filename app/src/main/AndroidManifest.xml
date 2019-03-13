@@ -20,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".view.activity.AccountSettingActivity"></activity>
         <activity
             android:name=".view.activity.SplashActivity"
             android:windowSoftInputMode="adjustPan">
@@ -34,9 +35,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.LoginActivity"
-            android:windowSoftInputMode="adjustPan" />
-
-        <!-- arms配置 -->
+            android:windowSoftInputMode="adjustPan" /> <!-- arms配置 -->
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"
             android:value="ConfigRepository" />
@@ -47,7 +46,7 @@
             android:name="com.hyetec.moa.app.ArchConfiguration"
             android:value="ConfigArms" />
 
-        <activity android:name=".view.activity.SettingActivity"></activity>
+        <activity android:name=".view.activity.SettingActivity" />
     </application>
 
 </manifest>

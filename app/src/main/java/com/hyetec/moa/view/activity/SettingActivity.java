@@ -1,19 +1,19 @@
 package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
-import com.hyetec.moa.viewmodel.LoginViewModel;
-import com.hyetec.moa.viewmodel.MainViewModel;
 import com.hyetec.moa.viewmodel.SettingViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * @author : created by jimhan
@@ -22,19 +22,13 @@ import butterknife.ButterKnife;
  * 描述：设置页面
  **/
 public class SettingActivity extends BaseActivity<SettingViewModel> {
-    @BindView(R.id.layout_account)
-    View mLayoutAccount;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
-    }
+   /* @BindView(R.id.layout_account)
+    View mLayoutAccount;*/
 
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
-        //((TextView)mLayoutAccount.findViewById(R.id.tv_text)).setText("账户设置");
 
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(SettingViewModel.class);
@@ -43,6 +37,33 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+
+    }
+
+    @OnClick(R.id.layout_account)
+    public void onLayoutAccountClicked() {
+    }
+
+
+    @OnClick(R.id.layout_msg)
+    public void onLayoutMsgClicked() {
+    }
+
+    @OnClick(R.id.layout_general)
+    public void onLayoutGeneralClicked() {
+    }
+
+    @OnClick(R.id.layout_version)
+    public void onLayoutVersionClicked() {
+    }
+
+    @OnClick(R.id.layout_about)
+    public void onLayoutAboutClicked() {
+    }
+
+    @OnClick(R.id.tv_logout)
+    public void onLogoutClicked() {
+        //ACache.get()
 
     }
 }

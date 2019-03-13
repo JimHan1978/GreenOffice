@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/layout_top_bar"
+        layout="@layout/layout_top_bar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
+        android:orientation="vertical"
+        android:padding="@dimen/dp_1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:background="@drawable/shape_background_block"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_1">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_update_mobile"
+                style="@style/SettingItemStyle">
+
+                <TextView
+                    style="@style/SettingTextStyle"
+                    android:text="@string/updateMobile"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <TextView
+                    style="@style/SettingTextStyle"
+                    android:text="@string/mobileDemo"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="@+id/iv_arrow"
+                    android:layout_marginRight="@dimen/dp_24"
+                    app:layout_constraintTop_toTopOf="parent" />
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    style="@style/SettingArrowStyle"
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_16"
+            android:background="@drawable/shape_background_block"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_1">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/layout_mod_password"
+                style="@style/SettingItemStyle">
+
+                <TextView
+                    android:id="@+id/tv_text"
+                    style="@style/SettingTextStyle"
+                    android:text="@string/accountSetting"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    style="@style/SettingArrowStyle"
+                    android:src="@mipmap/contents_arrow"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

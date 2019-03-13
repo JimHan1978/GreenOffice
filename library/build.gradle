@@ -146,7 +146,8 @@ dependencies {
     annotationProcessor(rootProject.ext.dependencies["glide-compiler"]) {
         exclude module: 'jsr305'
     }
-
+    //api声明的依赖包时, 此模块使用api声明的依赖包是可以被其他模块使用
+    api 'tech.gujin:toast-util:1.1.1'
     //test
     implementation rootProject.ext.dependencies["timber"]
     testImplementation rootProject.ext.dependencies["junit"]

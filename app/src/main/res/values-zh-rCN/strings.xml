@@ -25,4 +25,6 @@
     <string name="version">版本更新</string>
     <string name="general">通用</string>
     <string name="messageSetting">消息通知</string>
+    <string name="updateMobile">更换手机号</string>
+    <string name="mobileDemo">18601969158</string>
 </resources>
