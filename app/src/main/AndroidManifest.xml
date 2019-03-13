@@ -35,6 +35,10 @@
         <activity
             android:name=".view.activity.LoginActivity"
             android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".view.activity.GroupActivity"
+            android:windowSoftInputMode="adjustPan" />
+
 
         <!-- arms配置 -->
         <meta-data

@@ -2,6 +2,8 @@ package com.hyetec.moa.di.module;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.hyetec.moa.view.activity.GroupActivity;
+import com.hyetec.moa.viewmodel.GroupViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 import com.hyetec.moa.viewmodel.MainViewModel;
 import com.hyetec.hmdp.core.di.scope.ViewModelScope;
@@ -34,4 +36,9 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(SettingViewModel.class)
     abstract ViewModel bindSettingViewModel(SettingViewModel settingViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(GroupViewModel.class)
+    abstract ViewModel bindGroupViewModel(GroupViewModel groupViewModel);
 }

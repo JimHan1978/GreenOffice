@@ -26,6 +26,7 @@ import com.hyetec.moa.model.db.GreenOfficeDb;
 import com.hyetec.moa.model.db.UserDao;
 import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.adapter.SearchListAdapter;
 import com.hyetec.moa.view.adapter.TestBaseAdapter;
 import com.hyetec.moa.view.ui.SideBar;
@@ -187,7 +188,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
 
     @OnClick(R.id.sticky_header)
     public void onViewClicked() {
-
+        startActivity(new Intent(getActivity(),GroupActivity.class));
     }
 
     @Override
