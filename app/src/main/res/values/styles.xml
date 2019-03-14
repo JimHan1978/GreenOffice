@@ -75,8 +75,17 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/background_item_selector</item>
-        <item name="android:paddingTop">@dimen/dp_10</item>
-        <item name="android:paddingBottom">@dimen/dp_10</item>
+        <item name="android:paddingTop">@dimen/dp_16</item>
+        <item name="android:paddingBottom">@dimen/dp_16</item>
+        <item name="android:paddingLeft">@dimen/dp_24</item>
+        <item name="android:layout_marginTop">@dimen/dp_1</item>
+    </style>
+
+    <style name="BaseItemStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/dp_16</item>
+        <item name="android:paddingBottom">@dimen/dp_16</item>
         <item name="android:paddingLeft">@dimen/dp_24</item>
         <item name="android:layout_marginTop">@dimen/dp_1</item>
     </style>

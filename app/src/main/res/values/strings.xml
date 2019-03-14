@@ -27,4 +27,6 @@
     <string name="messageSetting">消息通知</string>
     <string name="updateMobile">更换手机号</string>
     <string name="mobileDemo">18601969158</string>
+    <string name="modifyPassword">修改密码</string>
+    <string name="complete">完成</string>
 </resources>
