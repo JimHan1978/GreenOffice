@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/white">
+
+    <ImageView 
+        android:id="@+id/iv_group_head"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_centerVertical="true"
+        android:padding="4dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/buddy_header_arrow_1"/>
+    <TextView 
+        android:id="@+id/group_name"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:text=""
+        android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:textSize="18sp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/iv_group_head"/>
+    
+    <TextView 
+        android:id="@+id/user_num"
+         android:layout_width="50dp"
+        android:layout_height="45dp"
+        android:text="23人"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        android:gravity="center_vertical|right"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"/>
+    <View 
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/group_name"
+        android:layout_alignParentLeft="true"
+        android:background="#E2E2E2"/>
+</RelativeLayout>

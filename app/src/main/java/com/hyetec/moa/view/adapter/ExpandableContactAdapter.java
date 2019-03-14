@@ -10,16 +10,11 @@
 package com.hyetec.moa.view.adapter;
 
 
-import android.Manifest;
+
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,13 +39,12 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 
 	public List<GroupContactEntity> list;
 	private Context context;
-	private PinnedHeaderExpandableListView listView;
 
-	public ExpandableContactAdapter(List<GroupContactEntity> list, Context context, PinnedHeaderExpandableListView listView) {
+
+	public ExpandableContactAdapter(List<GroupContactEntity> list, Context context) {
 		super();
 		this.list = list;
 		this.context = context;
-		this.listView = listView;
 	}
 
 	@Override
@@ -67,9 +61,16 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		} else {
 			g = (GroupHeple) v.getTag();
 		}
-		String name = list.get(groupPosition).getGroupName();
-		g.group_name.setText(name);
-		g.user_num.setText(list.get(groupPosition).getUserNum()+" 人");
+		if(!TextUtils.isEmpty(list.get(groupPosition).getGroupName())) {
+			String name = list.get(groupPosition).getGroupName();
+			g.group_name.setText(name);
+		}
+		if(list.get(groupPosition).getUserEntities()!=null){
+			g.user_num.setText(list.get(groupPosition).getUserNum()+" 人");
+		}else {
+			g.user_num.setText("0 人");
+		}
+
 		 if (isExpanded) {
 			 g.iv_group_head.setBackgroundResource(R.drawable.buddy_header_arrow_1);
 		}else {
@@ -91,39 +92,40 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 			c.tv_phone_num = (TextView) v.findViewById(R.id.tv_phone_num);
 			c.tv_phone_type = (TextView) v.findViewById(R.id.tv_phone_type);
 			c.iv_head = (CircleImageView) v.findViewById(R.id.iv_head);
-			c.tv = (ImageView) v.findViewById(R.id.im);
+			c.tv = (ImageView) v.findViewById(R.id.iv_go);
 			c.name = (TextView) v.findViewById(R.id.name);
 			v.setTag(c);
 		} else {
 			c = (ChildHeple) v.getTag();
 		}
-		System.out.println(list.get(groupPosition).getGroupName());
-		final ContactEntity ce = list.get(groupPosition).getList().get(childPosition);
-		String SortNo=(ce.getSortNo()+"").substring(0, 1);
-		if( !TextUtils.isEmpty(ce.getDepName()) && SortNo.equals("4") ){
+
+		final UserEntity userEntity = list.get(groupPosition).getUserEntities().get(childPosition);
+		String SortNo=(userEntity.getSortNo()+"").substring(0, 1);
+		if( !TextUtils.isEmpty(userEntity.getDeptName()) && SortNo.equals("4") ){
 			c.catalog.setVisibility(View.VISIBLE);
-			c.catalog.setText(ce.getDepName());
+			c.catalog.setText(userEntity.getDeptName());
 		}else {
 			c.catalog.setVisibility(View.GONE);
 		}
 		
-		c.tv_name.setText(ce.getName());
-		c.tv_phone_num.setText(ce.getNumber());
-		c.tv_phone_type.setText(ce.getPositionName());
-		String photo = ce.getPhoto();
+		c.tv_name.setText(userEntity.getUserName());
+		c.tv_phone_num.setText(userEntity.getMobile());
+		c.tv_phone_type.setText(userEntity.getPositionName());
+		String photo = userEntity.getPhoto();
 		if (photo == null || photo.equals("")) {
-			if (ce.getName().length() > 2) {
-				String name = ce.getName().substring(ce.getName().length() - 2, ce.getName().length());
+			if (userEntity.getUserName().length() > 2) {
+				String name = userEntity.getUserName().substring(userEntity.getUserName().length() - 2, userEntity.getUserName().length());
 				c.name.setText(name);
 			}else {
-				c.name.setText(ce.getName());
+				c.name.setText(userEntity.getUserName());
 			}
 			c.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			c.name.setText("");
 			c.iv_head.setImageResource(R.drawable.img_avatar_default);
-			Glide.with(context).load(photo).into( c.iv_head);
+			Glide.with(context).load("http://hyserver.hyetec.com:8180/urm/"+photo).into( c.iv_head);
 		}
+		//c.tv.setVisibility(View.VISIBLE);
 		c.tv_phone_num.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -134,7 +136,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 				//intent.setAction(Intent.ACTION_CALL);
 				intent.setAction(Intent.ACTION_DIAL);
 				// 需要拨打的号码
-				intent.setData(Uri.parse("tel:" + ce.getNumber()));
+				intent.setData(Uri.parse("tel:" + userEntity.getMobile()));
 				context.startActivity(intent);
 			}
 		});
@@ -150,7 +152,6 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		});
 		return v;
 	}
-
 	final public static int REQUEST_CODE_ASK_CALL_PHONE = 123;
 	class GroupHeple {
 		TextView group_name;
@@ -171,7 +172,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
-		return list.get(groupPosition).getList().get(childPosition);
+		return list.get(groupPosition).getUserEntities().get(childPosition);
 	}
 
 	@Override
@@ -183,7 +184,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		// TODO Auto-generated method stub
-		return list.get(groupPosition).getList().size();
+		return list.get(groupPosition).getUserEntities().size();
 	}
 
 	@Override
@@ -221,5 +222,45 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	/*@Override
+	public int getHeaderState(int groupPosition, int childPosition) {
+		// TODO Auto-generated method stub
+		final int childCount = getChildrenCount(groupPosition);
+		if (childPosition == childCount - 1) {
+			return PINNED_HEADER_PUSHED_UP;
+		} else if (childPosition == -1
+				&& !listView.isGroupExpanded(groupPosition)) {
+			return PINNED_HEADER_GONE;
+		} else {
+			return PINNED_HEADER_VISIBLE;
+		}
+	}
+
+	@Override
+	public void configureHeader(View header, int groupPosition, int childPosition, int alpha) {
+		// TODO Auto-generated method stub
+		String groupData =  list.get(groupPosition).getGroupName();
+		int num = list.get(groupPosition).getUserNum();
+		((TextView) header.findViewById(R.id.group_name)).setText(groupData);
+		((TextView) header.findViewById(R.id.user_num1)).setText(num + "人");
+	}
+
+	private SparseIntArray groupStatusMap = new SparseIntArray(); 
+	@Override
+	public void setGroupClickStatus(int groupPosition, int status) {
+		// TODO Auto-generated method stub
+		groupStatusMap.put(groupPosition, status);
+	}
+
+	@Override
+	public int getGroupClickStatus(int groupPosition) {
+		// TODO Auto-generated method stub
+		if (groupPosition >0 && groupStatusMap.keyAt(groupPosition)>=0) {
+			return groupStatusMap.get(groupPosition);
+		} else {
+			return 0;
+		}
+	}*/
 
 }

@@ -34,26 +34,31 @@ public class UserEntity implements Serializable {
     @NonNull
     @PrimaryKey()
     private int userId;
-
     private int orgId;
-
-
     private int deptId;
-    private String email;
+    private int sortNo;
     private int positionId;
-
+    private String deptName;
+    private String email;
     private String userName;
     private String code;
     private String orgName;
-
     private String positionName;
     private String photo;
     private String mobile;
     private boolean delFlag;
-
     private String shortName;// 简拼
     private String pinyinName;// 全拼
     private String initialIndex;// 首字母
+
+    public String getDeptName() {
+        return deptName;
+    }
+
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
+    }
+
 
     public int getDeptId() {
         return deptId;
@@ -68,6 +73,13 @@ public class UserEntity implements Serializable {
         this.userName = userName;
     }
 
+    public int getSortNo() {
+        return sortNo;
+    }
+
+    public void setSortNo(int sortNo) {
+        this.sortNo = sortNo;
+    }
 
     public String getShortName() {
         return shortName;

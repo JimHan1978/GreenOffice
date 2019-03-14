@@ -18,27 +18,28 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.entity.ContactEntity;
+import com.hyetec.moa.model.entity.UserEntity;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class TestBaseAdapter extends BaseAdapter implements
 		StickyListHeadersAdapter, SectionIndexer {
 
-	private List<ContactEntity> list;
+	private List<UserEntity> list;
 	private Context context;
 	/** 选中目录 */
 	private int[] sectionIndices;
 	/** 选中字母 */
 	private Character[] sectionsLetters;
 
-	public TestBaseAdapter(Context context, List<ContactEntity> list) {
+	public TestBaseAdapter(Context context, List<UserEntity> list) {
 		this.list = list;
 		this.context = context;
 		sectionIndices = getSectionIndices();
 		sectionsLetters = getStartingLetters();
 	}
 
-	public void setList(List<ContactEntity> list) {
+	public void setList(List<UserEntity> list) {
 		this.list = list;
 	}
 
@@ -76,11 +77,11 @@ public class TestBaseAdapter extends BaseAdapter implements
 		} else {
 			c = (ChildHeple) v.getTag();
 		}
-		final ContactEntity ce = list.get(position);
+		final UserEntity ce = list.get(position);
 		c.catalog.setText(ce.getInitialIndex());
-		String userName = ce.getName();
+		String userName = ce.getUserName();
 		c.tv_name.setText(userName);
-		String num = ce.getNumber();
+		String num = ce.getMobile();
 		c.tv_phone_num.setText(num);
 		c.tv_phone_type.setText(ce.getPositionName());
 
@@ -111,7 +112,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 				//intent.setAction(Intent.ACTION_CALL);
 				intent.setAction(Intent.ACTION_DIAL);
 				// 需要拨打的号码
-				intent.setData(Uri.parse("tel:" + ce.getNumber()));
+				intent.setData(Uri.parse("tel:" + ce.getMobile()));
 				context.startActivity(intent);
 			}
 		});

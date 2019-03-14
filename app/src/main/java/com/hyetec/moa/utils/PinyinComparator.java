@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 
 import com.hyetec.moa.model.entity.ContactEntity;
+import com.hyetec.moa.model.entity.UserEntity;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -13,11 +14,11 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 
-public class PinyinComparator implements Comparator<ContactEntity> {
+public class PinyinComparator implements Comparator<UserEntity> {
 
 
 	@Override
-	public int compare(ContactEntity contactEntity1, ContactEntity contactEntity2) {
+	public int compare(UserEntity contactEntity1, UserEntity contactEntity2) {
 		String s = contactEntity1.getInitialIndex();
 		if (s.equals("@") || contactEntity2.getInitialIndex().equals("#")) {
 			return -1;

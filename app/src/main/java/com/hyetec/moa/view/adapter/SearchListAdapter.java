@@ -15,6 +15,7 @@ import java.util.List;
 import com.bumptech.glide.Glide;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.entity.ContactEntity;
+import com.hyetec.moa.model.entity.UserEntity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -30,12 +31,12 @@ import android.widget.TextView;
 
 public class SearchListAdapter extends BaseAdapter {
 	
-	private List<ContactEntity> list = new ArrayList<ContactEntity>();
+	private List<UserEntity> list = new ArrayList<UserEntity>();
 
 	private Context context;
 	
 	
-	public SearchListAdapter(List<ContactEntity> list, Context context) {
+	public SearchListAdapter(List<UserEntity> list, Context context) {
 		super();
 		this.list = list;
 		this.context = context;
@@ -79,14 +80,14 @@ public class SearchListAdapter extends BaseAdapter {
 		}else {
 			h = (Heple) v.getTag();
 		}
-		final ContactEntity c = list.get(position);
+		final UserEntity c = list.get(position);
 		h.catalog.setVisibility(View.GONE);
-		h.tv_name.setText(c.getName());
-		h.tv_phone_num.setText(c.getNumber());
+		h.tv_name.setText(c.getUserName());
+		h.tv_phone_num.setText(c.getMobile());
 		h.iv_arrow.setVisibility(View.VISIBLE);
 		h.cb_sel.setVisibility(View.GONE);
 		h.tv_phone_type.setText(c.getPositionName());
-		String userName = c.getName();
+		String userName = c.getUserName();
 		
 		if (c.getPhoto() == null || c.getPhoto().equals("")) {
 			if(userName.length() >2){
@@ -113,7 +114,7 @@ public class SearchListAdapter extends BaseAdapter {
 				//intent.setAction(Intent.ACTION_CALL);
 				intent.setAction(Intent.ACTION_DIAL);
 				// 需要拨打的号码
-				intent.setData(Uri.parse("tel:" + c.getNumber()));
+				intent.setData(Uri.parse("tel:" + c.getMobile()));
 				context.startActivity(intent);
 			}
 		});

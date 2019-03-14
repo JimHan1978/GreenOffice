@@ -16,6 +16,7 @@
 
 package com.hyetec.moa.di.module;
 
+import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
 import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.hmdp.core.di.scope.ActivityScope;
@@ -38,4 +39,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
     abstract SettingActivity contributeSettingActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
+    abstract GroupActivity contributeGroupActivity();
 }

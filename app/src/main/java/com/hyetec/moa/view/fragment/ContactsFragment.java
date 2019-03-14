@@ -68,12 +68,8 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     TextView tvDialog;
 
     private TestBaseAdapter adapter;
-    private SearchListAdapter searchAdapter;
     Unbinder unbinder;
-    private UserDao mUserDao;
-    private UserEntity userEntity;
-    private List<ContactEntity> mContactList = new ArrayList<>();
-    private GreenOfficeDb db;
+    private List<UserEntity> mContactList = new ArrayList<>();
 
     public ContactsFragment() {
         // Required empty public constructor

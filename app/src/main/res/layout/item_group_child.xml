@@ -25,7 +25,7 @@
         android:paddingLeft="10dp"
         android:layout_height="70dp" >
 
-        <com.hyetec.greencontact.view.CircleImageView
+        <com.allen.library.CircleImageView
             android:id="@+id/iv_head"
             android:layout_width="60dp"
             android:layout_height="60dp"
@@ -76,7 +76,7 @@
             android:textSize="16sp" />
 
         <ImageView
-            android:id="@+id/im"
+            android:id="@+id/iv_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

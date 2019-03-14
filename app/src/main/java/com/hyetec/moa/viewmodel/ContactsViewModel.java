@@ -36,8 +36,8 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
     private MutableLiveData<Resource<BaseResponse<List <GroupEntity>>>> mGroupListResponse;
     private MutableLiveData<Resource<BaseResponse<List <PositionEntity>>>> mPositionListResponse;
 
-    private  MediatorLiveData<List <ContactEntity>> mContactListData = new MediatorLiveData<List <ContactEntity>>();
-    private MutableLiveData<Resource<List <ContactEntity>>> mContactListResponse;
+    private  MediatorLiveData<List <UserEntity>> mContactListData = new MediatorLiveData<List <UserEntity>>();
+    private MutableLiveData<Resource<List <UserEntity>>> mContactListResponse;
 
     private MutableLiveData<List <ContactEntity>> mContactList;
     private MutableLiveData<Resource<List <GroupEntity>>> mGroupResponse;
@@ -151,7 +151,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
         return mPositionListData;
     }
 
-    public LiveData<List <ContactEntity>> getContactUser() {
+    public LiveData<List <UserEntity>> getContactUser() {
         mContactListResponse = mModel.getContactUser();
         mContactListData.addSource(mContactListResponse, observer -> {
             mContactListData.removeSource(mContactListResponse);
@@ -164,7 +164,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
                     //STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
                 } else if (contactResource.status == Status.SUCCESS) {
-                    List <ContactEntity> result = contactResource.data;
+                    List <UserEntity> result = contactResource.data;
                     mContactListData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
                 } else if (contactResource.status == Status.ERROR) {
@@ -175,9 +175,9 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
         });
         return mContactListData;
     }
-    public MutableLiveData<List<ContactEntity>> getContactList() {
+    public MutableLiveData<List<UserEntity>> getContactList() {
         if (mContactListData == null) {
-            mContactListData =  new MediatorLiveData<List <ContactEntity>>();
+            mContactListData =  new MediatorLiveData<List <UserEntity>>();
         }
         return mContactListData;
     }

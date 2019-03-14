@@ -16,6 +16,18 @@ public class GroupContactEntity {
 	private String groupName;// 组名
 	private int userNum;
 	private List<ContactEntity> list;
+	private List<UserEntity> userEntities;
+
+
+	public List<UserEntity> getUserEntities() {
+		return userEntities;
+	}
+
+	public void setUserEntities(List<UserEntity> userEntities) {
+		this.userEntities = userEntities;
+	}
+
+
 	
 	public int getUserNum() {
 		return userNum;

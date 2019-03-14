@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rly_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+
+    <include layout="@layout/base_top_bar" android:id="@+id/layout_top_bar"/>
+
     <com.hyetec.hmdp.view.StickyLayout
-        android:id="@+id/sly_layout"
+        android:id="@+id/sticky_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/layout_top_bar"
         android:layout_marginTop="0dp"
         android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/lly_sticky_header"
+            android:id="@+id/sticky_header"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:orientation="vertical" >
@@ -22,7 +27,7 @@
                 android:background="@color/white" >
 
                 <TextView
-                    android:id="@+id/tv_search"
+                    android:id="@+id/CustomEditText"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="7dp"
@@ -30,10 +35,10 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="7dp"
                     android:gravity="center_vertical"
-                    android:hint="搜索"  
+                    android:hint="搜索"
                     android:textColorHint="#969696"
                     android:textSize="16sp"
-                    android:background="@drawable/shape_edit_text_gray" 
+                    android:background="@drawable/shape_edit_text_gray"
                     android:paddingLeft="30dp"
                     />
 
@@ -45,14 +50,14 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="25dp"
                     android:background="@drawable/ic_search" />
-                
-                
-                <View 
-			        android:layout_width="match_parent"
-			        android:layout_height="1dp"
-			        android:layout_alignParentBottom="true"
-			        android:background="#E2E2E2"
-			        />
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="#E2E2E2"
+                    />
             </RelativeLayout>
         </LinearLayout>
 

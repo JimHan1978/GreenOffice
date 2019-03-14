@@ -11,6 +11,8 @@ import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
+
 @Dao
 public interface GroupDao {
 
@@ -29,8 +31,11 @@ public interface GroupDao {
      * 查询
      * @param
      */
-    @Query("SELECT * FROM `Group` WHERE delFlag = 0 ")
-    List<GroupEntity> getGroupAll();
+    @Query("SELECT * FROM `Group` WHERE delFlag = :delFlag ORDER BY postCode")
+    Flowable<List<GroupEntity>> getGroupAll(boolean delFlag);
+
+    @Query("SELECT * FROM `Group` ")
+    Flowable<List<GroupEntity>> getGroupAll2();
 
     @Query("SELECT * FROM `Group` WHERE orgId = :id ")
     GroupEntity getGroupById(int id);

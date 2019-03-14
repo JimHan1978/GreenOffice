@@ -40,7 +40,7 @@ public class ContactsModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<List<GroupEntity>>>> mGroupResource;
     private MutableLiveData<Resource<BaseResponse<List<PositionEntity>>>> mPositionResource;
 
-    private MutableLiveData<Resource<List<ContactEntity>>> mContactResource;
+    private MutableLiveData<Resource<List<UserEntity>>> mContactResource;
     @Inject
     public ContactsModel(Application application) {
         super(application);
@@ -194,7 +194,7 @@ public class ContactsModel extends BaseModel {
 
     }
 
-    public MutableLiveData<Resource<List<ContactEntity>>>  getContactUser() {
+    public MutableLiveData<Resource<List<UserEntity>>>  getContactUser() {
 
         if (mContactResource != null) {
             return mContactResource;
@@ -223,23 +223,9 @@ public class ContactsModel extends BaseModel {
 
                     @Override
                     public void onNext(List<UserEntity> uList) {
-                        List<ContactEntity> contactlist=new ArrayList<>();
-                        if (uList != null && uList.size() > 0) {
-                            for (UserEntity u : uList) {
-                                ContactEntity c = new ContactEntity();
-                                c.setEmail(u.getEmail());
-                                c.setName(u.getUserName());
-                                c.setNumber(u.getMobile());
-                                c.setPhoto(u.getPhoto());
-                                c.setShortName(u.getShortName());
-                                c.setInitialIndex(u.getInitialIndex());
-                                c.setPinyinName(u.getPinyinName());
-                                c.setPositionName(u.getPositionName());
-                                contactlist.add(c);
-                            }
-                            Collections.sort(contactlist, new PinyinComparator());
-                        }
-                        mContactResource.setValue(Resource.success(contactlist));
+
+                        Collections.sort(uList, new PinyinComparator());
+                        mContactResource.setValue(Resource.success(uList));
 
                     }
                 });

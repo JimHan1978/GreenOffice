@@ -8,6 +8,7 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.db.GreenOfficeDb;
 import com.hyetec.moa.model.entity.ContactEntity;
+import com.hyetec.moa.model.entity.GroupEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.PinyinComparator;
 
@@ -28,7 +29,8 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriberOfFlowable;
 public class GroupModel extends BaseModel {
 
     private RxErrorHandler mErrorHandler;
-    private MutableLiveData<Resource<List<ContactEntity>>> mContactResource;
+    private MutableLiveData<Resource<List<UserEntity>>> mUserResource;
+    private MutableLiveData<Resource<List<GroupEntity>>> mGroupResource;
 
     @Inject
     public GroupModel(Application application) {
@@ -38,57 +40,77 @@ public class GroupModel extends BaseModel {
                 .rxErrorHandler();
     }
 
-    public MutableLiveData<Resource<List<ContactEntity>>> getContactUser() {
+    public MutableLiveData<Resource<List<UserEntity>>> getUserList() {
 
-        if (mContactResource != null) {
-            return mContactResource;
+        if (mUserResource != null) {
+            return mUserResource;
         } else {
-            mContactResource = new MutableLiveData<>();
+            mUserResource = new MutableLiveData<>();
         }
         mRepositoryManager
                 .obtainRoomDatabase(GreenOfficeDb.class, GreenOfficeDb.DB_NAME)
                 .userDao()
-                .getUserAll(false)
+                .getUserSort(false)
                 .onBackpressureLatest()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ErrorHandleSubscriberOfFlowable<List<UserEntity>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
-                        //mContactResource.postValue(Resource.loading(null));
+                        //mUserResource.postValue(Resource.loading(null));
                         s.request(1);
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        mContactResource.postValue(Resource.error(t.getMessage(), null));
+                        mUserResource.postValue(Resource.error(t.getMessage(), null));
                     }
 
                     @Override
                     public void onNext(List<UserEntity> uList) {
-                        List<ContactEntity> contactlist=new ArrayList<>();
-                        if (uList != null && uList.size() > 0) {
-                            for (UserEntity u : uList) {
-                                ContactEntity c = new ContactEntity();
-                                c.setEmail(u.getEmail());
-                                c.setName(u.getUserName());
-                                c.setNumber(u.getMobile());
-                                c.setPhoto(u.getPhoto());
-                                c.setShortName(u.getShortName());
-                                c.setInitialIndex(u.getInitialIndex());
-                                c.setPinyinName(u.getPinyinName());
-                                c.setPositionName(u.getPositionName());
-                                contactlist.add(c);
-                            }
-                            Collections.sort(contactlist, new PinyinComparator());
-                        }
-                        mContactResource.setValue(Resource.success(contactlist));
-
+                        mUserResource.setValue(Resource.success(uList));
                     }
                 });
 
-        return mContactResource;
+        return mUserResource;
+    }
+
+    public MutableLiveData<Resource<List<GroupEntity>>> getGroupList() {
+
+        if (mGroupResource != null) {
+            return mGroupResource;
+        } else {
+            mGroupResource = new MutableLiveData<>();
+        }
+        mRepositoryManager
+                .obtainRoomDatabase(GreenOfficeDb.class, GreenOfficeDb.DB_NAME)
+                .groupDao()
+                .getGroupAll(false)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<List<GroupEntity>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        //mUserResource.postValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mGroupResource.postValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(List<GroupEntity> groupEntities) {
+
+                        mGroupResource.setValue(Resource.success(groupEntities));
+                    }
+                });
+
+        return mGroupResource;
     }
 
     @Override

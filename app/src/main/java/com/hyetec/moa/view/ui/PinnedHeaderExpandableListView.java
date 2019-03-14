@@ -2,6 +2,9 @@ package com.hyetec.moa.view.ui;
 
 
 
+import com.hyetec.moa.R;
+import com.hyetec.moa.view.adapter.ExpandableContactAdapter;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.text.GetChars;
@@ -17,10 +20,6 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.ExpandableListView.OnGroupClickListener;
-
-import com.hyetec.moa.R;
-import com.hyetec.moa.view.adapter.ExpandableContactAdapter;
-
 //https://github.com/younfor/PinnedAndPulledHeaderListView
 public class PinnedHeaderExpandableListView extends ExpandableListView implements OnScrollListener,OnGroupClickListener {
 	public PinnedHeaderExpandableListView(Context context, AttributeSet attrs, int defStyle) {
@@ -68,8 +67,8 @@ public class PinnedHeaderExpandableListView extends ExpandableListView implement
 			return ;
 		String groupData =  mAdapter.list.get(groupPosition).getGroupName();
 		int num = mAdapter.list.get(groupPosition).getUserNum();
-		((TextView) mHeaderView.findViewById(R.id.tv_group_name)).setText(groupData);
-		((TextView) mHeaderView.findViewById(R.id.tv_user_num)).setText(num + "人");
+		((TextView) mHeaderView.findViewById(R.id.group_name)).setText(groupData);
+		((TextView) mHeaderView.findViewById(R.id.user_num)).setText(num + "人");
 	}
 	
 	public void setGroupClickStatus(int groupPosition, int status) {
