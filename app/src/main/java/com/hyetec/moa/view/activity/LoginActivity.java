@@ -1,8 +1,10 @@
 package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.arch.persistence.room.util.StringUtil;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
@@ -15,6 +17,7 @@ import com.hyetec.moa.viewmodel.LoginViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import tech.gujin.toast.ToastUtil;
 import timber.log.Timber;
 
 /**
@@ -63,7 +66,10 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
         String userName = mUserNameView.getText().toString();
         String password = mPasswordView.getText().toString();
-        startActivity(new Intent(this,MainActivity.class));
+        if(TextUtils.isEmpty(userName)||TextUtils.isEmpty(password)){
+            ToastUtil.show("用户名或密码不能为空！");
+        }
+
         mViewModel.login(userName,password).observe(this, loginData -> {
             if(loginData!=null && loginData.isSuccess()){
                 //登录成功，跳转到主界面

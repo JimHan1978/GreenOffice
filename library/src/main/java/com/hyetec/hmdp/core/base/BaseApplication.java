@@ -21,6 +21,7 @@ import dagger.android.AndroidInjector;
 import dagger.android.DispatchingAndroidInjector;
 import dagger.android.HasActivityInjector;
 import dagger.android.support.HasSupportFragmentInjector;
+import tech.gujin.toast.ToastUtil;
 
 /**
  * @author xiaobailong24
@@ -53,7 +54,7 @@ public class BaseApplication extends Application
     @Override
     public void onCreate() {
         super.onCreate();
-
+        ToastUtil.initialize(this);
         mAppDelegate.onCreate(this);
     }
 
