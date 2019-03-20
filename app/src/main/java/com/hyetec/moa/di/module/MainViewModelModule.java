@@ -2,7 +2,7 @@ package com.hyetec.moa.di.module;
 
 import android.arch.lifecycle.ViewModel;
 
-import com.hyetec.moa.view.activity.GroupActivity;
+import com.hyetec.moa.viewmodel.DetailsViewModel;
 import com.hyetec.moa.viewmodel.GroupViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 import com.hyetec.moa.viewmodel.MainViewModel;
@@ -47,4 +47,9 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(WebViewModel.class)
     abstract ViewModel bindWebViewModel(WebViewModel webViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(DetailsViewModel.class)
+    abstract ViewModel bindDetailsViewModel(WebViewModel webViewModel);
 }

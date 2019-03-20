@@ -20,8 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activity.ModifyPasswordActivity"></activity>
-        <activity android:name=".view.activity.AccountSettingActivity" />
+
         <activity
             android:name=".view.activity.SplashActivity"
             android:windowSoftInputMode="adjustPan">
@@ -37,6 +36,24 @@
         <activity
             android:name=".view.activity.LoginActivity"
             android:windowSoftInputMode="adjustPan" /> <!-- arms配置 -->
+
+        <activity android:name=".view.activity.ModifyPasswordActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity android:name=".view.activity.AccountSettingActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+
+        <activity android:name=".view.activity.GroupActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity android:name=".view.activity.WebViewActivity"
+            android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".view.activity.DetailsActivity"
+            android:windowSoftInputMode="adjustPan"/>
+
+
+
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"
             android:value="ConfigRepository" />

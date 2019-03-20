@@ -5,9 +5,11 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
 
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.hmdp.repository.http.IRetry;
 import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.http.Status;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.PersonalModel;
 import com.hyetec.hmdp.core.di.scope.FragmentScope;
 import com.hyetec.hmdp.core.mvvm.BaseViewModel;
@@ -38,9 +40,10 @@ public class PersonalViewModel extends BaseViewModel<PersonalModel>  {
      * 获取用户信息
      * @return
      */
-    public LiveData<UserEntity> getUserInfo() {
+    public LiveData<UserEntity> getUserInfo(String Id) {
+
         Map<String, String> request = new HashMap<>(1);
-        request.put(Api.API_USER_ID_KEY, "44");
+        request.put(Api.API_USER_ID_KEY, Id);
         if (mUserInfoResponse != null) {
             mUserData.removeSource(mUserInfoResponse);
         }

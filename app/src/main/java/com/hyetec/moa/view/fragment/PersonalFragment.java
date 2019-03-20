@@ -11,8 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hyetec.hmdp.core.base.BaseFragment;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.viewmodel.PersonalViewModel;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -79,7 +82,8 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-        mViewModel.getUserInfo().observe(PersonalFragment.this, userEntity -> {
+        UserEntity user = (UserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+        mViewModel.getUserInfo(user.getUserId()+"").observe(PersonalFragment.this, userEntity -> {
             if (userEntity != null) {
                 mUserNameView.setText(userEntity.getUserName());
                 mDeptView.setText(userEntity.getOrgName());

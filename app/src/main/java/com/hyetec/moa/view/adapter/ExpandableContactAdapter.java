@@ -27,9 +27,11 @@ import android.widget.TextView;
 import com.allen.library.CircleImageView;
 import com.bumptech.glide.Glide;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.GroupContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.ui.PinnedHeaderExpandableListView;
 
 import java.util.List;
@@ -123,7 +125,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		} else {
 			c.name.setText("");
 			c.iv_head.setImageResource(R.drawable.img_avatar_default);
-			Glide.with(context).load("http://hyserver.hyetec.com:8180/urm/"+photo).into( c.iv_head);
+			Glide.with(context).load(Api.APP_DOMAIN+photo).into( c.iv_head);
 		}
 		//c.tv.setVisibility(View.VISIBLE);
 		c.tv_phone_num.setOnClickListener(new OnClickListener() {
@@ -145,9 +147,9 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-//				Intent intent = new Intent(context, DetailsActivity.class);
-//				intent.putExtra("info", ce);
-//				context.startActivity(intent);
+				Intent intent = new Intent(context, DetailsActivity.class);
+				intent.putExtra("info", userEntity);
+				context.startActivity(intent);
 			}
 		});
 		return v;

@@ -14,8 +14,10 @@ import java.util.List;
 
 import com.bumptech.glide.Glide;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.view.activity.DetailsActivity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -101,7 +103,7 @@ public class SearchListAdapter extends BaseAdapter {
 			h.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			h.name.setText("");
-			Glide.with(context).load(c.getPhoto()).into( h.iv_head);
+			Glide.with(context).load(Api.APP_DOMAIN+c.getPhoto()).into( h.iv_head);
 			//Utility.loadImage(context, h.iv_head, c.getPhoto(), -1);
 		}
 		h.tv_phone_num.setOnClickListener(new OnClickListener() {
@@ -123,9 +125,9 @@ public class SearchListAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-//				Intent intent = new Intent(context, DetailsActivity.class);
-//				intent.putExtra("info", list.get(position));
-//				context.startActivity(intent);
+				Intent intent = new Intent(context, DetailsActivity.class);
+				intent.putExtra("info", list.get(position));
+				context.startActivity(intent);
 			}
 		});
 		return v;

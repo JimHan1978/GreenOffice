@@ -102,7 +102,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 			c.catalog.setVisibility(View.GONE);
 			c.iv_arrow.setVisibility(View.VISIBLE);
 			c.cb_sel.setVisibility(View.GONE);
-		c.tv_phone_num.setOnClickListener(new OnClickListener() {
+			c.tv_phone_num.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {

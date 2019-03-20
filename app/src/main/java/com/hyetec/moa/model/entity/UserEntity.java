@@ -50,6 +50,16 @@ public class UserEntity implements Serializable {
     private String shortName;// 简拼
     private String pinyinName;// 全拼
     private String initialIndex;// 首字母
+    private String qq;
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
 
     public String getDeptName() {
         return deptName;
