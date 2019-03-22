@@ -31,7 +31,7 @@ public interface GroupDao {
      * 查询
      * @param
      */
-    @Query("SELECT * FROM `Group` WHERE delFlag = :delFlag ORDER BY postCode")
+    @Query("SELECT * FROM `Group` WHERE delFlag = :delFlag AND parentId=0 ORDER BY postCode")
     Flowable<List<GroupEntity>> getGroupAll(boolean delFlag);
 
     @Query("SELECT * FROM `Group` ")

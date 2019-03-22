@@ -126,7 +126,7 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
             iv_head.setImageResource(R.drawable.bg_portrait);
         } else {
             tv_head_name.setText("");
-            Glide.with(this).load(Api.APP_DOMAIN+userEntity.getPhoto()).into(iv_head);
+            Glide.with(this).load(Api.IMG_URL+userEntity.getPhoto()).into(iv_head);
         }
         name.setText(userName);
         phone_num.setText(userEntity.getMobile());

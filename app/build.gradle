@@ -85,7 +85,6 @@ dependencies {
     }
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'se.emilsjolander:stickylistheaders:2.7.0'
-
     //test
     implementation rootProject.ext.dependencies["timber"]
     testImplementation rootProject.ext.dependencies["junit"]
@@ -99,4 +98,5 @@ dependencies {
     testImplementation rootProject.ext.dependencies["canary-release"]
     implementation project(':library')
     implementation files('libs/pinyin4j-2.5.0.jar')
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 }

@@ -2,6 +2,8 @@ package com.hyetec.moa.app;
 
 import com.hyetec.hmdp.repository.http.GlobalHttpHandler;
 
+import java.util.List;
+
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -27,7 +29,7 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
         /* Request newRequest = chain.request().newBuilder().header("token", newToken).build();
         retry the request
         response.body().close(); */
-
+        //String Type=response.headers("Content-Type").toString();
         return response;
     }
 

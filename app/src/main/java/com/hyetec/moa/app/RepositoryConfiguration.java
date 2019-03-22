@@ -2,6 +2,10 @@ package com.hyetec.moa.app;
 
 import android.content.Context;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.hyetec.hmdp.core.base.BaseApplication;
 import com.hyetec.moa.BuildConfig;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.hmdp.repository.ConfigRepository;
@@ -9,6 +13,7 @@ import com.hyetec.hmdp.repository.cache.Cache;
 import com.hyetec.hmdp.repository.cache.LruCache;
 import com.hyetec.hmdp.repository.di.module.RepositoryConfigModule;
 import com.hyetec.hmdp.repository.http.RequestInterceptor;
+import com.hyetec.moa.utils.HMDPPersistenCookieJar;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +54,8 @@ public class RepositoryConfiguration implements ConfigRepository {
                 .okhttpConfiguration((context1, okhttpBuilder) -> {
                     //支持 Https
                     //okhttpBuilder.sslSocketFactory()
-                    okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
+                    okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS).
+                            cookieJar(new HMDPPersistenCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context)));
                 })
                 //这里可以自己自定义配置 RxCache 的参数
                 .rxCacheConfiguration((context1, rxCacheBuilder) -> {

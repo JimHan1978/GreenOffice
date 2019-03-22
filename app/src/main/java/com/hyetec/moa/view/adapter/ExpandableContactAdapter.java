@@ -125,7 +125,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		} else {
 			c.name.setText("");
 			c.iv_head.setImageResource(R.drawable.img_avatar_default);
-			Glide.with(context).load(Api.APP_DOMAIN+photo).into( c.iv_head);
+			Glide.with(context).load(Api.IMG_URL+photo).into( c.iv_head);
 		}
 		//c.tv.setVisibility(View.VISIBLE);
 		c.tv_phone_num.setOnClickListener(new OnClickListener() {

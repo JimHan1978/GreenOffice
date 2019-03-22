@@ -18,6 +18,7 @@
         android:drawablePadding="8dp"
         android:gravity="start|center_vertical"
         android:imeOptions="actionSearch"
+        android:paddingLeft="10dp"
         android:singleLine="true" />
 
 
@@ -102,6 +103,22 @@
                 android:layout_marginBottom="10dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/sticky_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ListView
+                android:id="@+id/lv_search"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="#F2F2F2"
+                android:dividerHeight="1dp"
+                android:scrollbars="none" />
+
         </android.support.constraint.ConstraintLayout>
     </com.hyetec.hmdp.view.StickyLayout>
 </LinearLayout>

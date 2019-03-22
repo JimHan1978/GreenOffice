@@ -3,12 +3,14 @@ package com.hyetec.moa.model;
 import android.app.Application;
 import android.arch.lifecycle.MutableLiveData;
 
+import com.franmontiel.persistentcookiejar.cache.CookieCache;
 import com.hyetec.hmdp.core.mvvm.BaseModel;
 import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.utils.HMDPPersistenCookieJar;
 
 import org.reactivestreams.Subscription;
 
@@ -77,6 +79,7 @@ public class LoginModel extends BaseModel {
                     @Override
                     public void onNext(BaseResponse<UserEntity> response) {
                         mUserResource.setValue(Resource.success(response));
+
                     }
                 });
         return mUserResource;

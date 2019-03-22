@@ -1,31 +1,27 @@
 package com.hyetec.moa.view.fragment;
 
-
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.persistence.room.Room;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.hmdp.view.EditText_Clear;
 import com.hyetec.hmdp.view.StickyLayout;
 import com.hyetec.moa.R;
-import com.hyetec.moa.model.db.GreenOfficeDb;
-import com.hyetec.moa.model.db.UserDao;
-import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
@@ -33,7 +29,6 @@ import com.hyetec.moa.view.adapter.SearchListAdapter;
 import com.hyetec.moa.view.adapter.TestBaseAdapter;
 import com.hyetec.moa.view.ui.SideBar;
 import com.hyetec.moa.viewmodel.ContactsViewModel;
-import com.hyetec.moa.viewmodel.PersonalViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,12 +59,18 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     SideBar mSidebar;
     @BindView(R.id.sticky_layout)
     StickyLayout stickyLayout;
+
+    @BindView(R.id.lv_search)
+    ListView lvSearch;
+    @BindView(R.id.sticky_search)
+    ConstraintLayout stickySearch;
     @BindView(R.id.sticky_content)
     ConstraintLayout stickyContent;
     @BindView(R.id.tv_dialog)
     TextView tvDialog;
 
     private TestBaseAdapter adapter;
+    private SearchListAdapter searchAdapter;
     Unbinder unbinder;
     private List<UserEntity> mContactList = new ArrayList<>();
 
@@ -116,10 +117,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     @Override
     public void initData(Bundle savedInstanceState) {
         mSidebar.setTextView(tvDialog);
-
-
-
-
         // 设置右侧[A-Z]快速导航栏触摸监听
         mSidebar.setOnTouchingLetterChangedListener(new SideBar.OnTouchingLetterChangedListener() {
 
@@ -148,17 +145,64 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
         mViewModel.getGroupList();
 
         mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
-            if (contactUserList != null ) {
+            if (contactUserList != null) {
                 mContactList = contactUserList;
                 adapter = new TestBaseAdapter(getActivity(), mContactList);
                 mContactsListView.setAdapter(adapter);
             }
         });
 
+        mSearchView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence != null && charSequence.length() > 0) {
+                    editSearch(charSequence.toString().toLowerCase());
+                    stickySearch.setVisibility(View.VISIBLE);
+                    stickyContent.setVisibility(View.GONE);
+                } else {
+                    stickySearch.setVisibility(View.GONE);
+                    stickyContent.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
     }
 
+    private void editSearch(String s) {
+        List<UserEntity> mSearchList = new ArrayList<UserEntity>();
+        if (TextUtils.isEmpty(s)) {
+            mSearchList.clear();
+        } else {
+            mSearchList.clear();
+            for (UserEntity c : mContactList) {
+                String name = c.getUserName();
+                String number = c.getMobile();
+                if (s.matches("[0-9]+") || s.startsWith("+")) {
+                    if (number.startsWith(s)) {
+                        mSearchList.add(c);
+                    }
+                } else if (name.indexOf(s.toString()) != -1
+                        || c.getShortName().contains(s)
+                        || c.getInitialIndex().toLowerCase().contains(s)
+                        || c.getPinyinName().startsWith(s)) {
+                    mSearchList.add(c);
+                }
+            }
+        }
+
+        searchAdapter = new SearchListAdapter(mSearchList, getActivity());
+        lvSearch.setAdapter(searchAdapter);
+    }
 
     /**
      * Activity 与 Fragment 通信接口
@@ -192,7 +236,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
 
     @OnClick(R.id.sticky_header)
     public void onViewClicked() {
-        startActivity(new Intent(getActivity(),GroupActivity.class));
+        startActivity(new Intent(getActivity(), GroupActivity.class));
     }
 
     @Override

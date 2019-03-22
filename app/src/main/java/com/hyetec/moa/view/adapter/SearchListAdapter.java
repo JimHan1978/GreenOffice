@@ -77,7 +77,7 @@ public class SearchListAdapter extends BaseAdapter {
 			h.iv_head = (ImageView) v.findViewById(R.id.iv_head);
 			h.iv_arrow = (ImageView) v.findViewById(R.id.iv_arrow);
 			h.cb_sel = (CheckBox) v.findViewById(R.id.cb_sel);
-			h.name = (TextView) v.findViewById(R.id.name);
+			h.tv_head_name = (TextView) v.findViewById(R.id.tv_head_name);
 			v.setTag(h);
 		}else {
 			h = (Heple) v.getTag();
@@ -94,16 +94,16 @@ public class SearchListAdapter extends BaseAdapter {
 		if (c.getPhoto() == null || c.getPhoto().equals("")) {
 			if(userName.length() >2){
 			String name = userName.substring(userName.length() - 2, userName.length());
-			h.name.setText(name);
+			h.tv_head_name.setText(name);
 			}else {
-				h.name.setText(userName);
+				h.tv_head_name.setText(userName);
 			}
 			
 			//h.iv_head.setImageResource(R.drawable.shape_bg_green);
 			h.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
-			h.name.setText("");
-			Glide.with(context).load(Api.APP_DOMAIN+c.getPhoto()).into( h.iv_head);
+			h.tv_head_name.setText("");
+			Glide.with(context).load(Api.IMG_URL+c.getPhoto()).into( h.iv_head);
 			//Utility.loadImage(context, h.iv_head, c.getPhoto(), -1);
 		}
 		h.tv_phone_num.setOnClickListener(new OnClickListener() {
@@ -141,7 +141,7 @@ public class SearchListAdapter extends BaseAdapter {
 		ImageView iv_head;
 		ImageView iv_arrow;
 		CheckBox cb_sel;
-		TextView name;
+		TextView tv_head_name;
 	}
 
 }

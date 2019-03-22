@@ -63,6 +63,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
                     Timber.d("Loadding.....");
                 } else if (loginResource.status == Status.SUCCESS) {
                     BaseResponse<UserEntity> result = loginResource.data;
+
                     mLoginData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
                 } else if (loginResource.status == Status.ERROR) {
