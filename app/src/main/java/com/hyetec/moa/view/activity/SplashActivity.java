@@ -20,7 +20,7 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(this,LoginActivity.class));
             finish();
         }else{
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this,WebViewActivity.class));
             finish();
         }
     }

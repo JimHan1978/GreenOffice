@@ -57,7 +57,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
         settings.setLoadWithOverviewMode(true);
         //url=getIntent().getStringExtra("url");
-        wv_item.loadUrl("http://192.168.20.95:8020/MonthReport/month-bill.html");
+        wv_item.loadUrl("file:///android_asset/month-bill.html");
         setListener();
     }
 
