@@ -3,15 +3,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".view.fragment.MessageFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="@dimen/sp_16"
-        android:text="@string/message"/>
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg_message" />
+
+    <com.hyetec.moa.view.ui.MyListView
+        android:id="@+id/lv_item"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:divider="@color/gray"
+        android:dividerHeight="5dp"
+        android:scrollbars="none" />
 
 </LinearLayout>

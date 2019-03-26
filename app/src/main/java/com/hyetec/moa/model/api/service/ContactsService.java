@@ -35,4 +35,7 @@ public interface ContactsService {
 
     @POST("urm/mobileLogin.json")
     Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
+
+    @POST("financePInfo/rest/selectFinancePInfo.json\n")
+    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 }

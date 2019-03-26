@@ -6,10 +6,11 @@
         var intervalMonth = (startDate.getFullYear()*12+startMonth) - (endDate.getFullYear()*12+endMonth);
 	}
 
+
 	
 	function loadBillData(userno,date) {
 		//var url = "http://" + serverHost + ":8180/office/weatherBase.json";
-		var url = "http://127.0.0.1:8020/MonthReport/data/report.json";
+		var url = "../data/report.json";
 		$.get(url,{userno:userno,date:date},function(data) {
 			if (data.success) {
 				var result = data.result;

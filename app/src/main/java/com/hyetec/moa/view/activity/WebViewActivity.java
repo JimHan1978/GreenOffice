@@ -9,23 +9,35 @@
 package com.hyetec.moa.view.activity;
 
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.webkit.JavascriptInterface;
+import android.webkit.JsResult;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 
 public class WebViewActivity extends BaseActivity<WebViewModel> {
-
 
 
     @BindView(R.id.wv_item)
@@ -43,43 +55,60 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        WebSettings settings = wv_item.getSettings();
+        WebSettings webSettings = wv_item.getSettings();
 
-        settings.setJavaScriptEnabled(true);
-        // 设置可以支持缩放
-        settings.setSupportZoom(true);
-        // 设置出现缩放工具
-        settings.setBuiltInZoomControls(true);
-        //扩大比例的缩放
-        settings.setUseWideViewPort(true);
-        //自适应屏幕
-        //settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+        // 设置与Js交互的权限
+        webSettings.setJavaScriptEnabled(true);
+        // 设置允许JS弹窗
+        webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
+        // 先载入JS代码
+        // 格式规定为:file:///android_asset/文件名.html
 
-        settings.setLoadWithOverviewMode(true);
-        //url=getIntent().getStringExtra("url");
-        wv_item.loadUrl("file:///android_asset/month-bill.html");
-        setListener();
-    }
-
-
-    /**
-     * @Title: setListener
-     * @Description:
-     * @param
-     * @return void
-     */
-    private void setListener() {
-        //TODO Auto-generated method stub
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            public void onPageFinished(WebView view, String url) {//当页面加载完成
+                super.onPageFinished(view, url);
+                // 注意调用的JS方法名要对应上
+                //wv_item.loadUrl("javascript:showInfoFromJava()");
+                wv_item.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        value.toString();
+                        //此处为 js 返回的结果
+                    }
+                });
 
-                view.loadUrl(url); //在当前的webview中跳转到新的url
+            }
 
+        });
+        wv_item.loadUrl("file:///android_asset/month-bill.html");
+
+        // 由于设置了弹窗检验调用结果,所以需要支持js对话框
+        // webview只是载体，内容的渲染需要使用webviewChromClient类去实现
+        // 通过设置WebChromeClient对象处理JavaScript的对话框
+        //设置响应js 的Alert()函数
+        wv_item.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+                AlertDialog.Builder b = new AlertDialog.Builder(WebViewActivity.this);
+                b.setTitle("Alert");
+                b.setMessage(message);
+                b.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        result.confirm();
+                    }
+                });
+                b.setCancelable(false);
+                b.create().show();
                 return true;
             }
+
         });
+
+
     }
+
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
