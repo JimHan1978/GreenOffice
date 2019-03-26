@@ -8,8 +8,8 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="css/mui.min.css">
-		<link rel="stylesheet" href="css/report.css" />
+		<link rel="stylesheet" href="mui.min.css">
+		<link rel="stylesheet" href="report.css" />
 		<style>
 			* { touch-action: none; }
 			/*@font-face {
@@ -29,7 +29,7 @@
 						<div class="animate text-welcome guide-show  text-report">
 							<div class="animated bounceInDown text-lh">尊敬的<span id="name">杨东平</span>先生，</div>
 							<div class="animated bounceInDown text-lh">这是您在公司</div>
-							<div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth">56</span>个人月了。</div>
+							<div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth">56</span>个月了。</div>
 						</div>
 						<p class="company-info
 							animated bounceInLeft">
@@ -42,7 +42,7 @@
 				<!-- 第二张 -->
 				<div class="mui-slider-item">
 					<div class="page-bg page-second">
-
+						
 						<div id="tips-2"  class="animate text-report">
 							<div class="animated bounceInDown text-indent-18">本月收入概述<span id="income_month">5956</span>元</div>
 							<div class="animated bounceInDown text-indent-18">较上月: <span id="accrual">+52.2</span>元</div>
@@ -50,7 +50,7 @@
 								<div id="container"></div>
 							</div>
 						</div>
-
+						
 					</div>
 				</div>
 				<!-- 第三张 -->
@@ -82,54 +82,88 @@
 					</div>
 				</div>
 				<!-- 第五张 -->
-				<div class="mui-slider-item">
+				<div id="all-work" class="mui-slider-item">
 					<div class="page-bg page-attendance">
 						<!--<div id="tips-5" class="animate mui-hidden">
 							<div class="animated bounceInDown allwork-tips">
 								<div id="title-allwork">您连续2个月全勤</div>
 							</div>
-
 						</div>-->
 					</div>
 				</div>
-
-				<!-- 第六张 -->
-				<div class="mui-slider-item">
+				
+				<!-- 第五-1张 -->
+				<div id="sickleave" class="mui-slider-item">
 					<div class="page-bg page-sickleave">
 					</div>
 				</div>
-				<!-- 第六张 -->
-				<div class="mui-slider-item">
+				<!-- 第五-2张 -->
+				<div id="casualleave"  class="mui-slider-item">
 					<div class="page-bg page-casualleave">
-
+						
 					</div>
 				</div>
-
+				
+				<!-- 第五-3张 -->
+				<div id="beLate"  class="mui-slider-item">
+					<div class="page-bg page-be-late">
+						
+					</div>
+				</div>
+				
+				<!-- 第六-1张 -->
+				<div id="reward"  class="mui-slider-item">
+					<div class="page-bg page-reward">
+						
+					</div>
+				</div>
+				
+				<!-- 第六-2张 -->
+				<div id="dedcut"  class="mui-slider-item">
+					<div class="page-bg page-dedcut">
+						
+					</div>
+				</div>
+				<!-- 第六-3张 -->
+				<div id="qualified"  class="mui-slider-item">
+					<div class="page-bg page-qualified">
+						
+					</div>
+				</div>
+				
 				<!-- 第七张 -->
-				<div class="mui-slider-item">
-					<div class="page-bg page-late">
-
+				<div id="cumulative"  class="mui-slider-item">
+					<div class="page-bg page-cumulative">
+						<div id="cumulativeVal">14000</div>
 					</div>
 				</div>
+				
 			</div>
 			<div class="mui-slider-indicator">
 				<div class="mui-indicator mui-active"></div>
 				<div class="mui-indicator"></div>
 				<div class="mui-indicator"></div>
 				<div class="mui-indicator"></div>
+				<div id="id-all-work" class="mui-indicator"></div>
+				<div id="id-sickleave" class="mui-indicator"></div>
+				<div id="id-casualleave" class="mui-indicator"></div>
+				<div id="id-beLate" class="mui-indicator"></div>
+				<div id="id-reward" class="mui-indicator"></div>
+				<div id="id-dedcut" class="mui-indicator"></div>
+				<div id="id-qualified" class="mui-indicator"></div>
 				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
-				<div class="mui-indicator"></div>
+				
 			</div>
 		</div>
-		<script src="js/mui.min.js"></script>
-		<script src="js/jquery.min.js"></script>
-		<script src="libs/echarts-all.js"></script>
-
-		<script src="js/report.js"></script>
-
+		<script src="mui.min.js"></script>
+		<script src="jquery.min.js"></script>
+		<script src="echarts-all.js"></script>
+		
+		<script src="report.js"></script>
+		
 		<script>
+			
+			
 			mui.back = function() {};
 			mui.plusReady(function() {
 				if(mui.os.ios){
@@ -137,6 +171,8 @@
 				}
 				plus.navigator.closeSplashscreen();
 			});
+			
+			loadBillData("sunhao","2019-02");
 			//立即体验按钮点击事件
 			/* document.getElementById("close").addEventListener('tap', function(event) {
 				plus.storage.setItem("lauchFlag", "true");
@@ -159,11 +195,10 @@
 			$("#container").css({"width":'100%',"height":"210px"});                      //隐藏之前先设置高、宽，防止出现100px
 			var item = document.getElementById("tips-2");
 			item.classList.add("mui-hidden");
-
-		   function callJS(){
-			  alert("Android调用了JS的callJS方法");
-		   }
-
+			
+	
+			// 基于准备好的dom，初始化echarts实例
+			var myChart = echarts.init(document.getElementById('container'));
 		</script>
 	</body>
 
