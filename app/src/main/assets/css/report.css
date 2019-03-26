@@ -136,67 +136,67 @@
 }
 
 .page-first {
-	background-image: url(bg-welcome.jpg);
+	background-image: url(../img/bg-welcome.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-second {
-	background-image: url(bg-overview.jpg);
+	background-image: url(../img/bg-overview.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-third {
-	background-image: url(bg-salary.jpg);
+	background-image: url(../img/bg-salary.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-fourth {
-	background-image: url(bg-welfare.jpg);
+	background-image: url(../img/bg-welfare.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-attendance {
-	background-image: url(bg-all-work.jpg);
+	background-image: url(../img/bg-all-work.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-sickleave {
-	background-image: url(bg-sick-leave.jpg);
+	background-image: url(../img/bg-sick-leave.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-casualleave {
-	background-image: url(bg-casual-leave.jpg);
+	background-image: url(../img/bg-casual-leave.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-be-late {
-	background-image: url(bg-be-late.jpg);
+	background-image: url(../img/bg-be-late.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-reward {
-	background-image: url(bg-reward.jpg);
+	background-image: url(../img/bg-reward.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-dedcut {
-	background-image: url(bg-deduct.jpg);
+	background-image: url(../img/bg-deduct.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-cumulative {
-	background-image: url(bg-cumulative.jpg);
+	background-image: url(../img/bg-cumulative.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
@@ -271,7 +271,7 @@
 .allwork-tips {
 	width: 100%;
 	height: 100%;
-	background-image: url(bg_all_work.png);
+	background-image: url(../img/bg_all_work.png);
 }
 
 #title-allwork {

@@ -17,13 +17,13 @@
 		}else{
 			data=json;
 		}
-	    
 		if (data.success) {
 			
 			var result = data.result;
 			var detail = result.detail;
 			//更新首页
 			var months = getIntervalMonth(new Date(result.joinDate),new Date());
+
 			$("#name").text(detail.name);
 			
 			$("#totalMonth").text(months);

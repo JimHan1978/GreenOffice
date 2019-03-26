@@ -32,6 +32,9 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import timber.log.Timber;
@@ -53,6 +56,22 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         return R.layout.activity_webview;
     }
 
+
+    public String getFromAssets(String fileName){
+        try {
+            InputStreamReader inputReader = new InputStreamReader( getResources().getAssets().open(fileName) );
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line="";
+            String Result="";
+            while((line = bufReader.readLine()) != null)
+                Result += line;
+            return Result;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "{}";
+    }
+
     @Override
     public void initData(Bundle savedInstanceState) {
         WebSettings webSettings = wv_item.getSettings();
@@ -63,14 +82,14 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         // 先载入JS代码
         // 格式规定为:file:///android_asset/文件名.html
-
+        String json = getFromAssets("data/report.json");
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
                 // 注意调用的JS方法名要对应上
                 //wv_item.loadUrl("javascript:showInfoFromJava()");
-                wv_item.evaluateJavascript("javascript:callJS()", new ValueCallback<String>() {
+                wv_item.evaluateJavascript("javascript:setData("+json+")", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
                         value.toString();

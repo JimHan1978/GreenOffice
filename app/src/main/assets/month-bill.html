@@ -8,8 +8,8 @@
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-		<link rel="stylesheet" href="mui.min.css">
-		<link rel="stylesheet" href="report.css" />
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" href="css/report.css" />
 		<style>
 			* { touch-action: none; }
 			/*@font-face {
@@ -27,9 +27,9 @@
 				<div class="mui-slider-item">
 					<div class="page-bg page-first">
 						<div class="animate text-welcome guide-show  text-report">
-							<div class="animated bounceInDown text-lh">尊敬的<span id="name">杨东平</span>先生，</div>
+							<div class="animated bounceInDown text-lh">尊敬的<span id="name"></span>XX，</div>
 							<div class="animated bounceInDown text-lh">这是您在公司</div>
-							<div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth">56</span>个月了。</div>
+							<div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth"></span>个月了。</div>
 						</div>
 						<p class="company-info
 							animated bounceInLeft">
@@ -155,11 +155,11 @@
 				
 			</div>
 		</div>
-		<script src="mui.min.js"></script>
-		<script src="jquery.min.js"></script>
-		<script src="echarts-all.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery.min.js"></script>
+		<script src="libs/echarts-all.js"></script>
 		
-		<script src="report.js"></script>
+		<script src="js/report.js"></script>
 		
 		<script>
 			
@@ -172,7 +172,7 @@
 				plus.navigator.closeSplashscreen();
 			});
 			
-			loadBillData("sunhao","2019-02");
+			//loadBillData("sunhao","2019-02");
 			//立即体验按钮点击事件
 			/* document.getElementById("close").addEventListener('tap', function(event) {
 				plus.storage.setItem("lauchFlag", "true");
