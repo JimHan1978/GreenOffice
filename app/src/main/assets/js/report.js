@@ -10,7 +10,7 @@
 	 * 设置账单数据接口
 	 * @param son_str
 	 */
-	function setData(json) {
+	function setData(json,sex,joinDateStr) {
 		var data;
 		if(typeof(json)=='string'){
 			data = JSON.parse(json);
@@ -22,13 +22,13 @@
 			var result = data.result;
 			var detail = result.detail;
 			//更新首页
-			var months = getIntervalMonth(new Date(result.joinDate),new Date());
+			var months = getIntervalMonth(new Date(joinDateStr),new Date());
 
-			$("#name").text(detail.name);
+			$("#name").text(detail.name+(sex=="117"?"先生":"女士"));
 			
 			$("#totalMonth").text(months);
 			
-			var joinDate = result.joinDate.split("-");
+			var joinDate = joinDateStr.split("-");
 			$("#joinDate").text(joinDate[0] + "年"+joinDate[1] +"月"+joinDate[2] +"日");
 			
 			//第二页数据
