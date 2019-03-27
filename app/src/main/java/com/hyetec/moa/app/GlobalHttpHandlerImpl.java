@@ -40,7 +40,7 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
         不做操作则直接返回request参数*/
         return chain.request().newBuilder()
                 .addHeader("Content-Type", "application/json")
-                .addHeader("Cookie", "huap.session.id=8b6b3bae-45ca-46f1-86f7-baf3a1d38ac7")
+                //.addHeader("Cookie", "huap.session.id=8b6b3bae-45ca-46f1-86f7-baf3a1d38ac7")
                 .build();
         //                        return request;
     }

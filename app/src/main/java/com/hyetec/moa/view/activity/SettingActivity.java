@@ -1,6 +1,7 @@
 package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.viewmodel.SettingViewModel;
 
 import butterknife.BindView;
@@ -64,6 +66,7 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
     @OnClick(R.id.tv_logout)
     public void onLogoutClicked() {
         //ACache.get()
-
+        ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN,"false");
+        startActivity(new Intent(this,LoginActivity.class));
     }
 }

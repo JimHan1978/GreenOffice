@@ -55,7 +55,7 @@ public class RepositoryConfiguration implements ConfigRepository {
                     //支持 Https
                     //okhttpBuilder.sslSocketFactory()
                     okhttpBuilder.writeTimeout(10, TimeUnit.SECONDS);
-                   // cookieJar(new HMDPPersistenCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context)));
+                    okhttpBuilder.cookieJar(new HMDPPersistenCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(context)));
                 })
                 //这里可以自己自定义配置 RxCache 的参数
                 .rxCacheConfiguration((context1, rxCacheBuilder) -> {
