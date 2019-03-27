@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.JavascriptInterface;
@@ -26,12 +27,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.WebViewModel;
+
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -95,10 +99,12 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
+
                 mViewModel.getData("2019-02").observe(WebViewActivity.this, billData -> {
                     if(billData!=null && billData.isSuccess()){
+                        Gson gson = new Gson();
 
-                        wv_item.evaluateJavascript("javascript:setData("+billData+","+sex+","+joindate+")", new ValueCallback<String>() {
+                        wv_item.evaluateJavascript("javascript:setData('"+gson.toJson(billData.getResult())+"',"+sex+",'"+joindate+"')", new ValueCallback<String>() {
                             @Override
                             public void onReceiveValue(String value) {
                                 value.toString();
