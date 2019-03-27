@@ -82,15 +82,17 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-        UserEntity user = (UserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
-        mViewModel.getUserInfo(user.getUserId()+"").observe(PersonalFragment.this, userEntity -> {
-            if (userEntity != null) {
-                mUserNameView.setText(userEntity.getUserName());
-                mDeptView.setText(userEntity.getOrgName());
+        if( ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA)!=null) {
+            UserEntity user = (UserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            mViewModel.getUserInfo(user.getUserId() + "").observe(PersonalFragment.this, userEntity -> {
+                if (userEntity != null) {
+                    mUserNameView.setText(userEntity.getUserName());
+                    mDeptView.setText(userEntity.getOrgName());
 
-                Glide.with(this).load(Api.APP_DOMAIN + "urm/" + userEntity.getPhoto()).into(mAvatarView);
-            }
-        });
+                    Glide.with(this).load(Api.APP_DOMAIN + "urm/" + userEntity.getPhoto()).into(mAvatarView);
+                }
+            });
+        }
     }
 
     /**

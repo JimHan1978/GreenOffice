@@ -30,6 +30,7 @@ import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
 import java.io.BufferedReader;
@@ -83,25 +84,32 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         // 先载入JS代码
         // 格式规定为:file:///android_asset/文件名.html
         String json = getFromAssets("data/report.json");
+
+        UserEntity user = (UserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
+        int sex=user.getSex();
+        String joindate=user.getJoindate();
+
+        wv_item.loadUrl("file:///android_asset/month-bill.html");
+
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
-                // 注意调用的JS方法名要对应上
-                //wv_item.loadUrl("javascript:showInfoFromJava()");
-                wv_item.evaluateJavascript("javascript:setData("+json+")", new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String value) {
-                        value.toString();
-                        //此处为 js 返回的结果
+                mViewModel.getData("2019-02").observe(WebViewActivity.this, billData -> {
+                    if(billData!=null && billData.isSuccess()){
+
+                        wv_item.evaluateJavascript("javascript:setData("+billData+","+sex+","+joindate+")", new ValueCallback<String>() {
+                            @Override
+                            public void onReceiveValue(String value) {
+                                value.toString();
+
+                            }
+                        });
                     }
                 });
-
             }
 
         });
-        wv_item.loadUrl("file:///android_asset/month-bill.html");
-
         // 由于设置了弹窗检验调用结果,所以需要支持js对话框
         // webview只是载体，内容的渲染需要使用webviewChromClient类去实现
         // 通过设置WebChromeClient对象处理JavaScript的对话框

@@ -39,7 +39,8 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
         /* 如果需要再请求服务器之前做一些操作,则重新返回一个做过操作的的request如增加header,
         不做操作则直接返回request参数*/
         return chain.request().newBuilder()
-                .addHeader("Connection", "close")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("Cookie", "huap.session.id=8b6b3bae-45ca-46f1-86f7-baf3a1d38ac7")
                 .build();
         //                        return request;
     }

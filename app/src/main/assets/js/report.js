@@ -12,11 +12,14 @@
 	 */
 	function setData(json,sex,joinDateStr) {
 		var data;
+		 alert(typeof(json));
 		if(typeof(json)=='string'){
+		    //alert(json);
 			data = JSON.parse(json);
 		}else{
 			data=json;
 		}
+		alert(data.success);
 		if (data.success) {
 			
 			var result = data.result;

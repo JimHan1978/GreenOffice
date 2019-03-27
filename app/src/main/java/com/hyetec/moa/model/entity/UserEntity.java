@@ -52,6 +52,27 @@ public class UserEntity implements Serializable {
     private String initialIndex;// 首字母
     private String qq;
 
+
+
+    private int sex;
+    private String joindate;
+
+
+    public int getSex() {
+        return sex;
+    }
+
+    public void setSex(int sex) {
+        this.sex = sex;
+    }
+
+    public String getJoindate() {
+        return joindate;
+    }
+
+    public void setJoindate(String joindate) {
+        this.joindate = joindate;
+    }
     public String getQq() {
         return qq;
     }

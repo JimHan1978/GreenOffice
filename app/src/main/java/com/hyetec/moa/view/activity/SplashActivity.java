@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         String isLogin = ACache.get(this.getApplicationContext()).getAsString(MoaApp.IS_LOGIN);
         if(isLogin==null|| isLogin.equals("false")){
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this,LoginActivity.class));
             finish();
         }else{
             startActivity(new Intent(this,MainActivity.class));

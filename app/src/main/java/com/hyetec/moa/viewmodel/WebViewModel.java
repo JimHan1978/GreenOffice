@@ -11,6 +11,7 @@ import com.hyetec.hmdp.repository.http.Status;
 import com.hyetec.moa.model.MainModel;
 import com.hyetec.moa.model.WebModel;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.HashMap;
@@ -22,22 +23,21 @@ import timber.log.Timber;
 
 public class WebViewModel extends BaseViewModel<WebModel> {
 
-    private final MediatorLiveData<BaseResponse<String>> mLoginData = new MediatorLiveData<BaseResponse<String>>();
-    private MutableLiveData<Resource<BaseResponse<String>>> mLoginResponse;
+    private final MediatorLiveData<BaseResponse<BillEntity>> mLoginData = new MediatorLiveData<BaseResponse<BillEntity>>();
+    private MutableLiveData<Resource<BaseResponse<BillEntity>>> mLoginResponse;
 
     @Inject
     public WebViewModel(Application application, WebModel model) {
         super(application, model);
     }
 
-    public LiveData<BaseResponse<String>> getData(String userId, String time) {
+    public LiveData<BaseResponse<BillEntity>> getData(String time) {
         Map<String, String> request = new HashMap<>(1);
-        request.put("userno", userId);
         request.put("date",time);
         if (mLoginResponse != null) {
             mLoginData.removeSource(mLoginResponse);
         }
-        mLoginResponse = mModel.login(request);
+        mLoginResponse = mModel.getData(request);
         mLoginData.addSource(mLoginResponse, observer -> {
             mLoginData.removeSource(mLoginResponse);
             mLoginData.addSource(mLoginResponse, loginResource -> {
@@ -49,7 +49,7 @@ public class WebViewModel extends BaseViewModel<WebModel> {
                     //STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
                 } else if (loginResource.status == Status.SUCCESS) {
-                    BaseResponse<String> result = loginResource.data;
+                    BaseResponse<BillEntity> result = loginResource.data;
                     mLoginData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
                 } else if (loginResource.status == Status.ERROR) {

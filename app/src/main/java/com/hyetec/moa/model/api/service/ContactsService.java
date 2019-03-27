@@ -1,6 +1,7 @@
 package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.UserEntity;
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
 
@@ -33,9 +36,13 @@ public interface ContactsService {
     @POST("urm/position/mlist.json")
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 
-    @POST("urm/mobileLogin.json")
+    @POST("uap-urm/mobileLogin.json")
     Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
 
-    @POST("financePInfo/rest/selectFinancePInfo.json\n")
-    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
+//    @POST("financePInfo/rest/selectFinancePInfo.json")
+//    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @POST("uap-urm/user/rest/getFinancePInfo.json")
+    Flowable<BaseResponse<BillEntity>> monthBill(@Body Map<String, String> request);
 }

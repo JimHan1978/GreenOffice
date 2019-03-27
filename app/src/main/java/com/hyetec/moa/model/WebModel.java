@@ -9,6 +9,7 @@ import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.db.TraingDb;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.MenuEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
@@ -31,7 +32,7 @@ public class WebModel extends BaseModel {
 
     private RxErrorHandler mErrorHandler;
 
-    private MutableLiveData<Resource<BaseResponse<String>>> mUserResource;
+    private MutableLiveData<Resource<BaseResponse<BillEntity>>> mUserResource;
     @Inject
     public WebModel(Application application) {
         super(application);
@@ -48,7 +49,7 @@ public class WebModel extends BaseModel {
         mUserResource = null;
     }
 
-    public MutableLiveData<Resource<BaseResponse<String>>> login(Map<String,String> request) {
+    public MutableLiveData<Resource<BaseResponse<BillEntity>>> getData(Map<String,String> request) {
         if (mUserResource == null) {
             mUserResource = new MutableLiveData<>();
         }
@@ -65,7 +66,7 @@ public class WebModel extends BaseModel {
                     //saveLocation(weatherNowResponse.getResults().get(0).getLocation());
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<String>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<BillEntity>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
                         mUserResource.setValue(Resource.loading(null));
@@ -79,7 +80,7 @@ public class WebModel extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(BaseResponse<String> response) {
+                    public void onNext(BaseResponse<BillEntity> response) {
                         mUserResource.setValue(Resource.success(response));
 
                     }
