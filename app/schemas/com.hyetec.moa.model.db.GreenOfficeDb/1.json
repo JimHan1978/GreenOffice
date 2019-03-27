@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "948a6c44551ae3f78e260720eba8859c",
+    "identityHash": "3c4608518dc38b8e7353b451d4bbf65d",
     "entities": [
       {
         "tableName": "User",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER NOT NULL, `orgId` INTEGER NOT NULL, `deptId` INTEGER NOT NULL, `sortNo` INTEGER NOT NULL, `positionId` INTEGER NOT NULL, `deptName` TEXT, `email` TEXT, `userName` TEXT, `code` TEXT, `orgName` TEXT, `positionName` TEXT, `photo` TEXT, `mobile` TEXT, `delFlag` INTEGER NOT NULL, `shortName` TEXT, `pinyinName` TEXT, `initialIndex` TEXT, `qq` TEXT, PRIMARY KEY(`userId`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`userId` INTEGER NOT NULL, `orgId` INTEGER NOT NULL, `deptId` INTEGER NOT NULL, `sortNo` INTEGER NOT NULL, `positionId` INTEGER NOT NULL, `deptName` TEXT, `email` TEXT, `userName` TEXT, `code` TEXT, `orgName` TEXT, `positionName` TEXT, `photo` TEXT, `mobile` TEXT, `delFlag` INTEGER NOT NULL, `shortName` TEXT, `pinyinName` TEXT, `initialIndex` TEXT, `qq` TEXT, `sex` INTEGER NOT NULL, `joindate` TEXT, PRIMARY KEY(`userId`))",
         "fields": [
           {
             "fieldPath": "userId",
@@ -115,6 +115,18 @@
             "columnName": "qq",
             "affinity": "TEXT",
             "notNull": false
+          },
+          {
+            "fieldPath": "sex",
+            "columnName": "sex",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "joindate",
+            "columnName": "joindate",
+            "affinity": "TEXT",
+            "notNull": false
           }
         ],
         "primaryKey": {
@@ -211,7 +223,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"948a6c44551ae3f78e260720eba8859c\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"3c4608518dc38b8e7353b451d4bbf65d\")"
     ]
   }
 }

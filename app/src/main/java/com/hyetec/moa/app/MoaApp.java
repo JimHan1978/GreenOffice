@@ -1,8 +1,12 @@
 package com.hyetec.moa.app;
 
+import android.content.Context;
+
 import com.hyetec.hmdp.core.base.BaseApplication;
 import com.hyetec.moa.di.component.AppComponent;
 import com.hyetec.moa.di.component.DaggerAppComponent;
+
+import cn.jpush.android.api.JPushInterface;
 //import com.hyetec.moa.di.component.DaggerAppComponent;
 
 /**
@@ -16,6 +20,7 @@ public class MoaApp extends BaseApplication {
     public static final String IS_LOGIN = "isLogin";
     public static final String USER_DATA = "userData";
     private AppComponent mAppComponent;
+    public static Context mContext;
 
     @Override
     public void onCreate() {
@@ -26,6 +31,10 @@ public class MoaApp extends BaseApplication {
                 .archComponent(getArchComponent())
                 .build();
         mAppComponent.inject(this);
+        mContext = getApplicationContext();
+
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
 
     }
 

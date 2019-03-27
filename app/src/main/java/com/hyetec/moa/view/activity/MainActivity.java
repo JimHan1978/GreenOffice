@@ -16,6 +16,7 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.utils.TagAliasOperatorHelper;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;
 import com.hyetec.moa.view.fragment.ContactsFragment;
@@ -28,9 +29,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 import timber.log.Timber;
 
 public class MainActivity extends BaseActivity<MainViewModel> {
+    public static boolean isForeground = false;
+    public static final String MESSAGE_RECEIVED_ACTION = "com.example.jpushdemo.MESSAGE_RECEIVED_ACTION";
+    public static final String KEY_TITLE = "title";
+    public static final String KEY_MESSAGE = "message";
+    public static final String KEY_EXTRAS = "extras";
 
     private int mReplace = 0;
     private List<Fragment> mFragments;
@@ -116,6 +123,10 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         //自定义tab样式
         resetTabLayout();
 
+        // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+        JPushInterface.init(getApplicationContext());
+        //注册推送别名
+        setPushAlias("");
 
         contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -134,6 +145,13 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         });
     }
 
+    private void setPushAlias(String userId){
+
+        TagAliasOperatorHelper helper = TagAliasOperatorHelper.getInstance();
+
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean =  helper.createTagAliasBean(TagAliasOperatorHelper.ACTION_SET,true,userId,null);
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(),tagAliasBean);
+    }
     /**
      * 使用tablayout + viewpager时注意 如果设置了setupWithViewPager
      * 则需要重新执行下方对每个条目赋值
