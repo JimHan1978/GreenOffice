@@ -126,7 +126,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
         JPushInterface.init(getApplicationContext());
         //注册推送别名
-        setPushAlias("");
+        //setPushAlias("");
 
         contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -180,5 +180,15 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         img.setImageResource(iconImgs[position]);
         return v;
     }
+    protected void onResume() {
+        super.onResume();
+        isForeground = true;
+        JPushInterface.onResume(this);
+    }
 
+    protected void onPause() {
+        super.onPause();
+        isForeground = false;
+        JPushInterface.onPause(this);
+    }
 }

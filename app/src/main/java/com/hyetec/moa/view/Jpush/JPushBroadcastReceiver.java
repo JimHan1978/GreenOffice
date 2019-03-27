@@ -13,6 +13,7 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.utils.Logger;
 import com.hyetec.moa.view.activity.MainActivity;
+import com.hyetec.moa.view.activity.WebViewActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,18 +70,9 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 
 			} else if (JPushInterface.ACTION_NOTIFICATION_OPENED.equals(intent.getAction())) {
 				Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
-
-				//Bundle bundle = intent.getExtras();
-
-				//String params = bundle.getString(JPushInterface.EXTRA_EXTRA);
-
-				//JSONObject jsonObject = new JSONObject(params);
-				//
-
+				//String params = bundle.getString("messageType");
 				//打开自定义的Activity
-				Intent i = new Intent(context, MainActivity.class);
-//				i.putExtra("tabbarItemIndex",jsonObject.getString("tabbarItemIndex"));
-				//i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				Intent i = new Intent(context, WebViewActivity.class);
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 				context.startActivity(i);
 
