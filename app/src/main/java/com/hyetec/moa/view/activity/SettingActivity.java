@@ -16,6 +16,7 @@ import com.hyetec.moa.viewmodel.SettingViewModel;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * @author : created by jimhan
@@ -68,5 +69,6 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
         //ACache.get()
         ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN,"false");
         startActivity(new Intent(this,LoginActivity.class));
+        JPushInterface.stopPush(this);
     }
 }

@@ -125,6 +125,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
         // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
         JPushInterface.init(getApplicationContext());
+        JPushInterface.resumePush(this);
         //注册推送别名
         //setPushAlias("");
 

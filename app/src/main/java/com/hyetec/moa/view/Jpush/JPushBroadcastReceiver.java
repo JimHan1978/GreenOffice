@@ -72,7 +72,10 @@ public class JPushBroadcastReceiver extends BroadcastReceiver {
 				Logger.d(TAG, "[MyReceiver] 用户点击打开了通知");
 				//String params = bundle.getString("messageType");
 				//打开自定义的Activity
-				Intent i = new Intent(context, WebViewActivity.class);
+				String params = bundle.getString(JPushInterface.EXTRA_EXTRA);
+				JSONObject jsonObject = new JSONObject(params);
+				String date=jsonObject.getString("date");
+				Intent i = new Intent(context, WebViewActivity.class).putExtra("date",date);
 				i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP );
 				context.startActivity(i);
 

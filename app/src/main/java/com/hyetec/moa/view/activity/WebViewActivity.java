@@ -39,9 +39,11 @@ import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
 import timber.log.Timber;
 
 
@@ -62,13 +64,13 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     }
 
 
-    public String getFromAssets(String fileName){
+    public String getFromAssets(String fileName) {
         try {
-            InputStreamReader inputReader = new InputStreamReader( getResources().getAssets().open(fileName) );
+            InputStreamReader inputReader = new InputStreamReader(getResources().getAssets().open(fileName));
             BufferedReader bufReader = new BufferedReader(inputReader);
-            String line="";
-            String Result="";
-            while((line = bufReader.readLine()) != null)
+            String line = "";
+            String Result = "";
+            while ((line = bufReader.readLine()) != null)
                 Result += line;
             return Result;
         } catch (Exception e) {
@@ -90,8 +92,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         String json = getFromAssets("data/report.json");
 
         UserEntity user = (UserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
-        int sex=user.getSex();
-        String joindate=user.getJoindate();
+        int sex = user.getSex();
+        String joindate = user.getJoindate();
 
         wv_item.loadUrl("file:///android_asset/month-bill.html");
 
@@ -100,11 +102,11 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
 
-                mViewModel.getData("2019-02").observe(WebViewActivity.this, billData -> {
-                    if(billData!=null && billData.isSuccess()){
+                mViewModel.getData(getTime()).observe(WebViewActivity.this, billData -> {
+                    if (billData != null && billData.isSuccess()) {
                         Gson gson = new Gson();
 
-                        wv_item.evaluateJavascript("javascript:setData('"+gson.toJson(billData.getResult())+"',"+sex+",'"+joindate+"')", new ValueCallback<String>() {
+                        wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(billData.getResult()) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
                             @Override
                             public void onReceiveValue(String value) {
                                 value.toString();
@@ -116,6 +118,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             }
 
         });
+
+
         // 由于设置了弹窗检验调用结果,所以需要支持js对话框
         // webview只是载体，内容的渲染需要使用webviewChromClient类去实现
         // 通过设置WebChromeClient对象处理JavaScript的对话框
@@ -142,6 +146,18 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
     }
 
+    private String getTime() {
+        String time = "";
+        Calendar c = Calendar.getInstance();//
+        int mYear = c.get(Calendar.YEAR); // 获取当前年份
+        int mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
+        if (mMonth < 10) {
+            time = mYear + "-0" + (mMonth - 1);
+        } else {
+            time = mYear + "-" + (mMonth - 1);
+        }
+        return time;
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
