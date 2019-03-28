@@ -238,10 +238,10 @@
 
 #tips-2 {
 	position: absolute;
-	left: 10%;
-    right: 10%;
 	top: 18%;
-	/* height: 80%; */
+	/* height: 80%;
+	 left: 10%;
+         right: 10%;*/
 }
 
 #tips-3 {

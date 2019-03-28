@@ -146,12 +146,14 @@
 	//var data1 = [3010, 5052, 7200,9610, 10852, 12200];
 	
 	function updateIncomeChart(xData,yData) {
-		$("#container").css({"width":'320px',"height":"240px"});  
-		
+		$("#container").css({"width":'420px',"height":"240px"});  
+		var year = new Date().getFullYear();
+
 		var option = {
 			color: ['#447283'],
             title: {
-                text: '2019年月收入',
+                text: year+'年月收入',
+                x:'center',
                 textStyle:{
                 	color: '#142C36',
 					fontFamily: 'MFYueYuan',
