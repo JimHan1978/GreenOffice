@@ -195,6 +195,11 @@
 	background-size: 100% 100%;
 	background-position: center;
 }
+.page-qualified {
+	background-image: url(bg-qualified.jpg);
+	background-size: 100% 100%;
+	background-position: center;
+}
 
 .page-cumulative {
 	background-image: url(../img/bg-cumulative.jpg);
@@ -287,9 +292,9 @@
 
 #cumulativeVal {
 	position: absolute;
-    top: 31%;
+    top: 32%;
     /* left: 16%; */
-    font-size: 4em;
+    font-size: 3.2em;
     line-height: 2em;
     color: #B35A69;
     width: 100%;
