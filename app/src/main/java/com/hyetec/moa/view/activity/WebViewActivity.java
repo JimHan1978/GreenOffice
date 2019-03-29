@@ -53,7 +53,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     @BindView(R.id.wv_item)
     WebView wv_item;
     private String url;
-
+    private String billDate;
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -82,7 +82,11 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         WebSettings webSettings = wv_item.getSettings();
-
+        if(getIntent().getStringExtra("date")!=null) {
+            billDate = getIntent().getStringExtra("date");
+        }else {
+            billDate=getTime();
+        }
         // 设置与Js交互的权限
         webSettings.setJavaScriptEnabled(true);
         // 设置允许JS弹窗
@@ -102,7 +106,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
 
-                mViewModel.getData(getTime()).observe(WebViewActivity.this, billData -> {
+                mViewModel.getData(billDate).observe(WebViewActivity.this, billData -> {
                     if (billData != null && billData.isSuccess()) {
                         Gson gson = new Gson();
 
@@ -151,7 +155,10 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         Calendar c = Calendar.getInstance();//
         int mYear = c.get(Calendar.YEAR); // 获取当前年份
         int mMonth = c.get(Calendar.MONTH) + 1;// 获取当前月份
-        if (mMonth < 10) {
+
+        if(mMonth==1){
+            time = (mYear-1) + "-12" ;
+        }else if (mMonth < 11) {
             time = mYear + "-0" + (mMonth - 1);
         } else {
             time = mYear + "-" + (mMonth - 1);
