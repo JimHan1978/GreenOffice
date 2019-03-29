@@ -81,7 +81,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==0){
+                if(i==1){
                     startActivity(new Intent(getActivity(),WebViewActivity.class));
                 }
             }

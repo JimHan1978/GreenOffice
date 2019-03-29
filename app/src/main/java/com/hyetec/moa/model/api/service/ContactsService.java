@@ -24,16 +24,16 @@ import retrofit2.http.QueryMap;
  **/
 public interface ContactsService {
 
-    @POST("urm/user/getInfo.json")
+    @POST("uap-urm/user/getInfo.json")
     Flowable<BaseResponse<UserEntity>> getUserInfo(@QueryMap Map<String, String> request);
 
-    @POST("urm/user/mlist.json")
+    @POST("uap-urm/user/mlist.json")
     Flowable<BaseResponse<List<UserEntity>>> getUserList(@QueryMap Map<String, String> request);
 
-    @POST("urm/org/mlist.json")
+    @POST("uap-urm/org/mlist.json")
     Flowable<BaseResponse<List<GroupEntity>>> getGroupList(@QueryMap Map<String, String> request);
 
-    @POST("urm/position/mlist.json")
+    @POST("uap-urm/position/mlist.json")
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 
     @POST("uap-urm/mobileLogin.json")

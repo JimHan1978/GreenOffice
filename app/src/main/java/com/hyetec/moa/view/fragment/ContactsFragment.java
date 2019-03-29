@@ -98,6 +98,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ContactsViewModel.class);
         ButterKnife.bind(this, view);
         stickyLayout.setOnGiveUpTouchEventListener(ContactsFragment.this);
+        mTitleView.setText("通讯录");
         view.setOnTouchListener(new View.OnTouchListener() {
 
             @Override

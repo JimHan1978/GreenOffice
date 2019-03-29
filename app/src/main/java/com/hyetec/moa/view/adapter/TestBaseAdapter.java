@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
@@ -96,7 +97,7 @@ public class TestBaseAdapter extends BaseAdapter implements
 			c.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			c.tv_head_name.setText("");
-			Glide.with(context).load("http://hyserver.hyetec.com:8180/urm/"+ce.getPhoto()).into(c.iv_head);
+			Glide.with(context).load(Api.IMG_URL+ce.getPhoto()).into(c.iv_head);
 		}
 
 			c.catalog.setVisibility(View.GONE);
