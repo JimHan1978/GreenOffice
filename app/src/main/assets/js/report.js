@@ -160,7 +160,9 @@
             grid: {
 				containLabel: false
 			},
-            tooltip: {},
+            tooltip: {
+                show: false
+            },
             
             xAxis: {
                 data: xData,
