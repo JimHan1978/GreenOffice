@@ -121,7 +121,7 @@
                 break;
         }
 
-        $("#cumulativeVal").text(total);
+        $("#cumulativeVal").text(total.toFixed(2));
         mui(".mui-slider").slider();
 	}
 
