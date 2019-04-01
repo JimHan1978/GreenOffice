@@ -89,7 +89,7 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
                     mUserNameView.setText(userEntity.getUserName());
                     mDeptView.setText(userEntity.getOrgName());
 
-                    Glide.with(this).load(Api.APP_DOMAIN + "urm/" + userEntity.getPhoto()).into(mAvatarView);
+                    Glide.with(this).load(Api.IMG_URL+ userEntity.getPhoto()).into(mAvatarView);
                 }
             });
         }
