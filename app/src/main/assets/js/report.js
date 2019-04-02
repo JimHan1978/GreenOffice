@@ -3,16 +3,14 @@
 	function getIntervalMonth(startDate,endDate){
         var startMonth = startDate.getMonth();
         var endMonth = endDate.getMonth();
-        var intervalMonth = (endDate.getFullYear()*12+endMonth)-(startDate.getFullYear()*12+startMonth);
-        return intervalMonth;
+        var intervalMonth = (endDate.getFullYear()*12+endMonth)- (startDate.getFullYear()*12+startMonth) ;
 	}
 
 	/**
 	 * 设置账单数据接口
 	 * @param son_str
 	 */
-	function setData(json,sex,joinDateStr) {
-		var result;
+	function setData(json,sex,joinDateStr) {var result;
 		if(typeof(json)=='string'){
 			result = JSON.parse(json);
 		}else{
@@ -29,7 +27,7 @@
         $("#joinDate").text(joinDate[0] + "年"+joinDate[1] +"月"+joinDate[2] +"日");
 
         //第二页数据
-        $("#income_month").text(detail.bysrhj);
+        $("#income_month").text(Math.round(detail.bysrhj));
 
         var historyData = result.historyData;
         var xData=[],yData=[],total=0;
@@ -39,31 +37,42 @@
             total+=Number(yData[i]);
         }
         if(historyData.length==1){
-                    $("#accrualDiv").hide();
-                }else{
-                    $("#accrual").text(detail.bysrhj-yData[historyData.length-2]);
-                    $("#accrualDiv").show();
-                }
+            $("#accrualDiv").hide();
+        }else{
+        	var accrual = Math.round(detail.bysrhj-yData[historyData.length-2]);
+        	
+        	var atext = "";
+        	if(accrual>=0){
+        		atext="增加  "+Math.abs(accrual);
+        	}else if(accrual<0){
+        		atext="降低  "+Math.abs(accrual);
+        	}
+        	
+            $("#accrual").text(atext);
+            $("#accrualDiv").show();
+        }
 
         //更新图表
         updateIncomeChart(xData,yData);
         myChart.resize();
 
         //第三页数据
-        $("#salary").text(detail.zhgzksr);
-        $("#cut_late").text(detail.cdkk);
-        $("#cut_leave").text(detail.sjkk);
-        $("#cut_sick").text(detail.bjkk);
-        $("#cut_perf").text(detail.jxjc);
-        $("#award_perf").text(detail.jxjc);
-
-
+        $("#salary").text(Math.round(detail.zhgzksr));
+        $("#cut_late").text(Math.round(detail.cdkk));
+        $("#cut_leave").text(Math.round(detail.sjkk));
+        $("#cut_sick").text(Math.round(detail.bjkk));
+        if(detail.jxjc>0){
+        	$("#award_perf").text(Math.round(detail.jxjc));
+        }else if(detail.jxjc<0){
+        	$("#cut_perf").text(-Math.round(detail.jxjc));
+        }
+        
         //第四页数据
-        $("#housingund").text(detail.gjjlmksr);
-        $("#income_cash").text(detail.xjflsr);
-        $("#income_subsidy").text(detail.gdbtksr);
-        $("#income_bonus").text(detail.jjsr);
-        $("#income_other").text(detail.qtjlsr);
+        $("#housingund").text(Math.round(detail.gjjlmksr));
+        $("#income_cash").text(Math.round(detail.xjflsr));
+        $("#income_subsidy").text(Math.round(detail.gdbtksr));
+        $("#income_bonus").text(Math.round(detail.jjsr));
+        $("#income_other").text(Math.round(detail.qtjlsr));
         $("#rank_cash").text(detail.beatXjflsrPercent);
         $("#rank_other").text(detail.beatQtjlsrPercent);
 
@@ -121,16 +130,16 @@
                 break;
         }
 
-        $("#cumulativeVal").text(total.toFixed(2));
+        $("#cumulativeVal").text(Math.round(total));
         mui(".mui-slider").slider();
 	}
 
 	
 	function loadBillData(userno,date) {
 		//var url = "http://" + serverHost + ":8180/office/weatherBase.json";
-		var url = "http://127.0.0.1:8020/MonthReport/data/report.json";
+		var url = "http://127.0.0.1:8020/MonthReport/report.json";
 		$.get(url,{userno:userno,date:date},function(dataStr){
-			setData(dataStr);
+			setData(dataStr,117,'2019-02-01');
 		});
 	}
 	
@@ -139,21 +148,25 @@
 	//var data1 = [3010, 5052, 7200,9610, 10852, 12200];
 	
 	function updateIncomeChart(xData,yData) {
-		$("#container").css({"width":'420px',"height":"240px"});  
-		var year = new Date().getFullYear();
-
+		$("#container").css({"width":'22.4em',"height":"16em"});  
+		var now = new Date();
+		var title = now.getFullYear()+"年1月收入";
+		if(xData.length>1){
+			title = now.getFullYear()+"年1月-"+xData[xData.length-1]+"收入";
+		}
+		
+		
 		var option = {
 			color: ['#447283'],
             title: {
-                text: year+'年月收入',
-                x:'center',
+                text: title,
+                  x: 'center',    
                 textStyle:{
                 	color: '#142C36',
 					fontFamily: 'MFYueYuan',
 					fontSize: 24,
 					align: 'center'
-					/*lineHeight: ...,*/
-					
+			
                 }
                 
             },
@@ -161,7 +174,7 @@
 				containLabel: false
 			},
             tooltip: {
-                show: false
+            	show: false
             },
             
             xAxis: {

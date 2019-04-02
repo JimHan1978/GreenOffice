@@ -1,1 +1,46 @@
-{"code":200,"message":"查询成功。","result":{"joinDate":"2017-06-07","detail":{"bjkk":"10","bysrhj":"5800","cdkk":"10","date":"","dksbgjj":"1000","dnbt":"300","email":"sunhao@hyetec.com","fId":32,"gdbtksr":"200","gjjlmksr":"1388","gs":"500","id":43,"jjsr":"100","jxjc":"10000","name":"孙浩","qtjlsr":"10","sjkk":"10","sqgzhj":"6700","txbt":"100","userno":"H065","xjflsr":"100","zhgzksr":"5600"},"historyData":[{"bysrhj":"5800","ym":"2019-01"},{"bysrhj":"5800","ym":"2019-02"}]},"success":true}
+ {
+        "beatXjflsrPercent": "67",
+        "beatQtjlsrPercent": "34",
+        "detail": {
+            "date": "",
+            "fId": 62,
+            "txbt": "150",
+            "bysrhj": "17512.52",
+            "sjkk": "66.82",
+            "bjkk": "10",
+            "userno": "H033",
+            "gs": "58.74",
+            "qtjlsr": "0",
+            "jjsr": "6899.34",
+            "cdkk": "10",
+            "dnbt": "200",
+            "sqgzhj": "8370",
+            "gjjlmksr": "2823.84",
+            "jxjc": "-520",
+            "name": "余伟锋",
+            "dksbgjj": "1411.92",
+            "gdbtksr": "350",
+            "id": 339,
+            "xjflsr": "540",
+            "zhgzksr": "6899.34",
+            "email": "yuweifeng@hyetec.com"
+        },
+        "historyData": [
+            {
+                "bysrhj": "17512.52",
+                "ym": "2019-01"
+            },
+            {
+                "bysrhj": "17512.52",
+                "ym": "2019-02"
+            },
+            {
+                "bysrhj": "17512.52",
+                "ym": "2019-03"
+            },
+            {
+                "bysrhj": "17512.52",
+                "ym": "2019-04"
+            }            
+        ]
+    }
