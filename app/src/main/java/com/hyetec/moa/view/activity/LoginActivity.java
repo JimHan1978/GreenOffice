@@ -84,5 +84,6 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
 
     @OnClick(R.id.tv_reset_password)
     public void onViewClicked() {
+        startActivity(new Intent(this,ChangePasswordActivity.class));
     }
 }

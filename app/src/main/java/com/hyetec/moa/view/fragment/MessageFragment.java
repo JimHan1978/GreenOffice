@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.moa.R;
@@ -33,7 +34,8 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
 
     @BindView(R.id.lv_item)
     MyListView lvItem;
-
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
     Unbinder unbinder;
     private CommonAdapter mAdapter;
     private List<MessageEntity> messageList;
@@ -65,6 +67,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
 
     @Override
     public void initData(Bundle savedInstanceState) {
+        mTitleView.setText("消息");
         messageList=new ArrayList<>();
         for(int i=0;i<messageStr.length;i++){
             MessageEntity messageEntity=new MessageEntity();
@@ -76,6 +79,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
             @Override
             public void convert(ViewHolder helper, MessageEntity item, int pos) {
                 helper.setText(R.id.tv_message_name, item.getMseeageName());
+                helper.setImageResource(R.id.iv_message, R.mipmap.ic_logo);
             }
         });
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {

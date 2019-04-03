@@ -44,8 +44,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     private List<String> mFragmentTitles;
     private int iconImgs [] = {
             R.drawable.tab_message_selector,
-            R.drawable.tab_contacts_selector,
             R.drawable.tab_app_selector,
+            R.drawable.tab_contacts_selector,
             R.drawable.tab_setting_selector
     };
 
@@ -85,34 +85,36 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
         MessageFragment messageFragment = (MessageFragment) getSupportFragmentManager()
                 .findFragmentByTag("MessageFragment");
-        ContactsFragment contactsFragment = (ContactsFragment) getSupportFragmentManager()
-                .findFragmentByTag("ContactsFragment");
+
         ApplicationFragment applicationFragment = (ApplicationFragment) getSupportFragmentManager()
                 .findFragmentByTag("ApplicationFragment");
+        ContactsFragment contactsFragment = (ContactsFragment) getSupportFragmentManager()
+                .findFragmentByTag("ContactsFragment");
 
         PersonalFragment personalFragment = (PersonalFragment) getSupportFragmentManager()
                 .findFragmentByTag("PersonalFragment");
         if (messageFragment == null) {
             messageFragment = MessageFragment.newInstance();
         }
-        if (contactsFragment == null) {
-            contactsFragment = ContactsFragment.newInstance();
-        }
 
         if (applicationFragment == null) {
             applicationFragment = ApplicationFragment.newInstance();
         }
+        if (contactsFragment == null) {
+            contactsFragment = ContactsFragment.newInstance();
+        }
+
         if (personalFragment == null) {
             personalFragment = PersonalFragment.newInstance();
         }
 
         mFragments.add(messageFragment);
-        mFragments.add(contactsFragment);
         mFragments.add(applicationFragment);
+        mFragments.add(contactsFragment);
         mFragments.add(personalFragment);
         mFragmentTitles.add("消息");
-        mFragmentTitles.add("通讯录");
         mFragmentTitles.add("应用");
+        mFragmentTitles.add("通讯录");
         mFragmentTitles.add("我的");
 
         //Setup ViewPager

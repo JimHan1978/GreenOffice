@@ -2,6 +2,8 @@ package com.hyetec.moa.di.module;
 
 import android.arch.lifecycle.ViewModel;
 
+import com.hyetec.moa.model.ChangPasswordModel;
+import com.hyetec.moa.viewmodel.ChangPasswordViewModel;
 import com.hyetec.moa.viewmodel.DetailsViewModel;
 import com.hyetec.moa.viewmodel.GroupViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
@@ -52,4 +54,10 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(DetailsViewModel.class)
     abstract ViewModel bindDetailsViewModel(WebViewModel webViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(ChangPasswordViewModel.class)
+    abstract ViewModel bindChangePasswordViewModel(ChangPasswordViewModel changPasswordViewModel);
+
 }

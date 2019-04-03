@@ -5,14 +5,19 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.hyetec.moa.R;
 import com.hyetec.moa.viewmodel.ApplicationViewModel;
 import com.hyetec.hmdp.core.base.BaseFragment;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
+
+    @BindView(R.id.tv_title)
+    TextView mTitleView;
     public static ApplicationFragment newInstance() {
         ApplicationFragment applicationFragment = new ApplicationFragment();
         return applicationFragment;
@@ -40,7 +45,7 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        mTitleView.setText("应用");
     }
 
     /**

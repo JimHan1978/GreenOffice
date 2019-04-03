@@ -3,13 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:orientation="vertical"
     tools:context=".view.fragment.MessageFragment">
 
     <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/base_top_bar" />
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
         android:textSize="@dimen/sp_16"
         android:text="@string/application"/>

@@ -89,5 +89,11 @@
         <item name="android:paddingLeft">@dimen/dp_24</item>
         <item name="android:layout_marginTop">@dimen/dp_1</item>
     </style>
-
+    <style name="tv_line_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1.0dip</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginLeft">80.0dip</item>
+        <item name="android:background">#F2F2F2</item>
+    </style>
 </resources>
