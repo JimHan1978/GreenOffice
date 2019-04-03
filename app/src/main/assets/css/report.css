@@ -36,7 +36,7 @@
 }
 
 .block-slide {
-	background-image: url(bg-block-slide.png);
+	background-image: url(../img/bg-block-slide.png);
 	background-size: 100% 100%;
 	background-position: center;
 	position: absolute;
