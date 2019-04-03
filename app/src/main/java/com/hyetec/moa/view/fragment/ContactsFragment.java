@@ -17,16 +17,20 @@ import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.hmdp.view.EditText_Clear;
 import com.hyetec.hmdp.view.StickyLayout;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
+import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.SearchListAdapter;
 import com.hyetec.moa.view.adapter.TestBaseAdapter;
+import com.hyetec.moa.view.adapter.ViewHolder;
 import com.hyetec.moa.view.ui.SideBar;
 import com.hyetec.moa.viewmodel.ContactsViewModel;
 
@@ -68,7 +72,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
     ConstraintLayout stickyContent;
     @BindView(R.id.tv_dialog)
     TextView tvDialog;
-
+    private int size = 0;
     private TestBaseAdapter adapter;
     private SearchListAdapter searchAdapter;
     Unbinder unbinder;
@@ -141,16 +145,43 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
                 startActivity(intent);
             }
         });
-        mViewModel.getUserList();
-        mViewModel.getPositionList();
-        mViewModel.getGroupList();
-
-        mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
-            if (contactUserList != null) {
-                mContactList = contactUserList;
-                adapter = new TestBaseAdapter(getActivity(), mContactList);
-                mContactsListView.setAdapter(adapter);
+        mViewModel.getUserList().observe(this, userLists -> {
+            size++;
+            if (size == 3) {
+                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                    if (contactUserList != null) {
+                        mContactList = contactUserList;
+                        adapter = new TestBaseAdapter(getActivity(), mContactList);
+                        mContactsListView.setAdapter(adapter);
+                    }
+                });
             }
+        });
+        mViewModel.getPositionList().observe(this, positionLists -> {
+            size++;
+            if (size == 3) {
+                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                    if (contactUserList != null) {
+                        mContactList = contactUserList;
+                        adapter = new TestBaseAdapter(getActivity(), mContactList);
+                        mContactsListView.setAdapter(adapter);
+                    }
+                });
+            }
+
+        });
+        mViewModel.getGroupList().observe(this, groupLists -> {
+            size++;
+            if (size == 3) {
+                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                    if (contactUserList != null) {
+                        mContactList = contactUserList;
+                        adapter = new TestBaseAdapter(getActivity(), mContactList);
+                        mContactsListView.setAdapter(adapter);
+                    }
+                });
+            }
+
         });
 
         mSearchView.addTextChangedListener(new TextWatcher() {
@@ -248,6 +279,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
                 return true;
             }
         }
-        return true;
+        return false;
     }
 }

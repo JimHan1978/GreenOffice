@@ -45,7 +45,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
     @Inject
     public ContactsViewModel(Application application, ContactsModel model) {
         super(application, model);
-        getContactUser();
+        //getContactUser();
     }
 
     /**a
@@ -176,6 +176,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
         return mContactListData;
     }
     public MutableLiveData<List<UserEntity>> getContactList() {
+        getContactUser();
         if (mContactListData == null) {
             mContactListData =  new MediatorLiveData<List <UserEntity>>();
         }

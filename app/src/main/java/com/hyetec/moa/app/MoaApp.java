@@ -19,6 +19,7 @@ public class MoaApp extends BaseApplication {
 
     public static final String IS_LOGIN = "isLogin";
     public static final String USER_DATA = "userData";
+    public static final String USER_NAME = "userName";
     private AppComponent mAppComponent;
     public static Context mContext;
 

@@ -57,7 +57,7 @@ public class LoginModel extends BaseModel {
                 .subscribeOn(Schedulers.io())
                 .doOnNext(userResponse -> {
                     if (userResponse.getResult()==null) {
-                        throw new RuntimeException("userResponse no result");
+                        //throw new RuntimeException("userResponse no result");
                     }
                     //保存用户信息到本地
                     //saveLocation(weatherNowResponse.getResults().get(0).getLocation());

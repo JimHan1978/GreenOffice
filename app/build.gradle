@@ -99,9 +99,9 @@ dependencies {
     }
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.1'
-    debugImplementation rootProject.ext.dependencies["canary-debug"]
-    releaseImplementation rootProject.ext.dependencies["canary-release"]
-    testImplementation rootProject.ext.dependencies["canary-release"]
+//    debugImplementation rootProject.ext.dependencies["canary-debug"]
+//    releaseImplementation rootProject.ext.dependencies["canary-release"]
+//    testImplementation rootProject.ext.dependencies["canary-release"]
     implementation project(':library')
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'

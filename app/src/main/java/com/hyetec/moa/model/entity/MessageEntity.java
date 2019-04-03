@@ -16,53 +16,68 @@ import java.io.Serializable;
 
 public class MessageEntity implements Serializable {
 
-	private String mseeageId;
-	private String mseeageName;
-	private String mseeageTime;
-	private String mseeageContent;
-	private String isNew;
 
+	/**
+	 * date : 2019-04-03
+	 * messageType : report
+	 * subTitle : 您2019年4月收入账单已生成，请查收>>>
+	 * seeCount : 0
+	 * yearAndMonth : 2019-04
+	 * title : 月度报告
+	 */
 
-	public String getMseeageId() {
-		return mseeageId;
+	private String date;
+	private String messageType;
+	private String subTitle;
+	private int seeCount;
+	private String yearAndMonth;
+	private String title;
+
+	public String getDate() {
+		return date;
 	}
 
-	public void setMseeageId(String mseeageId) {
-		this.mseeageId = mseeageId;
+	public void setDate(String date) {
+		this.date = date;
 	}
 
-	public String getMseeageName() {
-		return mseeageName;
+	public String getMessageType() {
+		return messageType;
 	}
 
-	public void setMseeageName(String mseeageName) {
-		this.mseeageName = mseeageName;
+	public void setMessageType(String messageType) {
+		this.messageType = messageType;
 	}
 
-	public String getMseeageTime() {
-		return mseeageTime;
+	public String getSubTitle() {
+		return subTitle;
 	}
 
-	public void setMseeageTime(String mseeageTime) {
-		this.mseeageTime = mseeageTime;
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
 	}
 
-	public String getMseeageContent() {
-		return mseeageContent;
+	public int getSeeCount() {
+		return seeCount;
 	}
 
-	public void setMseeageContent(String mseeageContent) {
-		this.mseeageContent = mseeageContent;
+	public void setSeeCount(int seeCount) {
+		this.seeCount = seeCount;
 	}
 
-	public String getIsNew() {
-		return isNew;
+	public String getYearAndMonth() {
+		return yearAndMonth;
 	}
 
-	public void setIsNew(String isNew) {
-		this.isNew = isNew;
+	public void setYearAndMonth(String yearAndMonth) {
+		this.yearAndMonth = yearAndMonth;
 	}
 
+	public String getTitle() {
+		return title;
+	}
 
-
+	public void setTitle(String title) {
+		this.title = title;
+	}
 }

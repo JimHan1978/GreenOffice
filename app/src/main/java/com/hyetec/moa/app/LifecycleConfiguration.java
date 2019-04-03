@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentManager;
 import com.hyetec.hmdp.lifecycle.ConfigLifecycle;
 import com.hyetec.hmdp.lifecycle.delegate.AppLifecycles;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
-import com.squareup.leakcanary.RefWatcher;
+//import com.squareup.leakcanary.RefWatcher;
 
 import java.util.List;
 
@@ -50,10 +50,10 @@ public class LifecycleConfiguration implements ConfigLifecycle {
             @Override
             public void onFragmentDestroyed(FragmentManager fm, Fragment f) {
                 //检测 Fragment 的内存泄露。
-                ((RefWatcher) (RepositoryUtils.INSTANCE.obtainRepositoryComponent(f.getContext()))
-                        .extras()
-                        .get(RefWatcher.class.getName()))
-                        .watch(f);
+//                ((RefWatcher) (RepositoryUtils.INSTANCE.obtainRepositoryComponent(f.getContext()))
+//                        .extras()
+//                        .get(RefWatcher.class.getName()))
+//                        .watch(f);
             }
         });
     }

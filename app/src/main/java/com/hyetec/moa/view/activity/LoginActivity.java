@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
@@ -58,7 +59,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        if(ACache.get(this).getAsString(MoaApp.USER_NAME)!=null){
+            mUserNameView.setText(ACache.get(this).getAsString(MoaApp.USER_NAME));
+        }
     }
 
     @OnClick(R.id.btn_login)
@@ -76,8 +79,11 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                 Timber.d("登录成功: %s", loginData.getResult().getUserName());
                 ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN,"true");
                 ACache.get(this.getApplicationContext()).put(MoaApp.USER_DATA,loginData.getResult());
+                ACache.get(this.getApplicationContext()).put(MoaApp.USER_NAME,userName);
                 startActivity(new Intent(this,MainActivity.class));
                 //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
+            }else {
+                Toast.makeText(this,loginData.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
     }

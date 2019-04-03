@@ -82,7 +82,12 @@ public class ViewHolder
         view.setText(text);
         return this;
     }
-
+    public ViewHolder setViewVisibility(int viewId,int i)
+    {
+       View view = getView(viewId);
+        view.setVisibility(i);
+        return this;
+    }
     /**
      * 为TextView设置字符串
      *

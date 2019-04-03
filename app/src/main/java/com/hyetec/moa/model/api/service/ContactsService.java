@@ -3,6 +3,7 @@ package com.hyetec.moa.model.api.service;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
+import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
 import com.hyetec.moa.model.entity.UserEntity;
@@ -40,6 +41,9 @@ public interface ContactsService {
     @POST("uap-urm/mobileLogin.json")
     Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
 
+    @Headers("Content-Type: application/json")
+    @POST("uap-urm/user/rest/selectFinancePInfoContent.json")
+    Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
 
     @Headers("Content-Type: application/json")
     @GET("uap-urm/mobileLogout.json")

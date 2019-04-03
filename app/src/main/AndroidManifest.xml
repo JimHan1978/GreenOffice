@@ -48,9 +48,12 @@
         </activity>
         <activity
             android:name=".view.activity.MainActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
         <activity
             android:name=".view.activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" /> <!-- arms配置 -->
 
         <activity android:name=".view.activity.ModifyPasswordActivity"

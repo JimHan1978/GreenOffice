@@ -1,6 +1,7 @@
 package com.hyetec.moa.view.fragment;
 
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.ViewHolder;
 import com.hyetec.moa.view.ui.MyListView;
+import com.hyetec.moa.viewmodel.ContactsViewModel;
 import com.hyetec.moa.viewmodel.MessageViewModel;
 
 import java.util.ArrayList;
@@ -25,6 +31,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,6 +67,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_message, container, false);
+        mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MessageViewModel.class);
         ButterKnife.bind(this, view);
         return view;
     }
@@ -68,25 +76,38 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         mTitleView.setText("消息");
-        messageList=new ArrayList<>();
-        for(int i=0;i<messageStr.length;i++){
-            MessageEntity messageEntity=new MessageEntity();
-            messageEntity.setMseeageName(messageStr[i]);
-            messageList.add(messageEntity);
-        }
-        lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
-                getContext(), messageList, R.layout.item_message) {
-            @Override
-            public void convert(ViewHolder helper, MessageEntity item, int pos) {
-                helper.setText(R.id.tv_message_name, item.getMseeageName());
-                helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
+
+
+        mViewModel.getMessageList().observe(this, messageLists -> {
+            if(messageLists!=null && messageLists.isSuccess()){
+                messageList=  messageLists.getResult();
+                lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
+                        getActivity().getApplicationContext(), messageList, R.layout.item_message) {
+                    @Override
+                    public void convert(ViewHolder helper, MessageEntity item, int pos) {
+                        helper.setText(R.id.tv_message_name, item.getTitle());
+                        helper.setText(R.id.tv_message_content, item.getSubTitle());
+                        helper.setText(R.id.tv_message_time, item.getDate());
+                        helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
+
+                        if(messageList.get(pos).getSeeCount()>0){
+                            helper.setViewVisibility(R.id.iv_message_new,View.GONE);
+                        }else {
+                            helper.setViewVisibility(R.id.iv_message_new,View.VISIBLE);
+                        }
+                    }
+                });
+                //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
+            }else {
+                Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
             }
         });
+
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-                    startActivity(new Intent(getActivity(),WebViewActivity.class));
+                if(messageList.get(i).getMessageType().equals("report")){
+                    startActivity(new Intent(getActivity(),WebViewActivity.class).putExtra("data",messageList.get(i).getYearAndMonth()));
                 }
             }
         });
@@ -97,6 +118,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     public void setData(Object data) {
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
