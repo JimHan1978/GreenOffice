@@ -13,6 +13,8 @@ public interface Api {
     String IMG_URL = "http://hyserver.hyetec.com:8180/urm/";
 
     String APP_DOMAIN = "http://192.168.176.170:8882/";
+
+
  //   String IMG_URL = "http://192.168.176.170:8882/urm/";
 
     //String APP_DOMAIN = "http://192.168.10.10:8180/";

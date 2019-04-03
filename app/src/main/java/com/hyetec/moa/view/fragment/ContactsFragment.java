@@ -248,6 +248,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
                 return true;
             }
         }
-        return false;
+        return true;
     }
 }

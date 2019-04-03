@@ -16,6 +16,7 @@
 
 package com.hyetec.moa.di.module;
 
+import com.hyetec.moa.view.activity.ChangePasswordActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
@@ -53,4 +54,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
     abstract DetailsActivity contributeDetailsViewActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
+    abstract ChangePasswordActivity contributeChangepasswordViewActivity();
 }

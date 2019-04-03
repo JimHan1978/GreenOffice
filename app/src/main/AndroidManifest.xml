@@ -67,7 +67,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".view.activity.DetailsActivity"
             android:windowSoftInputMode="adjustPan"/>
-
+        <activity android:name=".view.activity.ChangePasswordActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
 
         <meta-data
