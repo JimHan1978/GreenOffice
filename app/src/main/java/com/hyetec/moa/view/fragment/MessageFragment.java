@@ -79,7 +79,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
             @Override
             public void convert(ViewHolder helper, MessageEntity item, int pos) {
                 helper.setText(R.id.tv_message_name, item.getMseeageName());
-                helper.setImageResource(R.id.iv_message, R.mipmap.ic_logo);
+                helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
             }
         });
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {

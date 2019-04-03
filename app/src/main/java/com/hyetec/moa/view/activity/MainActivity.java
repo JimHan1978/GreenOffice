@@ -2,6 +2,7 @@ package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.utils.DensityUtil;
 import com.hyetec.moa.utils.TagAliasOperatorHelper;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;
@@ -82,36 +84,33 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         if (mFragmentTitles == null) {
             mFragmentTitles = new ArrayList<>();
         }
-
         MessageFragment messageFragment = (MessageFragment) getSupportFragmentManager()
                 .findFragmentByTag("MessageFragment");
-
         ApplicationFragment applicationFragment = (ApplicationFragment) getSupportFragmentManager()
                 .findFragmentByTag("ApplicationFragment");
         ContactsFragment contactsFragment = (ContactsFragment) getSupportFragmentManager()
                 .findFragmentByTag("ContactsFragment");
-
         PersonalFragment personalFragment = (PersonalFragment) getSupportFragmentManager()
                 .findFragmentByTag("PersonalFragment");
         if (messageFragment == null) {
             messageFragment = MessageFragment.newInstance();
         }
-
         if (applicationFragment == null) {
             applicationFragment = ApplicationFragment.newInstance();
         }
         if (contactsFragment == null) {
             contactsFragment = ContactsFragment.newInstance();
         }
-
         if (personalFragment == null) {
             personalFragment = PersonalFragment.newInstance();
         }
+
 
         mFragments.add(messageFragment);
         mFragments.add(applicationFragment);
         mFragments.add(contactsFragment);
         mFragments.add(personalFragment);
+
         mFragmentTitles.add("消息");
         mFragmentTitles.add("应用");
         mFragmentTitles.add("通讯录");
@@ -149,9 +148,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     }
 
     private void setPushAlias(String userId){
-
         TagAliasOperatorHelper helper = TagAliasOperatorHelper.getInstance();
-
         TagAliasOperatorHelper.TagAliasBean tagAliasBean =  helper.createTagAliasBean(TagAliasOperatorHelper.ACTION_SET,true,userId,null);
         TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(),tagAliasBean);
     }
