@@ -4,6 +4,7 @@
         var startMonth = startDate.getMonth();
         var endMonth = endDate.getMonth();
         var intervalMonth = (endDate.getFullYear()*12+endMonth)- (startDate.getFullYear()*12+startMonth) ;
+        return intervalMonth;
 	}
 
 	/**

@@ -67,7 +67,7 @@
 	position: absolute;
 	left: 10%;
 	right: 10%;
-	bottom: 44%;
+	bottom: 34%;
 	/* line-height: 2em; */
 	/* width: 68%; */
 	text-indent: 1.2em;
@@ -213,7 +213,7 @@
 }
 
 .page-reward {
-	background-image: url(../img/bg-reward.jpg);
+	background-image: url(../img/bg-qualified.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
