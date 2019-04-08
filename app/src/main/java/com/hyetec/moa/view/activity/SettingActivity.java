@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
@@ -17,7 +17,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.jpush.android.api.JPushInterface;
-import timber.log.Timber;
 
 /**
  * @author : created by jimhan
@@ -26,6 +25,12 @@ import timber.log.Timber;
  * 描述：设置页面
  **/
 public class SettingActivity extends BaseActivity<SettingViewModel> {
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.layout_about)
+    ConstraintLayout layoutAbout;
+    @BindView(R.id.tv_logout)
+    TextView tvLogout;
    /* @BindView(R.id.layout_account)
     View mLayoutAccount;*/
 
@@ -69,13 +74,25 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
     public void onLogoutClicked() {
         //ACache.get()
         mViewModel.logout().observe(this, logoutData -> {
-            if(logoutData!=null && logoutData.isSuccess()){
-                ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN,"false");
-                startActivity(new Intent(this,LoginActivity.class));
+            if (logoutData != null && logoutData.isSuccess()) {
+                ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN, "false");
+                startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 JPushInterface.stopPush(this);
             }
         });
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.iv_left)
+    public void onViewClicked() {
+        finish();
     }
 }

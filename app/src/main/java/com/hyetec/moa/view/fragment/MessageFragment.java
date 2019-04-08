@@ -17,6 +17,7 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.view.activity.LoginActivity;
 import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
@@ -46,7 +47,6 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     Unbinder unbinder;
     private CommonAdapter mAdapter;
     private List<MessageEntity> messageList;
-    private String[] messageStr={"待办事项","月度报告","报表","待办事项","徒步活动","月度会议"};
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -76,38 +76,11 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         mTitleView.setText("消息");
-
-
-        mViewModel.getMessageList().observe(this, messageLists -> {
-            if(messageLists!=null && messageLists.isSuccess()){
-                messageList=  messageLists.getResult();
-                lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
-                        getActivity().getApplicationContext(), messageList, R.layout.item_message) {
-                    @Override
-                    public void convert(ViewHolder helper, MessageEntity item, int pos) {
-                        helper.setText(R.id.tv_message_name, item.getTitle());
-                        helper.setText(R.id.tv_message_content, item.getSubTitle());
-                        helper.setText(R.id.tv_message_time, item.getDate());
-                        helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
-
-                        if(messageList.get(pos).getSeeCount()>0){
-                            helper.setViewVisibility(R.id.iv_message_new,View.GONE);
-                        }else {
-                            helper.setViewVisibility(R.id.iv_message_new,View.VISIBLE);
-                        }
-                    }
-                });
-                //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
-            }else {
-                Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        });
-
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if(messageList.get(i).getMessageType().equals("report")){
-                    startActivity(new Intent(getActivity(),WebViewActivity.class).putExtra("data",messageList.get(i).getYearAndMonth()));
+                    startActivity(new Intent(getActivity(),WebViewActivity.class).putExtra("date",messageList.get(i).getYearAndMonth()));
                 }
             }
         });
@@ -119,12 +92,54 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
 
     }
 
+    public void getData() {
+        mViewModel.getMessageList().observe(this, messageLists -> {
+            if(messageLists!=null && messageLists.isSuccess()){
+                if( messageLists.getResult()!=null) {
+                    messageList = messageLists.getResult();
+                    lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
+                            getActivity().getApplicationContext(), messageList, R.layout.item_message) {
+                        @Override
+                        public void convert(ViewHolder helper, MessageEntity item, int pos) {
+                            helper.setText(R.id.tv_message_name, item.getTitle());
+                            helper.setText(R.id.tv_message_content, item.getSubTitle());
+                            helper.setText(R.id.tv_message_time, item.getDate());
+                            helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
+
+                            if (messageList.get(pos).getSeeCount() > 0) {
+                                helper.setViewVisibility(R.id.iv_message_new, View.GONE);
+                            } else {
+                                helper.setViewVisibility(R.id.iv_message_new, View.VISIBLE);
+                            }
+                        }
+                    });
+                }
+                //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
+            }else {
+
+                if(messageLists.getMessage().equals("session过期")){
+                    Toast.makeText(getActivity(),"登录失效，请重新登录!",Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getActivity(),LoginActivity.class));
+                    getActivity().finish();
+                }else {
+                    Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder = ButterKnife.bind(this, rootView);
         return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getData();
     }
 
     @Override

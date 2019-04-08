@@ -26,33 +26,33 @@ import retrofit2.http.QueryMap;
  **/
 public interface ContactsService {
 
-    @POST("uap-urm/user/getInfo.json")
+    @POST("user/getInfo.json")
     Flowable<BaseResponse<UserEntity>> getUserInfo(@QueryMap Map<String, String> request);
 
-    @POST("uap-urm/user/mlist.json")
+    @POST("user/mlist.json")
     Flowable<BaseResponse<List<UserEntity>>> getUserList(@QueryMap Map<String, String> request);
 
-    @POST("uap-urm/org/mlist.json")
+    @POST("org/mlist.json")
     Flowable<BaseResponse<List<GroupEntity>>> getGroupList(@QueryMap Map<String, String> request);
 
-    @POST("uap-urm/position/mlist.json")
+    @POST("position/mlist.json")
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 
-    @POST("uap-urm/mobileLogin.json")
+    @POST("mobileLogin.json")
     Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
-    @POST("uap-urm/user/rest/selectFinancePInfoContent.json")
+    @POST("user/rest/selectFinancePInfoContent.json")
     Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
 
     @Headers("Content-Type: application/json")
-    @GET("uap-urm/mobileLogout.json")
+    @GET("mobileLogout.json")
     Flowable<BaseResponse<ResultEntity>> logout();
 
 //    @POST("financePInfo/rest/selectFinancePInfo.json")
 //    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
-    @POST("uap-urm/user/rest/getFinancePInfo.json")
+    @POST("user/rest/getFinancePInfo.json")
     Flowable<BaseResponse<BillEntity>> monthBill(@Body Map<String, String> request);
 }

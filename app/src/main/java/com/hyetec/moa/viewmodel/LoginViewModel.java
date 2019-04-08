@@ -49,6 +49,8 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
         request.put(Api.API_USER_PASSWORD_KEY, Base64.encodeToString(password.getBytes(),Base64.NO_WRAP));
         if (mLoginResponse != null) {
             mLoginData.removeSource(mLoginResponse);
+        }else {
+
         }
         mLoginResponse = mModel.login(request);
         mLoginData.addSource(mLoginResponse, observer -> {
@@ -63,7 +65,6 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
                     Timber.d("Loadding.....");
                 } else if (loginResource.status == Status.SUCCESS) {
                     BaseResponse<UserEntity> result = loginResource.data;
-
                     mLoginData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
                 } else if (loginResource.status == Status.ERROR) {
@@ -73,5 +74,10 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
             });
         });
         return mLoginData;
+    }
+    @Override
+    public void onCleared() {
+        super.onCleared();
+
     }
 }

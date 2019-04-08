@@ -71,9 +71,11 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         String password = mPasswordView.getText().toString();
         if(TextUtils.isEmpty(userName)||TextUtils.isEmpty(password)){
             ToastUtil.show("用户名或密码不能为空！");
+            return;
         }
 
         mViewModel.login(userName,password).observe(this, loginData -> {
+
             if(loginData!=null && loginData.isSuccess()){
                 //登录成功，跳转到主界面
                 Timber.d("登录成功: %s", loginData.getResult().getUserName());
@@ -81,15 +83,22 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                 ACache.get(this.getApplicationContext()).put(MoaApp.USER_DATA,loginData.getResult());
                 ACache.get(this.getApplicationContext()).put(MoaApp.USER_NAME,userName);
                 startActivity(new Intent(this,MainActivity.class));
+                finish();
                 //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
             }else {
-                Toast.makeText(this,loginData.getMessage(),Toast.LENGTH_LONG).show();
+                Toast.makeText(this,loginData.getMessage(),Toast.LENGTH_SHORT).show();
             }
+           // mViewModel.login(userName,password).removeObservers(this);
         });
     }
 
     @OnClick(R.id.tv_reset_password)
     public void onViewClicked() {
         //startActivity(new Intent(this,ChangePasswordActivity.class));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

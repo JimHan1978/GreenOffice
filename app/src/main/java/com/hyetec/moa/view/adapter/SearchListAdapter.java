@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ContactEntity;
@@ -103,7 +104,9 @@ public class SearchListAdapter extends BaseAdapter {
 			h.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			h.tv_head_name.setText("");
-			Glide.with(context).load(Api.IMG_URL+c.getPhoto()).into( h.iv_head);
+			RequestOptions requestOptions = new RequestOptions();
+			requestOptions.placeholder(R.drawable.ic_avatar_default);
+			Glide.with(context).load(Api.IMG_URL+c.getPhoto()).apply(requestOptions).into( h.iv_head);
 			//Utility.loadImage(context, h.iv_head, c.getPhoto(), -1);
 		}
 		h.tv_phone_num.setOnClickListener(new OnClickListener() {

@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersListView;
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.hmdp.view.EditText_Clear;
 import com.hyetec.hmdp.view.StickyLayout;
@@ -41,7 +42,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -136,6 +137,56 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
             }
         });
 
+        if (size == 3) {
+            mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                if (contactUserList != null) {
+                    mContactList = contactUserList;
+                    adapter = new TestBaseAdapter(getActivity(), mContactList);
+                    mContactsListView.setAdapter(adapter);
+                }
+            });
+        } else {
+
+            mViewModel.getUserList().observe(this, userLists -> {
+                size++;
+                if (size == 3) {
+                    mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                        if (contactUserList != null) {
+                            mContactList = contactUserList;
+                            adapter = new TestBaseAdapter(getActivity(), mContactList);
+                            mContactsListView.setAdapter(adapter);
+                        }
+                    });
+                }
+            });
+            mViewModel.getPositionList().observe(this, positionLists -> {
+                size++;
+                if (size == 3) {
+                    mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                        if (contactUserList != null) {
+                            mContactList = contactUserList;
+                            adapter = new TestBaseAdapter(getActivity(), mContactList);
+                            mContactsListView.setAdapter(adapter);
+                        }
+                    });
+                }
+
+            });
+            mViewModel.getGroupList().observe(this, groupLists -> {
+                size++;
+                if (size == 3) {
+                    mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
+                        if (contactUserList != null) {
+                            mContactList = contactUserList;
+                            adapter = new TestBaseAdapter(getActivity(), mContactList);
+                            mContactsListView.setAdapter(adapter);
+                        }
+                    });
+                }
+
+            });
+        }
+
         mContactsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
@@ -145,45 +196,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
                 startActivity(intent);
             }
         });
-        mViewModel.getUserList().observe(this, userLists -> {
-            size++;
-            if (size == 3) {
-                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
-                    if (contactUserList != null) {
-                        mContactList = contactUserList;
-                        adapter = new TestBaseAdapter(getActivity(), mContactList);
-                        mContactsListView.setAdapter(adapter);
-                    }
-                });
-            }
-        });
-        mViewModel.getPositionList().observe(this, positionLists -> {
-            size++;
-            if (size == 3) {
-                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
-                    if (contactUserList != null) {
-                        mContactList = contactUserList;
-                        adapter = new TestBaseAdapter(getActivity(), mContactList);
-                        mContactsListView.setAdapter(adapter);
-                    }
-                });
-            }
-
-        });
-        mViewModel.getGroupList().observe(this, groupLists -> {
-            size++;
-            if (size == 3) {
-                mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {
-                    if (contactUserList != null) {
-                        mContactList = contactUserList;
-                        adapter = new TestBaseAdapter(getActivity(), mContactList);
-                        mContactsListView.setAdapter(adapter);
-                    }
-                });
-            }
-
-        });
-
         mSearchView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -236,17 +248,6 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
         lvSearch.setAdapter(searchAdapter);
     }
 
-    /**
-     * Activity 与 Fragment 通信接口
-     * 此方法是让外部调用使 Fragment 做一些操作的,比如说外部的 Fragment 想让 Fragment 对象执行一些方法,
-     * 建议在有多个需要让外界调用的方法时,统一传 {@link Message},通过what字段,来区分不同的方法,
-     * 在此方法中就可以 switch 做不同的操作,这样就可以用统一的入口方法做不同的事
-     * <p>
-     * 新姿势：可以通过 Activity 的 ViewModel 共享数据给包含的 Fragment，配合 LiveData 好用到爆。
-     *
-     * @param data Object
-     * @see <a href="https://developer.android.com/topic/libraries/architecture/viewmodel.html#sharing_data_between_fragments">Sharing Data Between Fragments</a>
-     */
     @Override
     public void setData(Object data) {
 

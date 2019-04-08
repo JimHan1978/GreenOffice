@@ -1,8 +1,6 @@
 package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,11 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
-import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
-import com.hyetec.moa.app.MoaApp;
-import com.hyetec.moa.utils.DensityUtil;
 import com.hyetec.moa.utils.TagAliasOperatorHelper;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;

@@ -1,5 +1,6 @@
 package com.hyetec.moa.app;
 
+import com.google.gson.JsonObject;
 import com.hyetec.hmdp.repository.http.GlobalHttpHandler;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
         retry the request
         response.body().close(); */
         //String Type=response.headers("Content-Type").toString();
+
         return response;
     }
 

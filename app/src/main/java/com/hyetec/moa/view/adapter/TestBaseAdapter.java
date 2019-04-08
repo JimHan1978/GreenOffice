@@ -16,12 +16,13 @@ import android.widget.SectionIndexer;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.emilsjolander.components.stickylistheaders.StickyListHeadersAdapter;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
-import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 
 public class TestBaseAdapter extends BaseAdapter implements
 		StickyListHeadersAdapter, SectionIndexer {
@@ -97,7 +98,9 @@ public class TestBaseAdapter extends BaseAdapter implements
 			c.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			c.tv_head_name.setText("");
-			Glide.with(context).load(Api.IMG_URL+ce.getPhoto()).into(c.iv_head);
+			RequestOptions requestOptions = new RequestOptions();
+			requestOptions.placeholder(R.drawable.ic_avatar_default);
+			Glide.with(context).load(Api.IMG_URL+ce.getPhoto()).apply(requestOptions).into(c.iv_head);
 		}
 
 			c.catalog.setVisibility(View.GONE);

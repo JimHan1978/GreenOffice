@@ -52,7 +52,7 @@ public class MessageModel extends BaseModel {
                 .subscribeOn(Schedulers.io())
                 .doOnNext(messageResponse -> {
                     if (messageResponse.getResult()==null) {
-                        //throw new RuntimeException("userResponse no result");
+
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -67,6 +67,7 @@ public class MessageModel extends BaseModel {
                     public void onError(Throwable t) {
                         super.onError(t);
                         mMessageResponse.setValue(Resource.error(t.getMessage(), null));
+
                     }
 
                     @Override

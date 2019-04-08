@@ -89,7 +89,7 @@ public class BillEntity implements Serializable {
          */
 
         private String date;
-        private int fId;
+        private String fId;
         private String txbt;
         private String bysrhj;
         private String sjkk;
@@ -106,7 +106,7 @@ public class BillEntity implements Serializable {
         private String name;
         private String dksbgjj;
         private String gdbtksr;
-        private int id;
+        private String id;
         private String xjflsr;
         private String zhgzksr;
         private String email;
@@ -119,11 +119,11 @@ public class BillEntity implements Serializable {
             this.date = date;
         }
 
-        public int getFId() {
+        public String getFId() {
             return fId;
         }
 
-        public void setFId(int fId) {
+        public void setFId(String fId) {
             this.fId = fId;
         }
 
@@ -255,11 +255,11 @@ public class BillEntity implements Serializable {
             this.gdbtksr = gdbtksr;
         }
 
-        public int getId() {
+        public String getId() {
             return id;
         }
 
-        public void setId(int id) {
+        public void setId(String id) {
             this.id = id;
         }
 

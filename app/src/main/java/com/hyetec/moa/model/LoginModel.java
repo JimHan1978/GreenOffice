@@ -66,23 +66,30 @@ public class LoginModel extends BaseModel {
                 .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<UserEntity>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
-                        mUserResource.setValue(Resource.loading(null));
+                        mUserResource.postValue(Resource.loading(null));
                         s.request(1);
+
                     }
 
                     @Override
                     public void onError(Throwable t) {
                         super.onError(t);
-                        mUserResource.setValue(Resource.error(t.getMessage(), null));
+                        mUserResource.postValue(Resource.error(t.getMessage(), null));
                     }
 
                     @Override
                     public void onNext(BaseResponse<UserEntity> response) {
-                        mUserResource.setValue(Resource.success(response));
+                        mUserResource.postValue(Resource.success(response));
+
 
                     }
                 });
         return mUserResource;
 
+    }
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUserResource = null;
     }
 }

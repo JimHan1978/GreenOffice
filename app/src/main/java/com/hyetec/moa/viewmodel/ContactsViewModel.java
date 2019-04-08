@@ -152,6 +152,9 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
     }
 
     public LiveData<List <UserEntity>> getContactUser() {
+        if (mContactListResponse != null) {
+            mContactListData.removeSource(mContactListResponse);
+        }
         mContactListResponse = mModel.getContactUser();
         mContactListData.addSource(mContactListResponse, observer -> {
             mContactListData.removeSource(mContactListResponse);

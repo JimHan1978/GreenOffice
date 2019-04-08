@@ -9,12 +9,6 @@ F * Copyright (c) 2010-2020 Founder Ltd. All Rights Reserved.
  */
 package com.hyetec.moa.view.activity;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-
-import java.util.Map;
-
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.ClipboardManager;
 import android.content.ContentProviderOperation;
@@ -35,7 +29,6 @@ import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.provider.ContactsContract.Data;
 import android.provider.ContactsContract.RawContacts;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -43,23 +36,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.db.DatabaseDAO;
-import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.AssetsDatabaseManager;
 import com.hyetec.moa.viewmodel.DetailsViewModel;
-import com.hyetec.moa.viewmodel.GroupViewModel;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class DetailsActivity extends BaseActivity<DetailsViewModel> implements OnClickListener {
-    @BindView(R.id.back)
-    ImageView back;
 
     @BindView(R.id.iv_head)
     ImageView iv_head;
@@ -95,6 +90,10 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
     TextView tv_txl;
     @BindView(R.id.tv_belong_place)
     TextView tv_belong_place;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.tv_title)
+    TextView tvTitle;
 
     private UserEntity userEntity;
     private String userName;
@@ -112,7 +111,8 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
 
     @Override
     public void initData(Bundle savedInstanceState) {
-
+        tvTitle.setText("查看详情");
+        ivLeft.setVisibility(View.VISIBLE);
         initDB();
         userEntity = (UserEntity) getIntent().getExtras().get("info");
         userName = userEntity.getUserName();
@@ -126,7 +126,9 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
             iv_head.setImageResource(R.drawable.bg_portrait);
         } else {
             tv_head_name.setText("");
-            Glide.with(this).load(Api.IMG_URL+userEntity.getPhoto()).into(iv_head);
+            RequestOptions requestOptions = new RequestOptions();
+            requestOptions.placeholder(R.drawable.ic_avatar_default);
+            Glide.with(this).load(Api.IMG_URL + userEntity.getPhoto()).apply(requestOptions).into(iv_head);
         }
         name.setText(userName);
         phone_num.setText(userEntity.getMobile());
@@ -138,7 +140,6 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
             qq.setText(userEntity.getQq());
         }
         getAttribution();
-        back.setOnClickListener(this);
         iv_cope.setOnClickListener(this);
         iv_msg.setOnClickListener(this);
         iv_tell.setOnClickListener(this);
@@ -159,9 +160,6 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
     public void onClick(View v) {
         // TODO Auto-generated method stub
         switch (v.getId()) {
-            case R.id.back:
-                finish();
-                break;
             case R.id.iv_tell:
                 Intent intent = new Intent();
                 // 系统默认的action，用来打开默认的电话界面
@@ -417,4 +415,15 @@ public class DetailsActivity extends BaseActivity<DetailsViewModel> implements O
     }
 
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @OnClick(R.id.iv_left)
+    public void onViewClicked() {
+        finish();
+    }
 }

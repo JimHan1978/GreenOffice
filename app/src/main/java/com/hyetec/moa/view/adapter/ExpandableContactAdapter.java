@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.allen.library.CircleImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ContactEntity;
@@ -124,8 +125,10 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 			c.iv_head.setImageResource(R.drawable.bg_portrait);
 		} else {
 			c.name.setText("");
-			c.iv_head.setImageResource(R.drawable.img_avatar_default);
-			Glide.with(context).load(Api.IMG_URL+photo).into( c.iv_head);
+			RequestOptions requestOptions = new RequestOptions();
+			requestOptions.placeholder(R.drawable.ic_avatar_default);
+//			c.iv_head.setImageResource(R.drawable.img_avatar_default);
+			Glide.with(context).load(Api.IMG_URL+photo).apply(requestOptions).into( c.iv_head);
 		}
 		//c.tv.setVisibility(View.VISIBLE);
 		c.tv_phone_num.setOnClickListener(new OnClickListener() {

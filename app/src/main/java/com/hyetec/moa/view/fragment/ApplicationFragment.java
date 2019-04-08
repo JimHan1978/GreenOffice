@@ -5,19 +5,30 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.moa.R;
 import com.hyetec.moa.viewmodel.ApplicationViewModel;
-import com.hyetec.hmdp.core.base.BaseFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
 
     @BindView(R.id.tv_title)
     TextView mTitleView;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_bg)
+    ImageView ivBg;
+    Unbinder unbinder;
+
     public static ApplicationFragment newInstance() {
         ApplicationFragment applicationFragment = new ApplicationFragment();
         return applicationFragment;
@@ -34,7 +45,7 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_application, container, false);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -62,5 +73,24 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     @Override
     public void setData(Object data) {
 
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.iv_bg)
+    public void onViewClicked() {
+        Toast.makeText(getContext(),"敬请期待!",Toast.LENGTH_SHORT).show();
     }
 }

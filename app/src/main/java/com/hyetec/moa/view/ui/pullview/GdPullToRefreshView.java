@@ -37,10 +37,10 @@ public class GdPullToRefreshView extends LinearLayout {
 	private Context mContext = null;
 	
 	/** 下拉刷新的开关. */
-    private boolean mEnablePullRefresh = true;
+    private boolean mEnablePullRefresh = false;
     
     /** 加载更多的开关. */
-    private boolean mEnableLoadMore = true;
+    private boolean mEnableLoadMore = false;
     
     /** x上一次保存的. */
 	private int mLastMotionX;

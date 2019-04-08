@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
@@ -88,8 +89,12 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
                 if (userEntity != null) {
                     mUserNameView.setText(userEntity.getUserName());
                     mDeptView.setText(userEntity.getOrgName());
+                    mEmpCodeView.setText(userEntity.getPositionName());
+                    RequestOptions requestOptions = new RequestOptions();
+                    requestOptions.placeholder(R.drawable.ic_avatar_default);
+                    Glide.with(this).load(Api.IMG_URL+ userEntity.getPhoto()).apply(requestOptions).into(mAvatarView);
 
-                    Glide.with(this).load(Api.IMG_URL+ userEntity.getPhoto()).into(mAvatarView);
+
                 }
             });
         }
