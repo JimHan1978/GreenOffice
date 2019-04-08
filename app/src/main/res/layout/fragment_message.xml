@@ -1,24 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mPullRefreshView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".view.fragment.MessageFragment">
-    <include layout="@layout/base_top_bar" />
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/bg_message" />
 
-    <com.hyetec.moa.view.ui.MyListView
-        android:id="@+id/lv_item"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:divider="@color/lightsteelblue"
-        android:dividerHeight="0.1dp"
-        android:scrollbars="none" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <include layout="@layout/base_top_bar" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/bg_message" />
+
+            <com.hyetec.moa.view.ui.MyListView
+                android:id="@+id/lv_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/lightsteelblue"
+                android:dividerHeight="0.1dp"
+                android:scrollbars="none" />
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

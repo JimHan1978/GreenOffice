@@ -6,7 +6,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp">
 
@@ -14,6 +14,7 @@
             android:id="@+id/iv_message"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/ic_message_bg" />
@@ -31,10 +32,11 @@
             android:id="@+id/tv_message_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="-5dp"
             android:layout_alignTop="@+id/iv_message"
             android:layout_toRightOf="@id/iv_message"
             android:text="张三"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_message_time"
@@ -44,20 +46,20 @@
             android:layout_alignTop="@+id/tv_message_name"
             android:layout_alignParentRight="true"
             android:text="09-03"
-
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <TextView
             android:id="@+id/tv_message_content"
-            android:layout_width="wrap_content"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:layout_below="@id/tv_message_name"
-            android:layout_marginTop="2dp"
             android:layout_marginRight="20dp"
             android:layout_toRightOf="@id/iv_message"
             android:text="内容"
             android:textColor="@color/gray"
-            android:textSize="15sp" />
+            android:textSize="13sp" />
 
         <ImageView
             android:layout_width="25dp"

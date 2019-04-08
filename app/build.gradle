@@ -90,7 +90,7 @@ dependencies {
         exclude module: 'jsr305'
     }
     implementation 'com.makeramen:roundedimageview:2.3.0'
-    implementation 'se.emilsjolander:stickylistheaders:2.7.0'
+    //implementation 'se.emilsjolander:stickylistheaders:2.7.0'
     //test
     implementation rootProject.ext.dependencies["timber"]
     testImplementation rootProject.ext.dependencies["junit"]
@@ -99,9 +99,9 @@ dependencies {
     }
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.1'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.1'
-//    debugImplementation rootProject.ext.dependencies["canary-debug"]
-//    releaseImplementation rootProject.ext.dependencies["canary-release"]
-//    testImplementation rootProject.ext.dependencies["canary-release"]
+    //    debugImplementation rootProject.ext.dependencies["canary-debug"]
+    //    releaseImplementation rootProject.ext.dependencies["canary-release"]
+    //    testImplementation rootProject.ext.dependencies["canary-release"]
     implementation project(':library')
     implementation files('libs/pinyin4j-2.5.0.jar')
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
@@ -111,4 +111,5 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:1.1.9'
     // 此处以JCore 1.1.9 版本为例。
     implementation files('libs/avalidations.jar')
+    implementation files('libs/sticky_list_header.jar')
 }

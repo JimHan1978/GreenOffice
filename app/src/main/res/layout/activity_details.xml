@@ -5,28 +5,7 @@
     android:background="#fff"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="#FAFAFA"
-        android:orientation="horizontal" >
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="50dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:padding="2dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_return" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="查看详情"
-            android:textSize="18sp" />
-    </RelativeLayout>
+    <include layout="@layout/base_top_bar" />
 
     <ScrollView
         android:layout_width="match_parent"

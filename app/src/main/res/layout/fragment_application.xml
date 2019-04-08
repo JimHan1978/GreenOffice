@@ -9,11 +9,17 @@
     <!-- TODO: Update blank fragment layout -->
     <include layout="@layout/base_top_bar" />
 
-    <TextView
+    <ImageView
+        android:id="@+id/iv_bg"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:textSize="@dimen/sp_16"
-        android:text="@string/application"/>
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_app_bg"
+        />
+    <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:gravity="center"-->
+        <!--android:textSize="@dimen/sp_16"-->
+        <!--android:text="@string/application"/>-->
 
 </LinearLayout>
