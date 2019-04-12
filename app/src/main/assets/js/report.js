@@ -75,7 +75,12 @@
         $("#income_bonus").text(Math.round(detail.jjsr));
         $("#income_other").text(Math.round(detail.qtjlsr));
         $("#rank_cash").text(detail.beatXjflsrPercent);
+
+        $("#rank_bonusIncomePercent").text(detail.beatBonusIncomePercent);
         $("#rank_other").text(detail.beatQtjlsrPercent);
+
+
+
 
 
 
