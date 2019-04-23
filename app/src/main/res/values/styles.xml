@@ -96,4 +96,17 @@
         <item name="android:layout_marginLeft">80.0dip</item>
         <item name="android:background">#F2F2F2</item>
     </style>
+
+    <style name="ActionBarRedioBtnStyle">
+        <item name="android:layout_width">0dip</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">16.0sp</item>
+        <item name="android:paddingTop">5dip</item>
+        <item name="android:drawablePadding">2dip</item>
+    </style>
 </resources>

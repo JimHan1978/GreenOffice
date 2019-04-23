@@ -47,9 +47,10 @@ public class LoginModel extends BaseModel {
      * @return
      */
     public MutableLiveData<Resource<BaseResponse<UserEntity>>> login(Map<String,String> request) {
-        if (mUserResource == null) {
+     //   if (mUserResource == null) {
             mUserResource = new MutableLiveData<>();
-        }
+     //   }
+
         mRepositoryManager
                 .obtainRetrofitService(ContactsService.class)
                 .login(request)
@@ -66,7 +67,7 @@ public class LoginModel extends BaseModel {
                 .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<UserEntity>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
-                        mUserResource.postValue(Resource.loading(null));
+                      //  mUserResource.postValue(Resource.loading(null));
                         s.request(1);
 
                     }
@@ -80,6 +81,12 @@ public class LoginModel extends BaseModel {
                     @Override
                     public void onNext(BaseResponse<UserEntity> response) {
                         mUserResource.postValue(Resource.success(response));
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
 
 
                     }

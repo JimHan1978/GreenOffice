@@ -25,26 +25,11 @@ public class BillEntity implements Serializable {
      * historyData : [{"bysrhj":"5800","ym":"2019-02"},{"bysrhj":"6000","ym":"2019-01"},{"bysrhj":"5800","ym":"2019-03"}]
      */
 
-    private String beatXjflsrPercent;
-    private String beatQtjlsrPercent;
+
     private DetailBean detail;
     private List<HistoryDataBean> historyData;
 
-    public String getBeatXjflsrPercent() {
-        return beatXjflsrPercent;
-    }
 
-    public void setBeatXjflsrPercent(String beatXjflsrPercent) {
-        this.beatXjflsrPercent = beatXjflsrPercent;
-    }
-
-    public String getBeatQtjlsrPercent() {
-        return beatQtjlsrPercent;
-    }
-
-    public void setBeatQtjlsrPercent(String beatQtjlsrPercent) {
-        this.beatQtjlsrPercent = beatQtjlsrPercent;
-    }
 
     public DetailBean getDetail() {
         return detail;
@@ -110,6 +95,35 @@ public class BillEntity implements Serializable {
         private String xjflsr;
         private String zhgzksr;
         private String email;
+
+
+        public String getBeatXjflsrPercent() {
+            return beatXjflsrPercent;
+        }
+
+        public void setBeatXjflsrPercent(String beatXjflsrPercent) {
+            this.beatXjflsrPercent = beatXjflsrPercent;
+        }
+
+        public String getBeatQtjlsrPercent() {
+            return beatQtjlsrPercent;
+        }
+
+        public void setBeatQtjlsrPercent(String beatQtjlsrPercent) {
+            this.beatQtjlsrPercent = beatQtjlsrPercent;
+        }
+
+        public String getBeatBonusIncomePercent() {
+            return beatBonusIncomePercent;
+        }
+
+        public void setBeatBonusIncomePercent(String beatBonusIncomePercent) {
+            this.beatBonusIncomePercent = beatBonusIncomePercent;
+        }
+
+        private String beatXjflsrPercent;
+        private String beatQtjlsrPercent;
+        private String  beatBonusIncomePercent;
 
         public String getDate() {
             return date;

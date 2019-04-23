@@ -26,7 +26,7 @@ import timber.log.Timber;
 
 @FragmentScope
 public class MessageViewModel extends BaseViewModel<MessageModel> {
-    
+
     private final MediatorLiveData<BaseResponse<List<MessageEntity>>> mMessageData = new MediatorLiveData<BaseResponse<List<MessageEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> mMessageResponse;
     
@@ -49,7 +49,7 @@ public class MessageViewModel extends BaseViewModel<MessageModel> {
                 }
                 Timber.d("Load weather now: %s", messageResource.status);
                 if (messageResource.status == Status.LOADING) {
-                    //STATUS.set(Status.LOADING);
+//                    STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
                 } else if (messageResource.status == Status.SUCCESS) {
                     BaseResponse<List<MessageEntity>> result = messageResource.data;

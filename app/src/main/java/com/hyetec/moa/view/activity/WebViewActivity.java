@@ -167,20 +167,25 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     private BillEntity getBase64Str( BillEntity billEntity){
 
         BillEntity billEntity1=new BillEntity();
-        if(!TextUtils.isEmpty(billEntity.getBeatQtjlsrPercent())){
-            billEntity1.setBeatQtjlsrPercent(new String(Base64.decode(billEntity.getBeatQtjlsrPercent().getBytes(), Base64.DEFAULT)));
-        }else {
-            billEntity1.setBeatQtjlsrPercent("");
-        }
-        if(!TextUtils.isEmpty(billEntity.getBeatXjflsrPercent())){
-            billEntity1.setBeatXjflsrPercent(new String(Base64.decode(billEntity.getBeatXjflsrPercent().getBytes(), Base64.DEFAULT)));
-        }else {
-            billEntity1.setBeatQtjlsrPercent("");
-        }
+
         if(billEntity.getDetail()!=null){
             BillEntity.DetailBean detailBean=billEntity.getDetail();
             BillEntity.DetailBean newDetailBean=new BillEntity.DetailBean();
-
+            if(!TextUtils.isEmpty(detailBean.getBeatBonusIncomePercent())){
+                newDetailBean.setBeatBonusIncomePercent(new String(Base64.decode(detailBean.getBeatBonusIncomePercent().getBytes(), Base64.DEFAULT)));
+            }else {
+                newDetailBean.setBeatBonusIncomePercent("");
+            }
+            if(!TextUtils.isEmpty(detailBean.getBeatQtjlsrPercent())){
+                newDetailBean.setBeatQtjlsrPercent(new String(Base64.decode(detailBean.getBeatQtjlsrPercent().getBytes(), Base64.DEFAULT)));
+            }else {
+                newDetailBean.setBeatQtjlsrPercent("");
+            }
+            if(!TextUtils.isEmpty(detailBean.getBeatXjflsrPercent())){
+                newDetailBean.setBeatXjflsrPercent(new String(Base64.decode(detailBean.getBeatXjflsrPercent().getBytes(), Base64.DEFAULT)));
+            }else {
+                newDetailBean.setBeatXjflsrPercent("");
+            }
             if(!TextUtils.isEmpty(detailBean.getDate())){
                 newDetailBean.setDate(new String(Base64.decode(detailBean.getDate().getBytes(), Base64.DEFAULT)));
             }else {

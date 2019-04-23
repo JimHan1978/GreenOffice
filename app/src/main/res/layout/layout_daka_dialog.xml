@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <RadioGroup
+        android:id="@+id/rg_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <RadioButton
+            android:id="@+id/rb_chi_tui"
+            style="@style/ActionBarRedioBtnStyle"
+            android:checked="true"
+            android:text="迟到"
+            android:textColor="@drawable/tab_text_color" />
+
+        <RadioButton
+            android:id="@+id/rb_waichu"
+            style="@style/ActionBarRedioBtnStyle"
+            android:text="活动"
+            android:textColor="@drawable/tab_text_color" />
+
+        <RadioButton
+            android:id="@+id/rb_huodong"
+            style="@style/ActionBarRedioBtnStyle"
+            android:text="外出"
+            android:textColor="@drawable/tab_text_color" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/et_why"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/shape_edittext_bg"
+        android:gravity="left|top"
+        android:lines="7"
+        android:hint="如参加活动请填写活动名称；如外出请填写外出地点"
+        android:padding="4dp" />
+
+</LinearLayout>

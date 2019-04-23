@@ -2,9 +2,12 @@ package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
+import com.hyetec.moa.model.entity.BssidEntity;
+import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
+import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
@@ -26,33 +29,50 @@ import retrofit2.http.QueryMap;
  **/
 public interface ContactsService {
 
-    @POST("user/getInfo.json")
+    @POST("urm/user/getInfo.json")
     Flowable<BaseResponse<UserEntity>> getUserInfo(@QueryMap Map<String, String> request);
 
-    @POST("user/mlist.json")
+    @POST("urm/user/mlist.json")
     Flowable<BaseResponse<List<UserEntity>>> getUserList(@QueryMap Map<String, String> request);
 
-    @POST("org/mlist.json")
+    @POST("urm/org/mlist.json")
     Flowable<BaseResponse<List<GroupEntity>>> getGroupList(@QueryMap Map<String, String> request);
 
-    @POST("position/mlist.json")
+    @POST("urm/position/mlist.json")
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 
-    @POST("mobileLogin.json")
+    @POST("urm/mobileLogin.json")
     Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
 
-    @Headers("Content-Type: application/json")
-    @POST("user/rest/selectFinancePInfoContent.json")
-    Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
+    @POST("office/attendance/getAttedaily.json")
+    Flowable<BaseResponse<PunchCardEntity>> getAttendance(@QueryMap Map<String, String> request);
+
+    @POST("office/attendance/submitWorkremark.json")
+    Flowable<BaseResponse<PunchCardEntity>> submitWorkremark(@QueryMap Map<String, String> request);
+
+    @POST("office/attendance/attesign.json")
+    Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);
+
+    @GET("office/attendance/getApBSSIds.json")
+    Flowable<BaseResponse<BssidEntity>> getApBSSIds();
+
+    @GET("office/lottery/drawLottery.json")
+    Flowable<BaseResponse<DrawLotteryEntity>> getDrawLottery(@QueryMap Map<String, String> request);
+
+    @GET("urm/mobileLogout.json")
+    Flowable<BaseResponse<ResultEntity>> logout();
 
     @Headers("Content-Type: application/json")
-    @GET("mobileLogout.json")
-    Flowable<BaseResponse<ResultEntity>> logout();
+    @POST("urm/user/rest/selectFinancePInfoContent.json")
+    Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
+
+
+
 
 //    @POST("financePInfo/rest/selectFinancePInfo.json")
 //    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
-    @POST("user/rest/getFinancePInfo.json")
+    @POST("urm/user/rest/getFinancePInfo.json")
     Flowable<BaseResponse<BillEntity>> monthBill(@Body Map<String, String> request);
 }

@@ -11,6 +11,15 @@
     <color name="colorBackgroundGray">#EFEDEE</color>
     <color name="colorBorderGray">#D9D9D9</color>
     <color name="bg_slid">#202022</color>
+    <color name="zao_time">#0083D2</color>
+    <color name="zao_bg">#3fd995</color>
+    <color name="wifi">#A2A19F</color>
+    <color name="punchcard_blue">#2F8CEB</color>
+    <color name="punchcardwifi_gray">#A2A19F</color>
+
+    <color name="punch_card_green">#29B424</color>
+    <color name="punch_card_red">#FF0000</color>
+
 
     <color name="colorgray">#F6F6F6</color>
     <color name="colorText">#5F5F5F</color><!--黑色 -->

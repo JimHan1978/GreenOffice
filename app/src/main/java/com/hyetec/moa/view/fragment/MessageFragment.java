@@ -117,13 +117,13 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
                 //Glide.with(this).load(Api.APP_DOMAIN+"urm/"+userEntity.getPhoto()).into(mAvatarView);
             }else {
 
-                if(messageLists.getMessage().equals("session过期")){
-                    Toast.makeText(getActivity(),"登录失效，请重新登录!",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getActivity(),LoginActivity.class));
-                    getActivity().finish();
-                }else {
-                    Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
-                }
+//                if(messageLists.getMessage().equals("session过期")){
+//                    Toast.makeText(getActivity(),"登录失效，请重新登录!",Toast.LENGTH_LONG).show();
+//                    startActivity(new Intent(getActivity(),LoginActivity.class));
+//                    getActivity().finish();
+//                }else {
+//                    Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
+//                }
             }
         });
     }

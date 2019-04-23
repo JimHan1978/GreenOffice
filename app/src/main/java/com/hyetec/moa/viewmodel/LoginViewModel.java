@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.MutableLiveData;
+import android.arch.lifecycle.Observer;
+import android.support.annotation.Nullable;
 import android.util.Base64;
 
 import com.hyetec.hmdp.core.mvvm.BaseViewModel;
@@ -30,11 +32,12 @@ import timber.log.Timber;
  **/
 public class LoginViewModel extends BaseViewModel<LoginModel> {
 
-    private final MediatorLiveData<BaseResponse<UserEntity>> mLoginData = new MediatorLiveData<BaseResponse<UserEntity>>();
+    private MediatorLiveData<BaseResponse<UserEntity>> mLoginData = new MediatorLiveData<BaseResponse<UserEntity>>();
     private MutableLiveData<Resource<BaseResponse<UserEntity>>> mLoginResponse;
     @Inject
     public LoginViewModel(Application application, LoginModel model) {
         super(application, model);
+
     }
 
     /**
@@ -47,33 +50,31 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
         Map<String, String> request = new HashMap<>(1);
         request.put(Api.API_USER_NAME_KEY, userName);
         request.put(Api.API_USER_PASSWORD_KEY, Base64.encodeToString(password.getBytes(),Base64.NO_WRAP));
-        if (mLoginResponse != null) {
-            mLoginData.removeSource(mLoginResponse);
-        }else {
-
-        }
-        mLoginResponse = mModel.login(request);
-        mLoginData.addSource(mLoginResponse, observer -> {
-            mLoginData.removeSource(mLoginResponse);
-            mLoginData.addSource(mLoginResponse, loginResource -> {
-                if (loginResource == null) {
-                    loginResource = Resource.error("", null);
+        mLoginData=new MediatorLiveData<>();
+        mLoginResponse=mModel.login(request);
+        mLoginData.addSource(mLoginResponse, new Observer<Resource<BaseResponse<UserEntity>>>() {
+            @Override
+            public void onChanged(@Nullable Resource<BaseResponse<UserEntity>> baseResponseResource) {
+                if (baseResponseResource == null) {
+                    baseResponseResource = Resource.error("", null);
                 }
-                Timber.d("Load weather now: %s", loginResource.status);
-                if (loginResource.status == Status.LOADING) {
+                Timber.d("Load weather now: %s", baseResponseResource.status);
+                if (baseResponseResource.status == Status.LOADING) {
                     //STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
-                } else if (loginResource.status == Status.SUCCESS) {
-                    BaseResponse<UserEntity> result = loginResource.data;
+                } else if (baseResponseResource.status == Status.SUCCESS) {
+                    BaseResponse<UserEntity> result = baseResponseResource.data;
                     mLoginData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
-                } else if (loginResource.status == Status.ERROR) {
+                } else if (baseResponseResource.status == Status.ERROR) {
                     //STATUS.set(Status.ERROR);
                     Timber.d("Load error.....");
                 }
-            });
+            }
         });
+
         return mLoginData;
+
     }
     @Override
     public void onCleared() {

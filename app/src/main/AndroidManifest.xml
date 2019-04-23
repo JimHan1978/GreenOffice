@@ -10,12 +10,17 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    <uses-permission android:name="android.hardware.sensor.accelerometer"/>
     <!-- 读取联系人权限 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
 
 
     <application
@@ -80,7 +85,9 @@
         <activity android:name=".view.activity.ChangePasswordActivity"
             android:windowSoftInputMode="adjustPan"
             android:configChanges="orientation|keyboardHidden|screenSize"/>
-
+        <activity android:name=".view.activity.PunchCardActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
 
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"

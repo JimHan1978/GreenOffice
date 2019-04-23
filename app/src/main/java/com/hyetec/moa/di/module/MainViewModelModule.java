@@ -9,6 +9,7 @@ import com.hyetec.moa.viewmodel.GroupViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 import com.hyetec.moa.viewmodel.MainViewModel;
 import com.hyetec.hmdp.core.di.scope.ViewModelScope;
+import com.hyetec.moa.viewmodel.PunchCardViewModel;
 import com.hyetec.moa.viewmodel.SettingViewModel;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
@@ -59,5 +60,10 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(ChangPasswordViewModel.class)
     abstract ViewModel bindChangePasswordViewModel(ChangPasswordViewModel changPasswordViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(PunchCardViewModel.class)
+    abstract ViewModel bindPunchCardViewModel(PunchCardViewModel punchCardViewModel);
 
 }
