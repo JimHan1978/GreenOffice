@@ -10,6 +10,10 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.view.activity.BonusListActivity;
+
 public class ViewHolder
 {
     private final SparseArray<View> mViews;
@@ -113,6 +117,13 @@ public class ViewHolder
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
 
+        return this;
+    }
+
+    public ViewHolder setImagehttp(int viewId, String phont,Context context)
+    {
+        ImageView view = getView(viewId);
+        Glide.with(context).load(Api.IMG_URL+phont).into(view);
         return this;
     }
 

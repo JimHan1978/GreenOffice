@@ -16,6 +16,7 @@
 
 package com.hyetec.moa.di.module;
 
+import com.hyetec.moa.view.activity.BonusListActivity;
 import com.hyetec.moa.view.activity.ChangePasswordActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
@@ -63,4 +64,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
     abstract PunchCardActivity contributePunchCardViewActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
+    abstract BonusListActivity contributeBonusListViewActivity();
 }

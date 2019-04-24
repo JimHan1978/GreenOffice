@@ -53,14 +53,17 @@ public class PunchCardEntity implements Serializable {
     private String username;
     private String offworktime;
     private int remainder;
-    private double lotteryAmount;
-    public double getLotteryAmount() {
-        return lotteryAmount;
+
+    public double getSumAmount() {
+        return sumAmount;
     }
 
-    public void setLotteryAmount(double lotteryAmount) {
-        this.lotteryAmount = lotteryAmount;
+    public void setSumAmount(double sumAmount) {
+        this.sumAmount = sumAmount;
     }
+
+    private double sumAmount;
+
 
 
 

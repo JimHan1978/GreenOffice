@@ -10,12 +10,14 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.http.Status;
 import com.hyetec.moa.model.PunchCardModel;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -38,6 +40,9 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
 
     private MediatorLiveData<BaseResponse<DrawLotteryEntity>> mDrawLotteryData = new MediatorLiveData<BaseResponse<DrawLotteryEntity>>();
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryResponse;
+
+    private MediatorLiveData<BaseResponse<List<BonusEntity>>> mBonusData = new MediatorLiveData<BaseResponse<List<BonusEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> mBonusResponse;
 
     @Inject
     public PunchCardViewModel(Application application, PunchCardModel model) {
@@ -98,6 +103,30 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
         });
 
         return mPunchCardData;
+    }
+
+    public LiveData<BaseResponse<List<BonusEntity>>> getBonusList() {
+        mBonusData = new MediatorLiveData<>();
+        mBonusResponse = mModel.getBonus();
+        mBonusData.addSource(mBonusResponse, infoResource -> {
+            if (infoResource == null) {
+                infoResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", infoResource.status);
+            if (infoResource.status == Status.LOADING) {
+                //STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (infoResource.status == Status.SUCCESS) {
+                BaseResponse<List<BonusEntity>> result = infoResource.data;
+                mBonusData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (infoResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+
+        return mBonusData;
     }
 
 

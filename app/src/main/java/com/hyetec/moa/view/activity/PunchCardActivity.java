@@ -1,7 +1,6 @@
 package com.hyetec.moa.view.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,13 +21,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +36,6 @@ import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.Connected;
-import com.hyetec.moa.utils.DensityUtil;
 import com.hyetec.moa.utils.GetCode;
 import com.hyetec.moa.utils.MaxLengthWatcher;
 import com.hyetec.moa.utils.ShakeListener;
@@ -92,6 +87,8 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     ImageView ivShake;
     @BindView(R.id.tv_count)
     TextView tvCount;
+    @BindView(R.id.tv_add)
+    TextView tvAdd;
 
     private Field field;
     private WifiUtil wifi;
@@ -118,6 +115,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     private ShakeListener mShakeListener = null;
     private boolean isVibrator;  //是否正在播放音频
     private Vibrator vibrator;     //振动器对象
+    private AlertDialog adBuilder = null;
 
     @Override
     public int initView(Bundle savedInstanceState) {
@@ -136,7 +134,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         Typeface tf = Typeface.createFromAsset(mgr, "fonts/simkai.ttf");// 根据路径得到Typeface
         tvGood.setTypeface(tf);// 设置字体
         tvTitle.setText("打卡");
-
+        tvAdd.setText("红包排行");
         nowData = TimeUtil
                 .clearSecond(TimeUtil.getSQLDateTimeString(new Date(), "yyyy-MM-dd HH:mm:ss"));
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -171,21 +169,17 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
     public void showMoney(double count, double sum) {
-        AlertDialog.Builder abBuilder = null;
-        abBuilder = new AlertDialog.Builder(PunchCardActivity.this);
-        if (count != 0) {
-            abBuilder.setMessage("恭喜你摇出" + count + "元,今日总计" + sum + "元");
-        } else {
-            abBuilder.setMessage("本次没中奖,清继续努力");
-        }
-        abBuilder.setTitle("中奖提示");
-        abBuilder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        abBuilder.create().show();
+        adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("中奖提示")
+                .setMessage(count != 0 ? "恭喜你摇出" + count + "元,今日总计" + sum + "元" : "本次没中奖,清继续努力").
+                        setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
+
+
+        adBuilder.show();
 
     }
 
@@ -214,6 +208,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
     }
 
+
     class Broadcast extends BroadcastReceiver {
 
         @Override
@@ -241,6 +236,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             tvWifi.setTextColor(getResources().getColor(R.color.punchcard_blue));
             tvCount.setVisibility(View.VISIBLE);
             ivShake.setVisibility(View.VISIBLE);
+            if (mShakeListener != null) {
+                mShakeListener.start();
+            }
         } else {
             ivDaka.setBackgroundResource(R.drawable.daka);
             ivDaka.setEnabled(false);
@@ -248,6 +246,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             tvWifi.setTextColor(getResources().getColor(R.color.punchcardwifi_gray));
             tvCount.setVisibility(View.GONE);
             ivShake.setVisibility(View.GONE);
+            if (mShakeListener != null) {
+                mShakeListener.stop();
+            }
         }
     }
 
@@ -259,7 +260,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
 
-    @OnClick({R.id.iv_left, R.id.iv_daka})
+    @OnClick({R.id.iv_left, R.id.iv_daka, R.id.tv_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
@@ -267,6 +268,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 break;
             case R.id.iv_daka:
                 daKa();
+                break;
+            case R.id.tv_add:
+                startActivity(new Intent(PunchCardActivity.this, BonusListActivity.class));
                 break;
         }
     }
@@ -366,13 +370,12 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     private void setDakaData(PunchCardEntity punchCardEntity) {
         if (!punchCardEntity.getToworktype().equals("4")) {
             str_c_z = "c";
-//            tvZaoTime.setText(TimeUtil.getTime(punchCardEntity.getToworktime()));
-//            tvZaoState.setText(
-//                    GetCode.chiOrTuiState(punchCardEntity.getToworktype(), true));
-            str_chi_state = GetCode.chiOrTuiState(punchCardEntity.getToworktype(),
-                    true);
-            setData(punchCardEntity);
+
         }
+        if (!punchCardEntity.getOffworktype().equals("4")) {
+            str_c_z = "z";
+        }
+        setData(punchCardEntity);
         if (str_c_z.equals("c")) {
             if (!punchCardEntity.getToworktype().equals("0")
                     && !punchCardEntity.getToworktype().equals("4")) {
@@ -421,12 +424,20 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         tvZaoTime.setText(TimeUtil.getTime(punchCardEntity.getToworktime()));
         tvZaoState.setText(GetCode.chiOrTuiState(punchCardEntity.getToworktype(), true));
         reqCount = punchCardEntity.getRemainder();
-        moneyCount = punchCardEntity.getLotteryAmount();
+        moneyCount = punchCardEntity.getSumAmount();
         if (!punchCardEntity.getToworktype().equals("9")) {
             if (punchCardEntity.getToworktype().equals("1")
                     || punchCardEntity.getToworktype().equals("4")) {
                 tvZaoState.setBackgroundResource(R.drawable.shape_wan);
                 tvZaoTime.setTextColor(getResources().getColor(R.color.punch_card_red));
+
+                tvWifi.setVisibility(View.GONE);
+                tvCount.setVisibility(View.GONE);
+                ivShake.setVisibility(View.GONE);
+                if (mShakeListener != null) {
+                    mShakeListener.stop();
+                }
+
             } else {
                 tvZaoState.setBackgroundResource(R.drawable.shape_zao);
                 tvZaoTime.setTextColor(getResources().getColor(R.color.punch_card_green));
@@ -452,13 +463,13 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 false);
         str_tui_reason = punchCardEntity.getOffworkremark();
 
-        if (reqCount > 0) {
+        if (reqCount > 0 && !punchCardEntity.getToworktype().equals("1")) {
             tvCount.setText("剩余抽奖次数 " + reqCount + "次");
             mShakeListener = new ShakeListener(this);
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
                 @Override
                 public void onShake() {
-                    if (!TimeUtil.isFastDoubleClick()) {
+                    if (!TimeUtil.isFastDoubleClick() && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
                         mShakeListener.stop();
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
@@ -471,6 +482,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                                 vibratorPhone();
                                 if (reqCount > 0) {
                                     tvCount.setText("剩余抽奖次数 " + reqCount + "次");
+                                    ivShake.setVisibility(View.VISIBLE);
                                     mShakeListener.start();
                                 } else {
                                     tvWifi.setText("今日抽奖次数已达到上限");

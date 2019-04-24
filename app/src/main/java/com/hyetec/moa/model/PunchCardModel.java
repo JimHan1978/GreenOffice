@@ -8,6 +8,7 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
@@ -15,6 +16,7 @@ import com.hyetec.moa.model.entity.ResultEntity;
 
 import org.reactivestreams.Subscription;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -33,6 +35,8 @@ public class PunchCardModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<PunchCardEntity>>> mResultResource;
     private MutableLiveData<Resource<BaseResponse<BssidEntity>>> mBssidResource;
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLottery;
+
+    private MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> mBonusResource;
     @Inject
     public PunchCardModel(Application application) {
         super(application);
@@ -114,6 +118,38 @@ public class PunchCardModel extends BaseModel {
 
     }
 
+    public MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> getBonus() {
+        mBonusResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .getLoadLotterysMonth()
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<BonusEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mBonusResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mBonusResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<BonusEntity>> response) {
+                        mBonusResource.setValue(Resource.success(response));
+                    }
+                });
+        return mBonusResource;
+
+    }
 
     public MutableLiveData<Resource<BaseResponse<BssidEntity>>> getBssid() {
         mBssidResource=new MutableLiveData<>();

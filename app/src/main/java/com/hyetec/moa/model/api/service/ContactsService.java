@@ -2,6 +2,7 @@ package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
+import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
@@ -53,10 +54,13 @@ public interface ContactsService {
     @POST("office/attendance/attesign.json")
     Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);
 
+    @GET("office/lottery/loadLotterysMonth.json")
+    Flowable<BaseResponse<List<BonusEntity>>> getLoadLotterysMonth();
+
     @GET("office/attendance/getApBSSIds.json")
     Flowable<BaseResponse<BssidEntity>> getApBSSIds();
 
-    @GET("office/lottery/drawLottery.json")
+    @POST("office/lottery/drawLottery.json")
     Flowable<BaseResponse<DrawLotteryEntity>> getDrawLottery(@QueryMap Map<String, String> request);
 
     @GET("urm/mobileLogout.json")
