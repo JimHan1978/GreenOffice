@@ -40,7 +40,7 @@
 						</div>-->
 						
 						<div class="block-slide guide-show ">滑动查看账单</div>
-						<img id="block-slide-img" src="img/ic-slide-left.png" />
+						<img id="block-slide-img" src="ic-slide-left.png" />
 					</div>
 				</div>
 				<!-- 第一张 -->
@@ -48,7 +48,6 @@
 					<div class="page-bg page-first">
 						<div id="tips-1"  class="animate text-welcome mui-hidden text-report">
 							<div class="animated bounceInDown text-lh">尊敬的<span id="name">杨东平</span><span id="nameTitle">先生</span>，</div>
-
 							<div class="animated bounceInDown text-lh">这是您在公司</div>
 							<div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth">56</span>个月了。</div>
 						</div>
@@ -79,9 +78,9 @@
 						<div id="tips-3" class="animate mui-hidden">
 							<h2 class="animated bounceInLeft ">总收入中，银行卡收入为</h2>
 							<ul>
-								<li class="animated bounceInRight">招行工资卡收入<span id="salary" class="span-text-green">0</span>元;</li>
-								<li class="animated bounceInRight">公积金联名卡收入<span id="housingund" class="span-text-blue">0</span>元;</li>
-								<li class="animated bounceInRight">光大补贴卡收入<span id="income_subsidy" class="span-text-blue">0</span>元;</li>
+								<li class="animated bounceInRight"><span class="icon_zsk"></span>工资卡收入<span id="salary" class="span-text-green">0</span>元;</li>
+								<li class="animated bounceInRight"><span class="icon_gjj"></span>公积金联名卡收入<span id="housingund" class="span-text-blue">0</span>元;</li>
+								<li class="animated bounceInRight"><span class="icon_gdk"></span>补贴卡收入<span id="income_subsidy" class="span-text-blue">0</span>元;</li>
 								<!--<li class="animated bounceInDown">迟到扣款<span id="cut_late" class="span-text-red">0</span>元,事假扣款<span id="cut_leave" class="span-text-red">0</span>元;</li>
 								<li class="animated bounceInDown">病假扣款<span id="cut_sick" class="span-text-red">0</span>元,绩效扣款<span id="cut_perf" class="span-text-red">0</span>元;</li>
 								<li class="animated bounceInDown">绩效奖励<span id="award_perf" class="span-text-red">0</span>元.</li>-->
@@ -101,7 +100,7 @@
 						</div>
 					</div>
 				</div>
-
+				
 				<!-- 第五-3张 -->
 				<div id="beLate"  class="mui-slider-item">
 					<div class="page-bg page-be-late">
@@ -138,9 +137,9 @@
 						</div>
 					</div>
 				</div>
-
-
-
+				
+				
+				
 				<!-- 第六-1张 -->
 				<div id="reward"  class="mui-slider-item">
 					<div class="page-bg page-reward">
@@ -153,7 +152,7 @@
 						</div>
 					</div>
 				</div>
-
+				
 				<!-- 第六-2张 -->
 				<div id="dedcut"  class="mui-slider-item">
 					<div class="page-bg page-dedcut">
@@ -161,7 +160,7 @@
 							<ul>
 								<li class="animated bounceInLeft">您本月有绩效扣款</li>
 								<li class="animated bounceInLeft">绩效扣款<span id="cut_perf" class="span-text-red">50</span>元</li>
-								<li class="animated bounceInRight">请继续努力！</li>
+								<li class="animated bounceInRight">请绩效努力！</li>
 							</ul>
 						</div>
 					</div>
@@ -184,12 +183,22 @@
 							<div class="welfare">总收入中，现金收入为： </div>
 							<ul>
 								<li class="animated bounceInLeft">
-									福利收入<span id="income_cash" class="span-text-blue2">0</span>元<br/>
-									<div class="retract1">打败了公司<span id="rank_cash" class="span-text-orange">1%</span>员工</div></li>
-								<li class="animated bounceInLeft">红包收入<span id="income_bonus" class="span-text-blue2">0</span>元<br/>
-								<div class="retract2">打败了公司<span id="rank_bonusIncomePercent" class="span-text-orange">1%</span>员工</div></li>
-								<li class="animated bounceInLeft">其它奖励收入<span id="income_other" class="span-text-blue2">0</span>元<br />
-								<div class="retract3">打败了公司<span id="rank_other" class="span-text-orange">1%</span>员工</div></li>
+								<span class="icon-money"></span>	福利收入<span id="income_cash" class="span-text-blue2">0</span>元<br/>
+									<div class="retract1">打败了公司<span id="rank_cash" class="span-text-orange">1%</span>员工</div>
+								
+								<span class="icon-line"></span>
+								
+								</li>
+								<li class="animated bounceInLeft"><span class="icon-gift"></span>红包收入<span id="income_other" class="span-text-blue2">0</span>元<br />
+								<div class="retract3">打败了公司<span id="rank_bonusIncomePercent" class="span-text-orange">1%</span>员工</div>
+									<span class="icon-line"></span>
+								</li>
+								<li class="animated bounceInLeft">
+									<span class="icon-bag"></span>其它奖励收入<span id="income_bonus" class="span-text-blue2">0</span>元<br/>
+								<div class="retract2">打败了公司<span id="rank_bonus" class="span-text-orange">1%</span>员工</div>
+									<span class="icon-line"></span>
+								</li>
+								
 							</ul>
 						</div>
 					</div>
@@ -220,7 +229,7 @@
 		</div>
 		<script src="js/mui.min.js"></script>
 		<script src="js/jquery.min.js"></script>
-		<script src="libs/echarts-all.js"></script>
+		<script src="js/echarts-all.js"></script>
 		
 		<script src="js/report.js"></script>
 		
@@ -235,7 +244,7 @@
 				plus.navigator.closeSplashscreen();
 			});
 			
-			//loadBillData("sunhao","2019-02");
+			loadBillData("sunhao","2019-02");
 			//立即体验按钮点击事件
 			/* document.getElementById("close").addEventListener('tap', function(event) {
 				plus.storage.setItem("lauchFlag", "true");

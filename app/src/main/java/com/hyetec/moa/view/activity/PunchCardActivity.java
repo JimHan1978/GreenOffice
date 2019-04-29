@@ -465,6 +465,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
         if (reqCount > 0 && !punchCardEntity.getToworktype().equals("1")) {
             tvCount.setText("剩余抽奖次数 " + reqCount + "次");
+            tvWifi.setVisibility(View.VISIBLE);
+            tvCount.setVisibility(View.VISIBLE);
+            ivShake.setVisibility(View.VISIBLE);
             mShakeListener = new ShakeListener(this);
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
                 @Override
@@ -473,7 +476,6 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                         mShakeListener.stop();
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
-
                                 DrawLotteryEntity drawLotteryEntity = moneyData.getResult();
                                 reqCount = drawLotteryEntity.getRemainder();
                                 moneyCount = drawLotteryEntity.getSumAmount();
@@ -488,6 +490,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                                     tvWifi.setText("今日抽奖次数已达到上限");
                                     tvCount.setText("今日红包总计:" + moneyCount + "元");
                                     ivShake.setVisibility(View.GONE);
+                                    mShakeListener.stop();
                                 }
 
                             } else {
@@ -501,6 +504,10 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                 }
             });
+        }else if(TextUtils.isEmpty(punchCardEntity.getToworktype())){
+            tvWifi.setVisibility(View.GONE);
+            tvCount.setVisibility(View.GONE);
+            ivShake.setVisibility(View.GONE);
         } else {
             tvWifi.setText("今日抽奖次数已达到上限");
             tvCount.setText("今日红包总计:" + moneyCount + "元");

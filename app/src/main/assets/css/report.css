@@ -36,7 +36,7 @@
 }
 
 .block-slide {
-	background-image: url(../img/bg-block-slide.png);
+	background-image: url(img/bg-block-slide.png);
 	background-size: 100% 100%;
 	background-position: center;
 	position: absolute;
@@ -62,12 +62,13 @@
 	background: #DADADA;
 	border-radius: 4%;
 	color: black;
-	font-size: 1.0em;
+	font-size: 1.2em;
 	padding: 0.8em;
 	position: absolute;
+	opacity: .8;
 	left: 10%;
 	right: 10%;
-	bottom: 34%;
+	bottom: 30%;
 	/* line-height: 2em; */
 	/* width: 68%; */
 	text-indent: 1.2em;
@@ -117,6 +118,7 @@
 .span-text-red {
 	color: #cb4137;
 	margin: 0em 0.2em;
+	font-size: 2em;
 }
 
 .span-text-green {
@@ -138,7 +140,7 @@
 }
 
 .span-text-orange {
-	font-size: 1.2em;
+	font-size: 2em;
 	color: #d2a916;
 	margin: 0em 0.2em;
 }
@@ -159,79 +161,199 @@
 }
 
 .page-cover {
-	background-image: url(../img/bg-cover.jpg);
+	background-image: url(img/bg-cover.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-first {
-	background-image: url(../img/bg-welcome.jpg);
+	background-image: url(img/bg-welcome.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-second {
-	background-image: url(../img/bg-overview.jpg);
+	background-image: url(img/bg-overview.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-third {
-	background-image: url(../img/bg-salary.jpg);
+	background-image: url(img/bg-salary.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-welfare {
-	background-image: url(../img/bg-welfare.jpg);
+	background-image: url(img/bg-welfare.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
+ @keyframes mymove
+            {
+                25%{
+                transform: scale(.5);  /*开始为原始大小*/
+                }                
+                50%{
+                    transform: scale(1);
+                }
+                75%{
+                    transform: scale(.5);
+                }
+                 100%{
+                    transform: scale(1);
+                }
+
+            }
+            
+            @-webkit-keyframes mymove /*Safari and Chrome*/
+            {
+                25%{
+                transform: scale(.5);  /*开始为原始大小*/
+                }                
+                50%{
+                    transform: scale(1);
+                }
+                75%{
+                    transform: scale(.5);
+                }
+                 100%{
+                    transform: scale(1);
+                }
+                
+            }
+            
+.icon-money{
+	background: url(img/icon-money.png) no-repeat center center;
+    display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    animation:mymove 5s infinite;
+    -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+}
+.icon-gift{
+	background: url(img/icon-gift.png) no-repeat center center;
+    display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    animation:mymove 5s infinite;
+    -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+}
+.icon-bag{
+	background: url(img/icon-bag.png) no-repeat center center;
+    display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 8px;
+    width: 30px;
+    height: 30px;
+    animation:mymove 5s infinite;
+    -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+}
+.icon-line{
+	background: url(img/icon-line.png) no-repeat center center;
+    display: inline-block;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 49%;
+    left: 10%;
+    width: 415.5px;
+    height: 49.5px;
+    animation:mymove 5s infinite;
+    -webkit-animation:mymove 5s infinite; /*Safari and Chrome*/
+
+}
+
+.ic_card{
+	
+    display: inline-block;
+    background-size: 100% 100%;
+    position: absolute;
+    top: 49%;
+    left: 10%;
+    width: 415.5px;
+    height: 49.5px;
+}
+.icon_gdk{
+	background: url(img/ic_gdk.png) no-repeat center center;
+    display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+.icon_zsk{
+	background: url(img/ic_zsk.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+.icon_gjj{
+	background: url(img/ic_gjj.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 1rem;
+    width: 2.8rem;
+    height: 2.8rem;
+}
+
+
 .page-attendance {
-	background-image: url(../img/bg-all-work.jpg);
+	background-image: url(img/bg-all-work.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-sickleave {
-	background-image: url(../img/bg-sick-leave.jpg);
+	background-image: url(img/bg-sick-leave.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-casualleave {
-	background-image: url(../img/bg-casual-leave.jpg);
+	background-image: url(img/bg-casual-leave.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-be-late {
-	background-image: url(../img/bg-be-late.jpg);
+	background-image: url(img/bg-be-late.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-reward {
-	background-image: url(../img/bg-qualified.jpg);
+	background-image: url(img/bg-qualified.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-dedcut {
-	background-image: url(../img/bg-deduct.jpg);
+	background-image: url(img/bg-deduct.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-qualified {
-	background-image: url(../img/bg-qualified.jpg);
+	background-image: url(img/bg-qualified.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-cumulative {
-	background-image: url(../img/bg-cumulative.jpg);
+	background-image: url(img/bg-cumulative.jpg);
 	background-size: 100% 100%;
 	background-position: center;
 }
@@ -276,6 +398,8 @@
 	/*left: 10%;
     right: 10%;*/
 	top: 18%;
+	width: 100%;
+	padding: 0 5%;
 	/* height: 80%; */
 }
 
@@ -286,8 +410,7 @@
 	/* width: 60%; */
 	/* height: 84%; */
 }
-
-#tips-4 {
+ #tips-4 {
 	position: absolute;
 	right: 26.4%;
     top: 25%;
@@ -459,7 +582,7 @@
 }
 
 #tips-6 li:nth-child(2) {
-	text-indent: 2.8em;
+	text-indent: 4.8em;
 	margin-top: 0.8em;
 }
 
@@ -477,7 +600,7 @@
 }
 
 .retract3 {
-	text-indent: 10em;
+	text-indent: 7em;
 }
 
 .tips-attendance {
@@ -491,7 +614,7 @@
 .allwork-tips {
 	width: 100%;
 	height: 100%;
-	background-image: url(../img/bg_all_work.png);
+	background-image: url(img/bg_all_work.png);
 }
 
 #title-allwork {
@@ -567,6 +690,7 @@
 	-webkit-animation-name: bounceInLeft;
 	display: block;
 	-webkit-animation-play-state: running;
+	position: relative;
 }
 
 .bounceInLeft {
