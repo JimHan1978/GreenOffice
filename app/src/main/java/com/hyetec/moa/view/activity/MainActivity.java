@@ -11,8 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
+import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.TagAliasOperatorHelper;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;
@@ -123,7 +126,12 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         JPushInterface.init(getApplicationContext());
         JPushInterface.resumePush(this);
         //注册推送别名
-        //setPushAlias("");
+        if(ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA)!=null){
+            UserEntity userEntity= (UserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+          //  setPushAlias(userEntity.getCode());
+            setPushAlias("H026");
+        }
+
 
         contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

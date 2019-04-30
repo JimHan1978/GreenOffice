@@ -13,10 +13,12 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.webkit.JsResult;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
@@ -26,11 +28,13 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.WebViewModel;
@@ -54,9 +58,13 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     WebView wv_item;
     @BindView(R.id.iv_left)
     ImageView ivLeft;
+    @BindView(R.id.iv_home_page)
+    ImageView ivHomePage;
+
+
     private String url;
     private String billDate;
-
+    private  AlphaAnimation  mHideAnimation ;
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -104,9 +112,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         UserEntity user = (UserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();
-
+        Glide.with(this).load(Api.IMG_URL+"static/images/coverpage.jpg").into( ivHomePage);
         wv_item.loadUrl("file:///android_asset/month-bill.html");
-
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
@@ -154,7 +161,43 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         });
 
 
+
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                setHideAnimation(ivHomePage,1000);
+            }
+        }, 3000);
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                ivHomePage.setVisibility(View.GONE);
+            }
+        }, 4000);
+
+
+
     }
+
+    /**
+     * View渐隐动画效果
+     */
+    public  void setHideAnimation( View view, int duration)
+    {
+        if (null == view || duration < 0)
+        {
+            return;
+        }
+
+        if (null != mHideAnimation)
+        {
+            mHideAnimation.cancel();
+        }
+        // 监听动画结束的操作
+        mHideAnimation = new AlphaAnimation(1.0f, 0.0f);
+        mHideAnimation.setDuration(duration);
+        mHideAnimation.setFillAfter(true);
+        view.startAnimation(mHideAnimation);
+    }
+
 
     private String getYearAndMonth() {
         String yearAndMonth = billDate;
@@ -164,144 +207,145 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         return yearAndMonth;
 
     }
-    private BillEntity getBase64Str( BillEntity billEntity){
 
-        BillEntity billEntity1=new BillEntity();
+    private BillEntity getBase64Str(BillEntity billEntity) {
 
-        if(billEntity.getDetail()!=null){
-            BillEntity.DetailBean detailBean=billEntity.getDetail();
-            BillEntity.DetailBean newDetailBean=new BillEntity.DetailBean();
-            if(!TextUtils.isEmpty(detailBean.getBeatBonusIncomePercent())){
+        BillEntity billEntity1 = new BillEntity();
+
+        if (billEntity.getDetail() != null) {
+            BillEntity.DetailBean detailBean = billEntity.getDetail();
+            BillEntity.DetailBean newDetailBean = new BillEntity.DetailBean();
+            if (!TextUtils.isEmpty(detailBean.getBeatBonusIncomePercent())) {
                 newDetailBean.setBeatBonusIncomePercent(new String(Base64.decode(detailBean.getBeatBonusIncomePercent().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setBeatBonusIncomePercent("");
             }
-            if(!TextUtils.isEmpty(detailBean.getBeatQtjlsrPercent())){
+            if (!TextUtils.isEmpty(detailBean.getBeatQtjlsrPercent())) {
                 newDetailBean.setBeatQtjlsrPercent(new String(Base64.decode(detailBean.getBeatQtjlsrPercent().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setBeatQtjlsrPercent("");
             }
-            if(!TextUtils.isEmpty(detailBean.getBeatXjflsrPercent())){
+            if (!TextUtils.isEmpty(detailBean.getBeatXjflsrPercent())) {
                 newDetailBean.setBeatXjflsrPercent(new String(Base64.decode(detailBean.getBeatXjflsrPercent().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setBeatXjflsrPercent("");
             }
-            if(!TextUtils.isEmpty(detailBean.getDate())){
+            if (!TextUtils.isEmpty(detailBean.getDate())) {
                 newDetailBean.setDate(new String(Base64.decode(detailBean.getDate().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setDate("");
             }
-            if(!TextUtils.isEmpty(detailBean.getTxbt())){
+            if (!TextUtils.isEmpty(detailBean.getTxbt())) {
                 newDetailBean.setTxbt(new String(Base64.decode(detailBean.getTxbt().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setTxbt("");
             }
-            if(!TextUtils.isEmpty(detailBean.getBysrhj())){
+            if (!TextUtils.isEmpty(detailBean.getBysrhj())) {
                 newDetailBean.setBysrhj(new String(Base64.decode(detailBean.getBysrhj().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setBysrhj("");
             }
-            if(!TextUtils.isEmpty(detailBean.getSjkk())){
+            if (!TextUtils.isEmpty(detailBean.getSjkk())) {
                 newDetailBean.setSjkk(new String(Base64.decode(detailBean.getSjkk().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setSjkk("");
             }
-            if(!TextUtils.isEmpty(detailBean.getBjkk())){
+            if (!TextUtils.isEmpty(detailBean.getBjkk())) {
                 newDetailBean.setBjkk(new String(Base64.decode(detailBean.getBjkk().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setBjkk("");
             }
-            if(!TextUtils.isEmpty(detailBean.getUserno())){
+            if (!TextUtils.isEmpty(detailBean.getUserno())) {
                 newDetailBean.setUserno(new String(Base64.decode(detailBean.getUserno().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setUserno("");
             }
-            if(!TextUtils.isEmpty(detailBean.getGs())){
+            if (!TextUtils.isEmpty(detailBean.getGs())) {
                 newDetailBean.setGs(new String(Base64.decode(detailBean.getGs().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setGs("");
             }
-            if(!TextUtils.isEmpty(detailBean.getQtjlsr())){
+            if (!TextUtils.isEmpty(detailBean.getQtjlsr())) {
                 newDetailBean.setQtjlsr(new String(Base64.decode(detailBean.getQtjlsr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setQtjlsr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getJjsr())){
+            if (!TextUtils.isEmpty(detailBean.getJjsr())) {
                 newDetailBean.setJjsr(new String(Base64.decode(detailBean.getJjsr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setJjsr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getCdkk())){
+            if (!TextUtils.isEmpty(detailBean.getCdkk())) {
                 newDetailBean.setCdkk(new String(Base64.decode(detailBean.getCdkk().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setCdkk("");
             }
-            if(!TextUtils.isEmpty(detailBean.getDnbt())){
+            if (!TextUtils.isEmpty(detailBean.getDnbt())) {
                 newDetailBean.setDnbt(new String(Base64.decode(detailBean.getDnbt().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setDnbt("");
             }
-            if(!TextUtils.isEmpty(detailBean.getSqgzhj())){
+            if (!TextUtils.isEmpty(detailBean.getSqgzhj())) {
                 newDetailBean.setSqgzhj(new String(Base64.decode(detailBean.getSqgzhj().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setSqgzhj("");
             }
-            if(!TextUtils.isEmpty(detailBean.getGjjlmksr())){
+            if (!TextUtils.isEmpty(detailBean.getGjjlmksr())) {
                 newDetailBean.setGjjlmksr(new String(Base64.decode(detailBean.getGjjlmksr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setGjjlmksr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getJxjc())){
+            if (!TextUtils.isEmpty(detailBean.getJxjc())) {
                 newDetailBean.setJxjc(new String(Base64.decode(detailBean.getJxjc().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setJxjc("");
             }
-            if(!TextUtils.isEmpty(detailBean.getName())){
+            if (!TextUtils.isEmpty(detailBean.getName())) {
                 newDetailBean.setName(new String(Base64.decode(detailBean.getName().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setName("");
             }
-            if(!TextUtils.isEmpty(detailBean.getDksbgjj())){
+            if (!TextUtils.isEmpty(detailBean.getDksbgjj())) {
                 newDetailBean.setDksbgjj(new String(Base64.decode(detailBean.getDksbgjj().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setDksbgjj("");
             }
-            if(!TextUtils.isEmpty(detailBean.getGdbtksr())){
+            if (!TextUtils.isEmpty(detailBean.getGdbtksr())) {
                 newDetailBean.setGdbtksr(new String(Base64.decode(detailBean.getGdbtksr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setGdbtksr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getXjflsr())){
+            if (!TextUtils.isEmpty(detailBean.getXjflsr())) {
                 newDetailBean.setXjflsr(new String(Base64.decode(detailBean.getXjflsr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setXjflsr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getZhgzksr())){
+            if (!TextUtils.isEmpty(detailBean.getZhgzksr())) {
                 newDetailBean.setZhgzksr(new String(Base64.decode(detailBean.getZhgzksr().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setZhgzksr("");
             }
-            if(!TextUtils.isEmpty(detailBean.getEmail())){
+            if (!TextUtils.isEmpty(detailBean.getEmail())) {
                 newDetailBean.setEmail(new String(Base64.decode(detailBean.getEmail().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 newDetailBean.setEmail("");
             }
             billEntity1.setDetail(newDetailBean);
         }
 
-        List<BillEntity.HistoryDataBean> historyDataBeans=billEntity.getHistoryData();
-        List<BillEntity.HistoryDataBean> newHistoryDataBeans=new ArrayList<>();
-        for(int i=0;i<historyDataBeans.size();i++){
-            BillEntity.HistoryDataBean historyDataBean=historyDataBeans.get(i);
-            if(!TextUtils.isEmpty(historyDataBean.getBysrhj())) {
+        List<BillEntity.HistoryDataBean> historyDataBeans = billEntity.getHistoryData();
+        List<BillEntity.HistoryDataBean> newHistoryDataBeans = new ArrayList<>();
+        for (int i = 0; i < historyDataBeans.size(); i++) {
+            BillEntity.HistoryDataBean historyDataBean = historyDataBeans.get(i);
+            if (!TextUtils.isEmpty(historyDataBean.getBysrhj())) {
                 historyDataBean.setBysrhj(new String(Base64.decode(historyDataBean.getBysrhj().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 historyDataBean.setBysrhj("");
             }
 
-            if(!TextUtils.isEmpty(historyDataBean.getYm())) {
+            if (!TextUtils.isEmpty(historyDataBean.getYm())) {
                 historyDataBean.setYm(new String(Base64.decode(historyDataBean.getYm().getBytes(), Base64.DEFAULT)));
-            }else {
+            } else {
                 historyDataBean.setYm("");
             }
             newHistoryDataBeans.add(historyDataBean);
@@ -310,6 +354,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         return billEntity1;
 
     }
+
     private String getTime() {
 
         String time = "";

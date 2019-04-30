@@ -37,10 +37,10 @@ public class GdPullToRefreshView extends LinearLayout {
 	private Context mContext = null;
 	
 	/** 下拉刷新的开关. */
-    private boolean mEnablePullRefresh = false;
+    private boolean mEnablePullRefresh = true;
     
     /** 加载更多的开关. */
-    private boolean mEnableLoadMore = false;
+    private boolean mEnableLoadMore = true;
     
     /** x上一次保存的. */
 	private int mLastMotionX;
@@ -301,6 +301,7 @@ public class GdPullToRefreshView extends LinearLayout {
 				}
 
 			} else if (deltaY < 0) {
+
 				// 判断是否禁用上拉加载更多操作
 				if (!mEnableLoadMore) {
 					return false;
@@ -324,10 +325,19 @@ public class GdPullToRefreshView extends LinearLayout {
 			View child = mScrollView.getChildAt(0);
 			if (deltaY > 0 && mScrollView.getScrollY() == 0) {
 				mPullState = PULL_DOWN_STATE;
-				return true;
+                if (!mEnablePullRefresh) {
+                    return false;
+                }else {
+                    return true;
+                }
 			} else if (deltaY < 0 && child.getMeasuredHeight() <= getHeight() + mScrollView.getScrollY()) {
 				mPullState = PULL_UP_STATE;
-				return true;
+                if (!mEnableLoadMore) {
+                    return false;
+                }else {
+                    return true;
+                }
+
 			}
 		}
 		return false;

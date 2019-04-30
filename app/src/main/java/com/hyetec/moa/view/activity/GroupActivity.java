@@ -1,10 +1,7 @@
 package com.hyetec.moa.view.activity;
 
-import android.annotation.SuppressLint;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -16,10 +13,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
-import com.hyetec.hmdp.view.EditText_Clear;
 import com.hyetec.hmdp.view.StickyLayout;
 import com.hyetec.moa.R;
-import com.hyetec.moa.model.entity.ContactEntity;
 import com.hyetec.moa.model.entity.GroupContactEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.adapter.ExpandableContactAdapter;
@@ -31,6 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class GroupActivity extends BaseActivity<GroupViewModel> implements StickyLayout.OnGiveUpTouchEventListener {
@@ -45,6 +41,14 @@ public class GroupActivity extends BaseActivity<GroupViewModel> implements Stick
     TextView CustomEditText;
     @BindView(R.id.sticky_layout)
     StickyLayout sticky_layout;
+    @BindView(R.id.iv_left)
+    ImageView ivLeft;
+    @BindView(R.id.iv_search)
+    ImageView ivSearch;
+    @BindView(R.id.sticky_header)
+    LinearLayout stickyHeader;
+    @BindView(R.id.sticky_content)
+    LinearLayout stickyContent;
 
 
     private List<GroupContactEntity> mGroupList = new ArrayList<GroupContactEntity>();
@@ -73,11 +77,12 @@ public class GroupActivity extends BaseActivity<GroupViewModel> implements Stick
     @Override
     public void initData(Bundle savedInstanceState) {
         tv_title.setText("通讯录");
+        ivLeft.setVisibility(View.VISIBLE);
         mViewModel.getGroupList().observe(this, groupEntities -> {
             mViewModel.getContactUser().observe(this, userEntities -> {
                 mViewModel.getContactList().observe(this, contactUserList -> {
                     if (contactUserList != null) {
-                        mGroupList =contactUserList;
+                        mGroupList = contactUserList;
                         plvExpandablelist.setHeaderView(LayoutInflater.from(this).inflate(R.layout.item_group_head,
                                 plvExpandablelist, false));
                         mAdapter = new ExpandableContactAdapter(mGroupList, getApplicationContext());
@@ -115,6 +120,11 @@ public class GroupActivity extends BaseActivity<GroupViewModel> implements Stick
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    @OnClick(R.id.iv_left)
+    public void onViewClicked() {
+        finish();
     }
 
     class GroupClickListener implements ExpandableListView.OnGroupClickListener {

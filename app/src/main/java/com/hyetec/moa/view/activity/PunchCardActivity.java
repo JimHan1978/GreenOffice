@@ -495,6 +495,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                             } else {
                                 Toast.makeText(PunchCardActivity.this, moneyData.getMessage(), Toast.LENGTH_SHORT).show();
+                                mShakeListener.start();
                             }
 
                         });

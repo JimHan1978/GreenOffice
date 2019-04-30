@@ -2,12 +2,12 @@
 <RelativeLayout
 xmlns:android="http://schemas.android.com/apk/res/android"
 android:layout_width="match_parent"
-android:layout_height="?attr/actionBarSize"
+android:layout_height="50dp"
     android:background="@color/colorPrimary">
     <ImageView
         android:id="@+id/iv_left"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:padding="12dp"
         android:src="@mipmap/back_btn_white"
         android:layout_centerVertical="true"
