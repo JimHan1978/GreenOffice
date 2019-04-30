@@ -16,7 +16,10 @@ public class SplashActivity extends AppCompatActivity {
     // 所需的全部权限
     static final String[] PERMISSIONS = new String[]{
             Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission. READ_PHONE_STATE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission. ACCESS_COARSE_LOCATION,
             Manifest.permission.GET_ACCOUNTS,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.CALL_PHONE,

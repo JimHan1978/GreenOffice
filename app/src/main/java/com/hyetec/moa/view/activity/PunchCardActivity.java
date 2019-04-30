@@ -231,24 +231,46 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             ivDaka.setEnabled(true);
             ivDaka.setBackgroundResource(R.drawable.select_daka);
             //tvWifi.setText("已连接公司wifi，点击上方按钮打卡");
-            tvWifi.setText("摇一摇抽取今日大奖");
-
-            tvWifi.setTextColor(getResources().getColor(R.color.punchcard_blue));
-            tvCount.setVisibility(View.VISIBLE);
-            ivShake.setVisibility(View.VISIBLE);
-            if (mShakeListener != null) {
-                mShakeListener.start();
+            if (reqCount > 0) {
+                tvWifi.setText("摇一摇抽取今日大奖");
+                tvCount.setText("剩余抽奖次数 " + reqCount + "次");
+                ivShake.setVisibility(View.VISIBLE);
+                if (mShakeListener != null) {
+                    mShakeListener.start();
+                }
+            } else {
+                tvWifi.setText("今日抽奖次数已达到上限");
+                tvCount.setText("今日红包总计:" + moneyCount + "元");
+                ivShake.setVisibility(View.GONE);
+                if (mShakeListener != null) {
+                    mShakeListener.stop();
+                }
             }
+            tvWifi.setTextColor(getResources().getColor(R.color.punchcard_blue));
+
+
         } else {
             ivDaka.setBackgroundResource(R.drawable.daka);
             ivDaka.setEnabled(false);
-            tvWifi.setText("未连接公司wifi，不能打卡");
-            tvWifi.setTextColor(getResources().getColor(R.color.punchcardwifi_gray));
-            tvCount.setVisibility(View.GONE);
-            ivShake.setVisibility(View.GONE);
-            if (mShakeListener != null) {
-                mShakeListener.stop();
+            if (reqCount > 0) {
+                tvWifi.setText("摇一摇抽取今日大奖");
+                tvCount.setText("剩余抽奖次数 " + reqCount + "次");
+                ivShake.setVisibility(View.VISIBLE);
+                if (mShakeListener != null) {
+                    mShakeListener.start();
+                }
+            } else {
+                tvWifi.setText("今日抽奖次数已达到上限");
+                tvCount.setText("今日红包总计:" + moneyCount + "元");
+                ivShake.setVisibility(View.GONE);
+                if (mShakeListener != null) {
+                    mShakeListener.stop();
+                }
             }
+//            tvWifi.setText("未连接公司wifi，不能打卡");
+//            tvWifi.setTextColor(getResources().getColor(R.color.punchcardwifi_gray));
+
+
         }
     }
 
@@ -505,7 +527,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                 }
             });
-        }else if(TextUtils.isEmpty(punchCardEntity.getToworktype())){
+        } else if (TextUtils.isEmpty(punchCardEntity.getToworktype())) {
             tvWifi.setVisibility(View.GONE);
             tvCount.setVisibility(View.GONE);
             ivShake.setVisibility(View.GONE);

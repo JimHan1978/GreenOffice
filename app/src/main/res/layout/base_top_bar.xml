@@ -10,7 +10,7 @@
         android:layout_height="50dp"
         android:padding="12dp"
         android:layout_alignParentLeft="true"
-        android:src="@drawable/ic_return"
+        android:src="@mipmap/back_btn_white"
         android:visibility="gone" />
     <TextView
         android:id="@+id/tv_title"

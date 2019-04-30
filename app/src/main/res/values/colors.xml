@@ -21,6 +21,8 @@
     <color name="punch_card_green">#29B424</color>
     <color name="punch_card_red">#FF0000</color>
 
+    <color name="bg_gray">#EBEBEB</color>
+    <color name="text_gray">#AAAAAA</color>
 
     <color name="colorgray">#F6F6F6</color>
     <color name="colorText">#5F5F5F</color><!--黑色 -->

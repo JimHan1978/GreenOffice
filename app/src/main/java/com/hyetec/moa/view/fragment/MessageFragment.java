@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,8 +45,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
     Unbinder unbinder;
     @BindView(R.id.gv_message)
     GdPullToRefreshView gvMessage;
-    @BindView(R.id.rly_title)
-    RelativeLayout rlyTitle;
+
     private CommonAdapter mAdapter;
     private List<MessageEntity> messageList;
 
@@ -77,12 +77,11 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        mTitleView.setText("消息");
-        //rlyTitle.setBackgroundResource(R.drawable.ic_message_s);
+        mTitleView.setText("格林办公");
         gvMessage.setLoadMoreEnable(false);
         gvMessage.setOnHeaderRefreshListener(this);
         gvMessage.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
-
+//        gvMessage.getHeaderView().setBackgroundColor(getActivity().getResources().getColor(R.color.rosybrown));
         getData();
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -108,6 +107,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
             if (messageLists != null && messageLists.isSuccess()) {
                 if (messageLists.getResult() != null) {
                     messageList = messageLists.getResult();
+
                     lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
                             getActivity().getApplicationContext(), messageList, R.layout.item_message) {
                         @Override
