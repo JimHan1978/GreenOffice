@@ -27,40 +27,35 @@ import timber.log.Timber;
 @FragmentScope
 public class MessageViewModel extends BaseViewModel<MessageModel> {
 
-    private final MediatorLiveData<BaseResponse<List<MessageEntity>>> mMessageData = new MediatorLiveData<BaseResponse<List<MessageEntity>>>();
+    private MediatorLiveData<BaseResponse<List<MessageEntity>>> mMessageData = new MediatorLiveData<BaseResponse<List<MessageEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> mMessageResponse;
-    
+
     @Inject
     public MessageViewModel(Application application, MessageModel model) {
         super(application, model);
     }
 
     public LiveData<BaseResponse<List<MessageEntity>>> getMessageList() {
-
-        if (mMessageResponse != null) {
-            mMessageData.removeSource(mMessageResponse);
-        }
+        mMessageData = new MediatorLiveData<>();
         mMessageResponse = mModel.getMessageLists();
-        mMessageData.addSource(mMessageResponse, observer -> {
-            mMessageData.removeSource(mMessageResponse);
-            mMessageData.addSource(mMessageResponse, messageResource -> {
-                if (messageResource == null) {
-                    messageResource = Resource.error("", null);
-                }
-                Timber.d("Load weather now: %s", messageResource.status);
-                if (messageResource.status == Status.LOADING) {
+        mMessageData.addSource(mMessageResponse, messageResource -> {
+            if (messageResource == null) {
+                messageResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", messageResource.status);
+            if (messageResource.status == Status.LOADING) {
 //                    STATUS.set(Status.LOADING);
-                    Timber.d("Loadding.....");
-                } else if (messageResource.status == Status.SUCCESS) {
-                    BaseResponse<List<MessageEntity>> result = messageResource.data;
-                    mMessageData.postValue(result);
-                    //STATUS.set(Status.SUCCESS);
-                } else if (messageResource.status == Status.ERROR) {
-                    //STATUS.set(Status.ERROR);
-                    Timber.d("Load error.....");
-                }
-            });
+                Timber.d("Loadding.....");
+            } else if (messageResource.status == Status.SUCCESS) {
+                BaseResponse<List<MessageEntity>> result = messageResource.data;
+                mMessageData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (messageResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
         });
+
         return mMessageData;
     }
 }

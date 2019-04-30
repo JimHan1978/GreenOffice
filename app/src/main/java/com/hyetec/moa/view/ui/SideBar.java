@@ -54,7 +54,7 @@ public class SideBar extends View {
 		float singleHeight = (height * 1f) / b.length;// 获取每一个字母的高度
 		singleHeight = (height * 1f - singleHeight/2) / b.length;
 		for (int i = 0; i < b.length; i++) {
-			paint.setColor(Color.rgb(68, 183, 118));
+			paint.setColor(Color.rgb(82, 146, 200));
 			// paint.setColor(Color.WHITE);
 			paint.setTypeface(Typeface.DEFAULT_BOLD);
 			paint.setAntiAlias(true);

@@ -9,36 +9,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
-import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
-import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.view.activity.LoginActivity;
-import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.ViewHolder;
 import com.hyetec.moa.view.ui.MyListView;
-import com.hyetec.moa.viewmodel.ContactsViewModel;
+import com.hyetec.moa.view.ui.pullview.GdPullToRefreshView;
 import com.hyetec.moa.viewmodel.MessageViewModel;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import timber.log.Timber;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MessageFragment extends BaseFragment<MessageViewModel> {
+public class MessageFragment extends BaseFragment<MessageViewModel> implements GdPullToRefreshView.OnHeaderRefreshListener {
 
 
     @BindView(R.id.lv_item)
@@ -46,8 +42,13 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @BindView(R.id.tv_title)
     TextView mTitleView;
     Unbinder unbinder;
+    @BindView(R.id.gv_message)
+    GdPullToRefreshView gvMessage;
+    @BindView(R.id.rly_title)
+    RelativeLayout rlyTitle;
     private CommonAdapter mAdapter;
     private List<MessageEntity> messageList;
+
     public MessageFragment() {
         // Required empty public constructor
     }
@@ -77,13 +78,19 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         mTitleView.setText("消息");
+        //rlyTitle.setBackgroundResource(R.drawable.ic_message_s);
+        gvMessage.setLoadMoreEnable(false);
+        gvMessage.setOnHeaderRefreshListener(this);
+        gvMessage.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
+
+        getData();
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(messageList.get(i).getMessageType().equals("report")){
-                    startActivity(new Intent(getActivity(),WebViewActivity.class).putExtra("date",messageList.get(i).getYearAndMonth()));
-                }else if(messageList.get(i).getMessageType().equals("attendance")) {
-                    startActivity(new Intent(getActivity(),PunchCardActivity.class));
+                if (messageList.get(i).getMessageType().equals("report")) {
+                    startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("date", messageList.get(i).getYearAndMonth()));
+                } else if (messageList.get(i).getMessageType().equals("attendance")) {
+                    startActivity(new Intent(getActivity(), PunchCardActivity.class));
                 }
             }
         });
@@ -97,8 +104,9 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
 
     public void getData() {
         mViewModel.getMessageList().observe(this, messageLists -> {
-            if(messageLists!=null && messageLists.isSuccess()){
-                if( messageLists.getResult()!=null) {
+            gvMessage.onHeaderRefreshFinish();
+            if (messageLists != null && messageLists.isSuccess()) {
+                if (messageLists.getResult() != null) {
                     messageList = messageLists.getResult();
                     lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
                             getActivity().getApplicationContext(), messageList, R.layout.item_message) {
@@ -107,7 +115,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
                             helper.setText(R.id.tv_message_name, item.getTitle());
                             helper.setText(R.id.tv_message_content, item.getSubTitle());
 
-                            if(item.getMessageType().equals("report")) {
+                            if (item.getMessageType().equals("report")) {
                                 helper.setImageResource(R.id.iv_message, R.drawable.ic_message_logo);
                                 helper.setText(R.id.tv_message_time, item.getDate());
                                 if (item.getSeeCount() > 0) {
@@ -115,7 +123,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
                                 } else {
                                     helper.setViewVisibility(R.id.iv_message_new, View.VISIBLE);
                                 }
-                            }else if(item.getMessageType().equals("attendance")) {
+                            } else if (item.getMessageType().equals("attendance")) {
                                 helper.setImageResource(R.id.iv_message, R.drawable.ic_attendance);
                                 helper.setViewVisibility(R.id.iv_message_new, View.GONE);
                             }
@@ -124,14 +132,14 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
                         }
                     });
                 }
-            }else {
+            } else {
 
-                if(messageLists.getMessage().equals("session过期")){
-                    Toast.makeText(getActivity(),"登录失效，请重新登录!",Toast.LENGTH_LONG).show();
-                    startActivity(new Intent(getActivity(),LoginActivity.class));
+                if (messageLists.getMessage().equals("session过期")) {
+                    Toast.makeText(getActivity(), "登录失效，请重新登录!", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getActivity(), LoginActivity.class));
                     getActivity().finish();
-                }else {
-                    Toast.makeText(getActivity(),messageLists.getMessage(),Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getActivity(), messageLists.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -148,12 +156,17 @@ public class MessageFragment extends BaseFragment<MessageViewModel> {
     @Override
     public void onResume() {
         super.onResume();
-        getData();
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onHeaderRefresh(GdPullToRefreshView view) {
+        getData();
     }
 }

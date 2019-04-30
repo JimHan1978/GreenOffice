@@ -42,18 +42,14 @@ public class MessageModel extends BaseModel {
     }
 
     public MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> getMessageLists() {
-        if (mMessageResponse == null) {
-            mMessageResponse = new MutableLiveData<>();
-        }
+
+        mMessageResponse=new MutableLiveData<>();
         mRepositoryManager
                 .obtainRetrofitService(ContactsService.class)
                 .getMessageLists()
                 .onBackpressureLatest()
                 .subscribeOn(Schedulers.io())
                 .doOnNext(messageResponse -> {
-                    if (messageResponse.getResult()==null) {
-
-                    }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<MessageEntity>>>(mErrorHandler) {

@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	<include layout="@layout/base_top_bar" />
+
+	<include
+		android:id="@+id/top"
+		android:visibility="gone"
+		layout="@layout/base_top_bar" />
+
+
 
  	<WebView 
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
+		android:layout_below="@+id/top"
 	    android:id="@+id/wv_item"   
     />
 
-</LinearLayout>
+	<ImageView
+		android:id="@+id/iv_home_page"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@+id/top"
+		android:scaleType="fitXY"
+		android:background="@color/white"/>
+
+</RelativeLayout>
