@@ -70,13 +70,15 @@
         
         //第四页数据
         $("#housingund").text(Math.round(detail.gjjlmksr));
-        $("#income_cash").text(Math.round(detail.xjflsr));
         $("#income_subsidy").text(Math.round(detail.gdbtksr));
-        $("#income_bonus").text(Math.round(detail.jjsr));
-        $("#income_other").text(Math.round(detail.qtjlsr));
+
+        $("#income_cash").text(Math.round(detail.xjflsr));//福利
         $("#rank_cash").text(detail.beatXjflsrPercent);
 
+        $("#income_bonus").text(Math.round(detail.jjsr));//奖励
         $("#rank_bonusIncomePercent").text(detail.beatBonusIncomePercent);
+
+        $("#income_other").text(Math.round(detail.qtjlsr));//红包
         $("#rank_other").text(detail.beatQtjlsrPercent);
 
 
