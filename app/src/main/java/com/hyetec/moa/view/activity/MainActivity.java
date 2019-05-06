@@ -1,6 +1,10 @@
 package com.hyetec.moa.view.activity;
 
+import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
@@ -16,6 +21,7 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.utils.SystemSettings;
 import com.hyetec.moa.utils.TagAliasOperatorHelper;
 import com.hyetec.moa.view.adapter.MainPagerAdapter;
 import com.hyetec.moa.view.fragment.ApplicationFragment;
@@ -23,6 +29,10 @@ import com.hyetec.moa.view.fragment.ContactsFragment;
 import com.hyetec.moa.view.fragment.MessageFragment;
 import com.hyetec.moa.view.fragment.PersonalFragment;
 import com.hyetec.moa.viewmodel.MainViewModel;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +52,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     private int mReplace = 0;
     private List<Fragment> mFragments;
     private List<String> mFragmentTitles;
-    private int iconImgs [] = {
+    private int iconImgs[] = {
             R.drawable.tab_message_selector,
             R.drawable.tab_app_selector,
             R.drawable.tab_contacts_selector,
@@ -59,6 +69,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     public int initView(Bundle savedInstanceState) {
 
 
+
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //创建ViewModel
@@ -67,7 +78,46 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             //Restore data
             mReplace = savedInstanceState.getInt(EventBusTags.ACTIVITY_FRAGMENT_REPLACE);
         }
+        updataApp();
         return R.layout.activity_main;
+    }
+
+    private void updataApp() {
+        PgyUpdateManager.register(MainActivity.this,
+                new UpdateManagerListener() {
+                    @Override
+                    public void onUpdateAvailable(final String result) {
+                        // 将新版本信息封装到AppBean中
+                        final AppBean appBean = getAppBeanFromString(result);
+                        String localVesion = SystemSettings.getVersion(MainActivity.this);
+                        if (SystemSettings.compareVersion(appBean.getVersionName(), localVesion) > 0) {
+                            new AlertDialog.Builder(MainActivity.this)
+                                    .setTitle("更新通知")
+                                    .setMessage("是否更新格林办公" + appBean.getVersionName() + "?")
+                                    .setPositiveButton("立即更新", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int i) {
+                                            dialog.dismiss();
+                                            Uri uri = Uri.parse(appBean.getDownloadURL());
+                                            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .setNegativeButton("稍后更新", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+
+                    }
+
+                    @Override
+                    public void onNoUpdateAvailable() {
+                    }
+                });
     }
 
     @Override
@@ -76,6 +126,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     }
 
     private void initViewPager() {
+
+
         if (mFragments == null) {
             mFragments = new ArrayList<>();
         }
@@ -126,9 +178,9 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         JPushInterface.init(getApplicationContext());
         JPushInterface.resumePush(this);
         //注册推送别名
-        if(ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA)!=null){
-            UserEntity userEntity= (UserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
-          //  setPushAlias(userEntity.getCode());
+        if (ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA) != null) {
+            UserEntity userEntity = (UserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            //  setPushAlias(userEntity.getCode());
             setPushAlias("H026");
         }
 
@@ -150,20 +202,21 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         });
     }
 
-    private void setPushAlias(String userId){
+    private void setPushAlias(String userId) {
         TagAliasOperatorHelper helper = TagAliasOperatorHelper.getInstance();
-        TagAliasOperatorHelper.TagAliasBean tagAliasBean =  helper.createTagAliasBean(TagAliasOperatorHelper.ACTION_SET,true,userId,null);
-        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(),tagAliasBean);
+        TagAliasOperatorHelper.TagAliasBean tagAliasBean = helper.createTagAliasBean(TagAliasOperatorHelper.ACTION_SET, true, userId, null);
+        TagAliasOperatorHelper.getInstance().handleAction(getApplicationContext(), tagAliasBean);
     }
+
     /**
      * 使用tablayout + viewpager时注意 如果设置了setupWithViewPager
      * 则需要重新执行下方对每个条目赋值
      * 否则会出现icon文字不显示的bug
      */
     private void resetTabLayout() {
-        for (int i=0;i<tabLayout.getTabCount();i++){
+        for (int i = 0; i < tabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = tabLayout.getTabAt(i);
-            if (tab!=null){
+            if (tab != null) {
                 tab.setText(mFragmentTitles.get(i));
                 tab.setCustomView(getTabView(i));
             }
@@ -172,6 +225,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     /**
      * 自定义tab样式
+     *
      * @param position
      * @return
      */
@@ -183,6 +237,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         img.setImageResource(iconImgs[position]);
         return v;
     }
+
     protected void onResume() {
         super.onResume();
         isForeground = true;
@@ -193,5 +248,6 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         super.onPause();
         isForeground = false;
         JPushInterface.onPause(this);
+
     }
 }

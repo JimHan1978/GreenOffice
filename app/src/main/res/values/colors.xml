@@ -3,7 +3,8 @@
     <color name="colorPrimary">#5292C8</color>
     <!--<color name="colorPrimary">#001C56</color>-->
 
-    <color name="colorPrimaryDark">#00008b</color>
+    <color name="colorPrimaryDark">#3D479E</color>
+    <!--<color name="colorPrimaryDark">#00008b</color>-->
     <color name="colorAccent">#D81B60</color>
     <color name="colorBlack">#212121</color>
     <color name="colorSecondary">#757575</color>
@@ -17,6 +18,12 @@
     <color name="wifi">#A2A19F</color>
     <color name="punchcard_blue">#2F8CEB</color>
     <color name="punchcardwifi_gray">#A2A19F</color>
+
+
+
+    <color name="crown_copper">#FF7203</color>
+    <color name="crown_gold">#FFB103</color>
+    <color name="crown_silver">#8BABBB</color>
 
     <color name="punch_card_green">#29B424</color>
     <color name="punch_card_red">#FF0000</color>

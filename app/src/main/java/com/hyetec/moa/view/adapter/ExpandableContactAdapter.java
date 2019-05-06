@@ -127,10 +127,8 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 			c.name.setText("");
 			RequestOptions requestOptions = new RequestOptions();
 			requestOptions.placeholder(R.drawable.ic_avatar_default);
-//			c.iv_head.setImageResource(R.drawable.img_avatar_default);
 			Glide.with(context).load(Api.IMG_URL+photo).apply(requestOptions).into( c.iv_head);
 		}
-		//c.tv.setVisibility(View.VISIBLE);
 		c.tv_phone_num.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -157,7 +155,7 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		});
 		return v;
 	}
-	final public static int REQUEST_CODE_ASK_CALL_PHONE = 123;
+
 	class GroupHeple {
 		TextView group_name;
 		ImageView iv_group_head;
@@ -227,45 +225,5 @@ public class ExpandableContactAdapter extends BaseExpandableListAdapter{
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	/*@Override
-	public int getHeaderState(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
-		final int childCount = getChildrenCount(groupPosition);
-		if (childPosition == childCount - 1) {
-			return PINNED_HEADER_PUSHED_UP;
-		} else if (childPosition == -1
-				&& !listView.isGroupExpanded(groupPosition)) {
-			return PINNED_HEADER_GONE;
-		} else {
-			return PINNED_HEADER_VISIBLE;
-		}
-	}
-
-	@Override
-	public void configureHeader(View header, int groupPosition, int childPosition, int alpha) {
-		// TODO Auto-generated method stub
-		String groupData =  list.get(groupPosition).getGroupName();
-		int num = list.get(groupPosition).getUserNum();
-		((TextView) header.findViewById(R.id.group_name)).setText(groupData);
-		((TextView) header.findViewById(R.id.user_num1)).setText(num + "人");
-	}
-
-	private SparseIntArray groupStatusMap = new SparseIntArray(); 
-	@Override
-	public void setGroupClickStatus(int groupPosition, int status) {
-		// TODO Auto-generated method stub
-		groupStatusMap.put(groupPosition, status);
-	}
-
-	@Override
-	public int getGroupClickStatus(int groupPosition) {
-		// TODO Auto-generated method stub
-		if (groupPosition >0 && groupStatusMap.keyAt(groupPosition)>=0) {
-			return groupStatusMap.get(groupPosition);
-		} else {
-			return 0;
-		}
-	}*/
 
 }

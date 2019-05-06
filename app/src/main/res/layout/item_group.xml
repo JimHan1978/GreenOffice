@@ -12,11 +12,10 @@
         android:layout_marginLeft="10dp"/>
     <TextView 
         android:id="@+id/tv_group_name"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="45dp"
-        android:text="同事"
         android:gravity="center_vertical"
-        android:paddingLeft="5dp"
+        android:text="同事"
         android:textSize="18sp"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/iv_group_head"/>
@@ -24,14 +23,13 @@
         android:id="@+id/tv_user_num"
          android:layout_width="wrap_content"
         android:layout_height="45dp"
-        android:text=""
         android:textSize="12sp"
         android:textColor="@color/gray"
         android:gravity="center_vertical"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"/>
 
-    <View 
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/tv_group_name"

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.view.activity.BonusListActivity;
 
@@ -120,12 +122,24 @@ public class ViewHolder
         return this;
     }
 
+
+    public ViewHolder setTextColor(int viewId, int drawableId)
+    {
+        TextView view = getView(viewId);
+        view.setTextColor(drawableId);
+
+        return this;
+    }
+
     public ViewHolder setImagehttp(int viewId, String phont,Context context)
     {
         ImageView view = getView(viewId);
-        Glide.with(context).load(Api.IMG_URL+phont).into(view);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.ic_avatar_default);
+        Glide.with(context).load(Api.IMG_URL+phont).apply(requestOptions).into(view);
         return this;
     }
+
 
     /**
      * 为ImageView设置图片

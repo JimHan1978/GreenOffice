@@ -9,6 +9,8 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.utils.PermissionsChecker;
+import com.pgyersdk.crash.PgyCrashManager;
+import com.pgyersdk.update.PgyUpdateManager;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -53,6 +55,12 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
 
     }
 }

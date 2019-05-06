@@ -62,7 +62,7 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
      */
     @Override
     public void initData(Bundle savedInstanceState) {
-        tvTitle.setText("红包月排行榜");
+        tvTitle.setText("月度红包排行榜");
         ivLeft.setVisibility(View.VISIBLE);
         mViewModel.getBonusList().observe(this, bonuslists -> {
             if(bonuslists!=null && bonuslists.isSuccess()){
@@ -76,6 +76,30 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
                             helper.setText(R.id.tv_user_name, item.getUserName());
                             helper.setText(R.id.tv_amount_money, item.getSumAmount()+"元");
                             helper.setImagehttp(R.id.iv_head, item.getPhoto(),BonusListActivity.this);
+
+                            if(pos==0){
+                                helper.setImageResource(R.id.iv_crown,R.drawable.shape_ring_gold);
+                                helper.setImageResource(R.id.iv_crown_type,R.drawable.ic_crown_gold);
+                                helper.setViewVisibility(R.id.iv_crown,View.VISIBLE);
+                                helper.setViewVisibility(R.id.iv_crown_type,View.VISIBLE);
+                                helper.setTextColor(R.id.tv_ranking,getResources().getColor(R.color.crown_gold));
+                            }else if(pos==1){
+                                helper.setImageResource(R.id.iv_crown,R.drawable.shape_ring_silver);
+                                helper.setImageResource(R.id.iv_crown_type,R.drawable.ic_crown_silver);
+                                helper.setViewVisibility(R.id.iv_crown,View.VISIBLE);
+                                helper.setViewVisibility(R.id.iv_crown_type,View.VISIBLE);
+                                helper.setTextColor(R.id.tv_ranking,getResources().getColor(R.color.crown_silver));
+                            }else if(pos==2){
+                                helper.setImageResource(R.id.iv_crown,R.drawable.shape_ring_copper);
+                                helper.setImageResource(R.id.iv_crown_type,R.drawable.ic_crown_copper);
+                                helper.setViewVisibility(R.id.iv_crown,View.VISIBLE);
+                                helper.setViewVisibility(R.id.iv_crown_type,View.VISIBLE);
+                                helper.setTextColor(R.id.tv_ranking,getResources().getColor(R.color.crown_copper));
+                            }else {
+                                helper.setViewVisibility(R.id.iv_crown,View.GONE);
+                                helper.setViewVisibility(R.id.iv_crown_type,View.GONE);
+                                helper.setTextColor(R.id.tv_ranking,getResources().getColor(R.color.text_gray));
+                            }
                         }
                     });
                 }

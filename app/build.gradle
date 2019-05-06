@@ -15,8 +15,8 @@ android {
         applicationId "com.hyetec.moa"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 2
-        versionName "1.0.1"
+        versionCode 6
+        versionName "1.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //https://developer.android.com/studio/build/multidex.html?hl=zh-cn
@@ -113,4 +113,5 @@ dependencies {
     implementation files('libs/avalidations.jar')
     implementation files('libs/sticky_list_header.jar')
 
+    implementation 'com.pgyersdk:sdk:2.8.1'
 }

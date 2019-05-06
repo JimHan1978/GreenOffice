@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GroupActivity extends BaseActivity<GroupViewModel> implements StickyLayout.OnGiveUpTouchEventListener {
+public class GroupActivity extends BaseActivity<GroupViewModel>  {
 
     @BindView(R.id.tv_title)
     TextView tv_title;
@@ -37,18 +37,8 @@ public class GroupActivity extends BaseActivity<GroupViewModel> implements Stick
     RelativeLayout rly_main;
     @BindView(R.id.plv_expandablelist)
     PinnedHeaderExpandableListView plvExpandablelist;
-    @BindView(R.id.CustomEditText)
-    TextView CustomEditText;
-    @BindView(R.id.sticky_layout)
-    StickyLayout sticky_layout;
     @BindView(R.id.iv_left)
     ImageView ivLeft;
-    @BindView(R.id.iv_search)
-    ImageView ivSearch;
-    @BindView(R.id.sticky_header)
-    LinearLayout stickyHeader;
-    @BindView(R.id.sticky_content)
-    LinearLayout stickyContent;
 
 
     private List<GroupContactEntity> mGroupList = new ArrayList<GroupContactEntity>();
@@ -85,36 +75,17 @@ public class GroupActivity extends BaseActivity<GroupViewModel> implements Stick
                         mGroupList = contactUserList;
                         plvExpandablelist.setHeaderView(LayoutInflater.from(this).inflate(R.layout.item_group_head,
                                 plvExpandablelist, false));
-                        mAdapter = new ExpandableContactAdapter(mGroupList, getApplicationContext());
+                        mAdapter = new ExpandableContactAdapter(mGroupList, this);
                         plvExpandablelist.setAdapter(mAdapter);
                     }
                 });
             });
         });
         plvExpandablelist.setOnGroupClickListener(new GroupClickListener());
-        sticky_layout.setOnGiveUpTouchEventListener(this);
 
-        rly_main.setOnTouchListener(new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                onTouchEvent(event);
-                return false;
-            }
-        });
 
     }
 
-    @Override
-    public boolean giveUpTouchEvent(MotionEvent event) {
-        if (plvExpandablelist.getFirstVisiblePosition() == 0) {
-            View view = plvExpandablelist.getChildAt(0);
-            if (view != null && view.getTop() >= 0) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 
     @Override

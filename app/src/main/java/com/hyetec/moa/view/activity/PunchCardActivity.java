@@ -146,11 +146,11 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             userId = userEntity.getUserId() + "";
         }
 
-        if (Connected.isConnected(this)) {
-            getInfo();
-        } else {
-            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
-        }
+//        if (Connected.isConnected(this)) {
+//            getInfo();
+//        } else {
+//            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
+//        }
 
 
         if (ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS) != null) {
@@ -170,7 +170,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
     public void showMoney(double count, double sum) {
         adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("中奖提示")
-                .setMessage(count != 0 ? "恭喜你摇出" + count + "元,今日总计" + sum + "元" : "本次没中奖,清继续努力").
+                .setMessage(count != 0 ? "恭喜你摇出" + count + "元,今日总计" + sum + "元" : "本次未中奖,请继续努力").
                         setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -193,24 +193,27 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mShakeListener != null) {
-            mShakeListener.start();
+        tvWifi.setVisibility(View.GONE);
+        tvCount.setVisibility(View.GONE);
+        ivShake.setVisibility(View.GONE);
+        if (Connected.isConnected(this)) {
+            getInfo();
         }
-        //
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mShakeListener != null) {
+        if (mShakeListener != null  ) {
             mShakeListener.stop();
+
         }
 
     }
 
 
     class Broadcast extends BroadcastReceiver {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
@@ -230,47 +233,26 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         if (strBSSID != null && checkWiFiBssId(strBSSID)) {
             ivDaka.setEnabled(true);
             ivDaka.setBackgroundResource(R.drawable.select_daka);
-            //tvWifi.setText("已连接公司wifi，点击上方按钮打卡");
-            if (reqCount > 0) {
-                tvWifi.setText("摇一摇抽取今日大奖");
-                tvCount.setText("剩余抽奖次数 " + reqCount + "次");
-                ivShake.setVisibility(View.VISIBLE);
-                if (mShakeListener != null) {
-                    mShakeListener.start();
-                }
-            } else {
-                tvWifi.setText("今日抽奖次数已达到上限");
-                tvCount.setText("今日红包总计:" + moneyCount + "元");
-                ivShake.setVisibility(View.GONE);
-                if (mShakeListener != null) {
-                    mShakeListener.stop();
-                }
-            }
-            tvWifi.setTextColor(getResources().getColor(R.color.punchcard_blue));
-
 
         } else {
             ivDaka.setBackgroundResource(R.drawable.daka);
             ivDaka.setEnabled(false);
-            if (reqCount > 0) {
-                tvWifi.setText("摇一摇抽取今日大奖");
-                tvCount.setText("剩余抽奖次数 " + reqCount + "次");
-                ivShake.setVisibility(View.VISIBLE);
-                if (mShakeListener != null) {
-                    mShakeListener.start();
-                }
-            } else {
-                tvWifi.setText("今日抽奖次数已达到上限");
-                tvCount.setText("今日红包总计:" + moneyCount + "元");
-                ivShake.setVisibility(View.GONE);
-                if (mShakeListener != null) {
-                    mShakeListener.stop();
-                }
+
+        }
+        if (reqCount > 0) {
+            tvWifi.setText("摇一摇抽取今日大奖");
+            tvCount.setText("剩余抽奖次数 " + reqCount + "次");
+            ivShake.setVisibility(View.VISIBLE);
+            if (mShakeListener != null) {
+                mShakeListener.start();
             }
-//            tvWifi.setText("未连接公司wifi，不能打卡");
-//            tvWifi.setTextColor(getResources().getColor(R.color.punchcardwifi_gray));
-
-
+        } else {
+            tvWifi.setText("今日抽奖次数已达到上限");
+            tvCount.setText("今日红包总计:" + moneyCount + "元");
+            ivShake.setVisibility(View.GONE);
+            if (mShakeListener != null) {
+                mShakeListener.stop();
+            }
         }
     }
 
@@ -304,12 +286,10 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 if (ad.isShowing()) {
                     if (getWindow()
                             .getAttributes().softInputMode == WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE) {
-
                     } else {
                         Toast.makeText(PunchCardActivity.this, "请说明原因", Toast.LENGTH_SHORT).show();
                         return true;
                     }
-
                 }
             }
             return false;
@@ -486,6 +466,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         str_tui_reason = punchCardEntity.getOffworkremark();
 
         if (reqCount > 0 && !punchCardEntity.getToworktype().equals("1")) {
+            tvWifi.setText("摇一摇抽取今日大奖");
             tvCount.setText("剩余抽奖次数 " + reqCount + "次");
             tvWifi.setVisibility(View.VISIBLE);
             tvCount.setVisibility(View.VISIBLE);
@@ -494,32 +475,39 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
                 @Override
                 public void onShake() {
-                    if (!TimeUtil.isFastDoubleClick() && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
+                    if (!TimeUtil.isFastDoubleClick() &&(adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
                         mShakeListener.stop();
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
                                 DrawLotteryEntity drawLotteryEntity = moneyData.getResult();
-                                reqCount = drawLotteryEntity.getRemainder();
-                                moneyCount = drawLotteryEntity.getSumAmount();
+                                reqCount = (int)drawLotteryEntity.getRemainder();
+                                moneyCount = (double) drawLotteryEntity.getSumAmount();
                                 double money = drawLotteryEntity.getWinAmount();
                                 showMoney(money, moneyCount);
                                 vibratorPhone();
                                 if (reqCount > 0) {
+                                    tvWifi.setText("摇一摇抽取今日大奖");
                                     tvCount.setText("剩余抽奖次数 " + reqCount + "次");
                                     ivShake.setVisibility(View.VISIBLE);
-                                    mShakeListener.start();
+                                    if (mShakeListener != null) {
+                                        mShakeListener.start();
+                                    }
+
                                 } else {
                                     tvWifi.setText("今日抽奖次数已达到上限");
                                     tvCount.setText("今日红包总计:" + moneyCount + "元");
                                     ivShake.setVisibility(View.GONE);
-                                    mShakeListener.stop();
+                                    if (mShakeListener != null) {
+                                        mShakeListener.stop();
+                                    }
                                 }
 
                             } else {
                                 Toast.makeText(PunchCardActivity.this, moneyData.getMessage(), Toast.LENGTH_SHORT).show();
-                                mShakeListener.start();
+                                if (mShakeListener != null) {
+                                    mShakeListener.start();
+                                }
                             }
-
                         });
                     } else {
 
@@ -531,10 +519,18 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             tvWifi.setVisibility(View.GONE);
             tvCount.setVisibility(View.GONE);
             ivShake.setVisibility(View.GONE);
+            if (mShakeListener != null) {
+                mShakeListener.stop();
+            }
         } else {
+            tvWifi.setVisibility(View.VISIBLE);
+            tvCount.setVisibility(View.VISIBLE);
+            ivShake.setVisibility(View.GONE);
             tvWifi.setText("今日抽奖次数已达到上限");
             tvCount.setText("今日红包总计:" + moneyCount + "元");
-            ivShake.setVisibility(View.GONE);
+            if (mShakeListener != null) {
+                mShakeListener.stop();
+            }
         }
     }
 

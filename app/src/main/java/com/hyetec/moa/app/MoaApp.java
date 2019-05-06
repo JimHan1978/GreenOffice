@@ -5,6 +5,7 @@ import android.content.Context;
 import com.hyetec.hmdp.core.base.BaseApplication;
 import com.hyetec.moa.di.component.AppComponent;
 import com.hyetec.moa.di.component.DaggerAppComponent;
+import com.pgyersdk.crash.PgyCrashManager;
 
 import cn.jpush.android.api.JPushInterface;
 //import com.hyetec.moa.di.component.DaggerAppComponent;
@@ -39,7 +40,7 @@ public class MoaApp extends BaseApplication {
 
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
-
+        PgyCrashManager.register(this);
     }
 
 
