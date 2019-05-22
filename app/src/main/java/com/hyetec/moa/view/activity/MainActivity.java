@@ -20,6 +20,7 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.EventBusTags;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.SystemSettings;
 import com.hyetec.moa.utils.TagAliasOperatorHelper;
@@ -79,6 +80,17 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             mReplace = savedInstanceState.getInt(EventBusTags.ACTIVITY_FRAGMENT_REPLACE);
         }
         updataApp();
+
+        // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
+        JPushInterface.init(getApplicationContext());
+        JPushInterface.resumePush(this);
+        //注册推送别名
+        if (ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA) != null) {
+            LoginUserEntity userEntity = (LoginUserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            setPushAlias(userEntity.getUserno());
+
+        }
+        JPushInterface.stopCrashHandler(this);
         return R.layout.activity_main;
     }
 
@@ -174,15 +186,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         //自定义tab样式
         resetTabLayout();
 
-        // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
-        JPushInterface.init(getApplicationContext());
-        JPushInterface.resumePush(this);
-        //注册推送别名
-        if (ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA) != null) {
-            UserEntity userEntity = (UserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
-            //  setPushAlias(userEntity.getCode());
-            setPushAlias("H026");
-        }
+
 
 
         contentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

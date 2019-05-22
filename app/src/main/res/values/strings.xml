@@ -31,6 +31,7 @@
     <string name="complete">完成</string>
 
 
-
+    <string name="scan">扫一扫签到</string>
+    <string name="shake">摇一摇红包</string>
 
 </resources>

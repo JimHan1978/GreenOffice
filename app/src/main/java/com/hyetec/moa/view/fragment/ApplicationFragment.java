@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
 import com.hyetec.moa.R;
+import com.hyetec.moa.view.activity.CompanyActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.viewmodel.ApplicationViewModel;
 
@@ -92,7 +93,7 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     }
 
     @OnClick(R.id.iv_bg)
-    public void onViewClicked() {startActivity(new Intent(getActivity(),PunchCardActivity.class));
+    public void onViewClicked() {startActivity(new Intent(getActivity(),CompanyActivity.class));
        // Toast.makeText(getContext(),"敬请期待!",Toast.LENGTH_SHORT).show();
     }
 }

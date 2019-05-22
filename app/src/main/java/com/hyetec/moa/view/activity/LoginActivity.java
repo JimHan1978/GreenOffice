@@ -16,6 +16,7 @@ import com.hyetec.hmdp.view.SuperEditText;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 
@@ -66,6 +67,9 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
         if(ACache.get(this).getAsString(MoaApp.USER_NAME)!=null){
             mUserNameView.setText(ACache.get(this).getAsString(MoaApp.USER_NAME));
         }
+        if(ACache.get(this).getAsString(MoaApp.POSS_WORD)!=null){
+            mPasswordView.setText(ACache.get(this).getAsString(MoaApp.POSS_WORD));
+        }
     }
 
     @OnClick(R.id.btn_login)
@@ -78,15 +82,17 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
             return;
         }
 
-        mViewModel.login(userName,password).observe(this, new Observer<BaseResponse<UserEntity>>() {
+        mViewModel.login(userName,password).observe(this, new Observer<BaseResponse<LoginUserEntity>>() {
             @Override
-            public void onChanged(@Nullable BaseResponse<UserEntity> loginData) {
+            public void onChanged(@Nullable BaseResponse<LoginUserEntity> loginData) {
                 if(loginData!=null && loginData.isSuccess()){
                     //登录成功，跳转到主界面
                     Timber.d("登录成功: %s", loginData.getResult().getUserName());
                     ACache.get(LoginActivity.this).put(MoaApp.IS_LOGIN,"true");
                     ACache.get(LoginActivity.this).put(MoaApp.USER_DATA,loginData.getResult());
                     ACache.get(LoginActivity.this).put(MoaApp.USER_NAME,userName);
+                    ACache.get(LoginActivity.this).put(MoaApp.POSS_WORD,password);
+
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
                 }else {

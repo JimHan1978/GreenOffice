@@ -13,6 +13,7 @@ import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.TodayMoneyEntity;
 
 import org.reactivestreams.Subscription;
 
@@ -37,6 +38,8 @@ public class PunchCardModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLottery;
 
     private MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> mBonusResource;
+
+    private MutableLiveData<Resource<BaseResponse<List<TodayMoneyEntity>>>> mTodayMoneyResource;
     @Inject
     public PunchCardModel(Application application) {
         super(application);
@@ -247,6 +250,39 @@ public class PunchCardModel extends BaseModel {
                     }
                 });
         return mResultResource;
+
+    }
+
+    public MutableLiveData<Resource<BaseResponse<List<TodayMoneyEntity>>>> getTodayMoneyList(Map<String, String> request) {
+        mTodayMoneyResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .loadDailyLotterys(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<TodayMoneyEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mTodayMoneyResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mTodayMoneyResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<TodayMoneyEntity>> response) {
+                        mTodayMoneyResource.setValue(Resource.success(response));
+                    }
+                });
+        return mTodayMoneyResource;
 
     }
 }

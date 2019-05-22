@@ -25,7 +25,12 @@ public class SplashActivity extends AppCompatActivity {
             Manifest.permission.GET_ACCOUNTS,
             Manifest.permission.READ_CONTACTS,
             Manifest.permission.CALL_PHONE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.VIBRATE,
+
     };
+
+
     private PermissionsChecker mPermissionsChecker; // 权限检测器
     private static final int REQUEST_CODE = 0; // 请求码
     private String isLogin;

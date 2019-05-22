@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#5292C8</color>
     <!--<color name="colorPrimary">#001C56</color>-->
-
+    <color name="colorPrimary_transparent">#505292C8</color>
     <color name="colorPrimaryDark">#3D479E</color>
     <!--<color name="colorPrimaryDark">#00008b</color>-->
     <color name="colorAccent">#D81B60</color>
@@ -19,7 +19,7 @@
     <color name="punchcard_blue">#2F8CEB</color>
     <color name="punchcardwifi_gray">#A2A19F</color>
 
-
+    <color name="text_gray_dialog">#E6E6E6</color>
 
     <color name="crown_copper">#FF7203</color>
     <color name="crown_gold">#FFB103</color>

@@ -15,6 +15,7 @@ import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.TodayMoneyEntity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +44,10 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
 
     private MediatorLiveData<BaseResponse<List<BonusEntity>>> mBonusData = new MediatorLiveData<BaseResponse<List<BonusEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> mBonusResponse;
+
+
+    private MediatorLiveData<BaseResponse<List<TodayMoneyEntity>>> mTodayMoneyData = new MediatorLiveData<BaseResponse<List<TodayMoneyEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<TodayMoneyEntity>>>> mTodayMoneyResponse;
 
     @Inject
     public PunchCardViewModel(Application application, PunchCardModel model) {
@@ -214,4 +219,31 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
         return mResultData;
     }
 
+
+    public LiveData<BaseResponse<List<TodayMoneyEntity>>> getTodayMoneyList(String userId) {
+        Map<String, String> request = new HashMap<>(1);
+        request.put("userId", userId);
+
+
+        mTodayMoneyData = new MediatorLiveData<>();
+        mTodayMoneyResponse = mModel.getTodayMoneyList(request);
+        mTodayMoneyData.addSource(mTodayMoneyResponse, infoResource -> {
+            if (infoResource == null) {
+                infoResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", infoResource.status);
+            if (infoResource.status == Status.LOADING) {
+                //STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (infoResource.status == Status.SUCCESS) {
+                BaseResponse<List<TodayMoneyEntity>> result = infoResource.data;
+                mTodayMoneyData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (infoResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mTodayMoneyData;
+    }
 }

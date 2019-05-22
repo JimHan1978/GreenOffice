@@ -9,6 +9,7 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.HMDPPersistenCookieJar;
 
@@ -31,7 +32,7 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriberOfFlowable;
  **/
 public class LoginModel extends BaseModel {
     private RxErrorHandler mErrorHandler;
-    private MutableLiveData<Resource<BaseResponse<UserEntity>>> mUserResource;
+    private MutableLiveData<Resource<BaseResponse<LoginUserEntity>>> mUserResource;
 
     @Inject
     public LoginModel(Application application) {
@@ -46,7 +47,7 @@ public class LoginModel extends BaseModel {
      * @param request
      * @return
      */
-    public MutableLiveData<Resource<BaseResponse<UserEntity>>> login(Map<String,String> request) {
+    public MutableLiveData<Resource<BaseResponse<LoginUserEntity>>> login(Map<String,String> request) {
      //   if (mUserResource == null) {
             mUserResource = new MutableLiveData<>();
      //   }
@@ -64,7 +65,7 @@ public class LoginModel extends BaseModel {
                     //saveLocation(weatherNowResponse.getResults().get(0).getLocation());
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<UserEntity>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<LoginUserEntity>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
                       //  mUserResource.postValue(Resource.loading(null));
@@ -79,7 +80,7 @@ public class LoginModel extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(BaseResponse<UserEntity> response) {
+                    public void onNext(BaseResponse<LoginUserEntity> response) {
                         mUserResource.postValue(Resource.success(response));
 
                     }

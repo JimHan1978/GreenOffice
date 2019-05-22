@@ -15,6 +15,7 @@ import com.hyetec.moa.model.LoginModel;
 import com.hyetec.moa.model.MainModel;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.HashMap;
@@ -32,8 +33,8 @@ import timber.log.Timber;
  **/
 public class LoginViewModel extends BaseViewModel<LoginModel> {
 
-    private MediatorLiveData<BaseResponse<UserEntity>> mLoginData = new MediatorLiveData<BaseResponse<UserEntity>>();
-    private MutableLiveData<Resource<BaseResponse<UserEntity>>> mLoginResponse;
+    private MediatorLiveData<BaseResponse<LoginUserEntity>> mLoginData = new MediatorLiveData<BaseResponse<LoginUserEntity>>();
+    private MutableLiveData<Resource<BaseResponse<LoginUserEntity>>> mLoginResponse;
     @Inject
     public LoginViewModel(Application application, LoginModel model) {
         super(application, model);
@@ -46,15 +47,15 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
      * @param userName
      * @param password
      */
-    public LiveData<BaseResponse<UserEntity>> login(String userName, String password) {
+    public LiveData<BaseResponse<LoginUserEntity>> login(String userName, String password) {
         Map<String, String> request = new HashMap<>(1);
         request.put(Api.API_USER_NAME_KEY, userName);
         request.put(Api.API_USER_PASSWORD_KEY, Base64.encodeToString(password.getBytes(),Base64.NO_WRAP));
         mLoginData=new MediatorLiveData<>();
         mLoginResponse=mModel.login(request);
-        mLoginData.addSource(mLoginResponse, new Observer<Resource<BaseResponse<UserEntity>>>() {
+        mLoginData.addSource(mLoginResponse, new Observer<Resource<BaseResponse<LoginUserEntity>>>() {
             @Override
-            public void onChanged(@Nullable Resource<BaseResponse<UserEntity>> baseResponseResource) {
+            public void onChanged(@Nullable Resource<BaseResponse<LoginUserEntity>> baseResponseResource) {
                 if (baseResponseResource == null) {
                     baseResponseResource = Resource.error("", null);
                 }
@@ -63,7 +64,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
                     //STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
                 } else if (baseResponseResource.status == Status.SUCCESS) {
-                    BaseResponse<UserEntity> result = baseResponseResource.data;
+                    BaseResponse<LoginUserEntity> result = baseResponseResource.data;
                     mLoginData.postValue(result);
                     //STATUS.set(Status.SUCCESS);
                 } else if (baseResponseResource.status == Status.ERROR) {

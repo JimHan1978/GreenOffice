@@ -171,6 +171,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/rly_shake"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:gravity="center"

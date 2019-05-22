@@ -25,6 +25,7 @@ import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.ConfirmPasswordValidation;
 import com.hyetec.moa.utils.CustomConstants;
@@ -81,7 +82,7 @@ public class ChangePasswordActivity extends BaseActivity<ChangPasswordViewModel>
     @Override
     public void initData(Bundle savedInstanceState) {
         if(ACache.get(this).getAsObject(MoaApp.USER_DATA)!=null) {
-            UserEntity user = (UserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
+            LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
             userId = user.getUserId() + "";
             username = user.getUserName();
         }

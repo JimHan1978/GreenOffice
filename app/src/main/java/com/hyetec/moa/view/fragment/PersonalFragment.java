@@ -16,6 +16,7 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.viewmodel.PersonalViewModel;
@@ -84,7 +85,7 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         if( ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA)!=null) {
-            UserEntity user = (UserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            LoginUserEntity user = (LoginUserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
             mViewModel.getUserInfo(user.getUserId() + "").observe(PersonalFragment.this, userEntity -> {
                 if (userEntity != null) {
                     mUserNameView.setText(userEntity.getUserName());

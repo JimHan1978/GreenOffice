@@ -25,6 +25,8 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
     <uses-permission android:name="android.permission.GET_TASKS"/>
 
+    <!-- 摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
 
 
     <application
@@ -51,6 +53,7 @@
         <activity
             android:name=".view.activity.SplashActivity"
             android:launchMode="singleTask"
+            android:theme="@style/FirstAppTheme"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -110,6 +113,18 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
 
+        <activity android:name=".view.activity.CompanyActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity android:name=".view.activity.SettingActivity" />
+
+        <activity android:name=".view.ui.zxing.activity.CaptureActivity"
+            android:screenOrientation="portrait" />
+
+
+
+
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"
             android:value="ConfigRepository" />
@@ -120,7 +135,7 @@
             android:name="com.hyetec.moa.app.ArchConfiguration"
             android:value="ConfigArms" />
 
-        <activity android:name=".view.activity.SettingActivity" />
+
 
         <!-- 该广播需要继承JPush提供的JPushMessageReceiver类, 并如下新增一个 Intent-Filter -->
         <receiver

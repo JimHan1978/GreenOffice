@@ -36,6 +36,7 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.BillEntity;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
@@ -109,7 +110,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         // 格式规定为:file:///android_asset/文件名.html
         String json = getFromAssets("data/report.json");
 
-        UserEntity user = (UserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
+        LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();
         Glide.with(this).load(Api.IMG_URL+"static/images/coverpage.jpg").into( ivHomePage);

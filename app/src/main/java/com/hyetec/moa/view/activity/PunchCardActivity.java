@@ -1,5 +1,6 @@
 package com.hyetec.moa.view.activity;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
@@ -11,6 +12,7 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,10 +23,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +37,9 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
+import com.hyetec.moa.model.entity.TodayMoneyEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.utils.Connected;
 import com.hyetec.moa.utils.GetCode;
@@ -45,6 +51,7 @@ import com.hyetec.moa.viewmodel.PunchCardViewModel;
 
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -89,6 +96,8 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     TextView tvCount;
     @BindView(R.id.tv_add)
     TextView tvAdd;
+    @BindView(R.id.rly_shake)
+    RelativeLayout rlyShake;
 
     private Field field;
     private WifiUtil wifi;
@@ -98,7 +107,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     public AlertDialog ad = null;
     private int str_code = 1;// 原因编码
     private String nowData;
-    private UserEntity userEntity;
+    private LoginUserEntity userEntity;
     private String userId;
     private String str_chi_state;
     private String str_tui_state;
@@ -111,6 +120,8 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
     private double moneyCount = 0;
     private int reqCount = 0;
+    private String toWorktype ;
+
     private AnimationDrawable animationDrawable;
     private ShakeListener mShakeListener = null;
     private boolean isVibrator;  //是否正在播放音频
@@ -142,7 +153,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         animationDrawable.start();
 
         if (ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA) != null) {
-            userEntity = (UserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            userEntity = (LoginUserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
             userId = userEntity.getUserId() + "";
         }
 
@@ -179,8 +190,8 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                         }).create();
 
 
+        adBuilder.setCanceledOnTouchOutside(false);
         adBuilder.show();
-
     }
 
     @Override
@@ -193,9 +204,8 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     @Override
     protected void onStart() {
         super.onStart();
-        tvWifi.setVisibility(View.GONE);
-        tvCount.setVisibility(View.GONE);
-        ivShake.setVisibility(View.GONE);
+        rlyShake.setVisibility(View.GONE);
+
         if (Connected.isConnected(this)) {
             getInfo();
         }
@@ -205,12 +215,13 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     @Override
     protected void onPause() {
         super.onPause();
-        if (mShakeListener != null  ) {
+        if (mShakeListener != null) {
             mShakeListener.stop();
 
         }
 
     }
+
 
 
     class Broadcast extends BroadcastReceiver {
@@ -227,10 +238,27 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
         }
     }
+    public void showBssid(String bssid) {
+        if(TextUtils.isEmpty(bssid)){
+            bssid="请连接wifi并打开位置信息权限!";
+        }
+        adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("BSSID")
+                .setMessage(bssid).
+                        setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).create();
 
+
+        adBuilder.setCanceledOnTouchOutside(false);
+        adBuilder.show();
+    }
     private void updatePunchCardView() {
+        showBssid(strBSSID);
 
-        if (strBSSID != null && checkWiFiBssId(strBSSID)) {
+        if (isWifi(this) && strBSSID != null && checkWiFiBssId(strBSSID)) {
             ivDaka.setEnabled(true);
             ivDaka.setBackgroundResource(R.drawable.select_daka);
 
@@ -256,6 +284,17 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         }
     }
 
+    private static boolean isWifi(Context mContext) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) mContext
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
+        if (activeNetInfo != null
+                && activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        }
+        return false;
+    }
+
     private boolean checkWiFiBssId(String bssId) {
         if (!TextUtils.isEmpty(bssIds)) {
             return bssId.startsWith("02:00:00") || bssIds.contains(bssId.substring(0, bssId.length() - 3));
@@ -264,7 +303,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
 
-    @OnClick({R.id.iv_left, R.id.iv_daka, R.id.tv_add})
+    @OnClick({R.id.iv_left, R.id.iv_daka, R.id.tv_add,R.id.rly_shake,})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
@@ -276,7 +315,55 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             case R.id.tv_add:
                 startActivity(new Intent(PunchCardActivity.this, BonusListActivity.class));
                 break;
+            case R.id.rly_shake:
+                if(reqCount==0 ) {
+                    getTodayMoneyList();
+                }
+
+                break;
         }
+    }
+
+    private void getTodayMoneyList() {
+        mViewModel.getTodayMoneyList(userId).observe(this, todayMoneyList -> {
+            if (todayMoneyList != null && todayMoneyList.isSuccess()) {
+                showMoneyList(todayMoneyList.getResult());
+            } else {
+                Toast.makeText(PunchCardActivity.this, todayMoneyList.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
+    private void showMoneyList(List<TodayMoneyEntity> todayMoneyEntities) {
+        String[] items=new String[todayMoneyEntities.size()];
+        for(int i=0;i<todayMoneyEntities.size();i++){
+            items[i]= "第"+(i+1) +"次     "+ todayMoneyEntities.get(i).getWinAmount()+"元";
+        }
+
+        AlertDialog alertDialog3 = new AlertDialog.Builder(this)
+                .setTitle("今日红包详情")
+                .setItems(items, new DialogInterface.OnClickListener() {//添加列表
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                })
+//                .setAdapter(new ArrayAdapter<String>(this, R.layout.layout_dialog_item, R.id.tv_name, items), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                })
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .create();
+        alertDialog3.show();
+
     }
 
 
@@ -427,15 +514,14 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         tvZaoState.setText(GetCode.chiOrTuiState(punchCardEntity.getToworktype(), true));
         reqCount = punchCardEntity.getRemainder();
         moneyCount = punchCardEntity.getSumAmount();
+        toWorktype=punchCardEntity.getToworktype();
         if (!punchCardEntity.getToworktype().equals("9")) {
             if (punchCardEntity.getToworktype().equals("1")
                     || punchCardEntity.getToworktype().equals("4")) {
                 tvZaoState.setBackgroundResource(R.drawable.shape_wan);
                 tvZaoTime.setTextColor(getResources().getColor(R.color.punch_card_red));
 
-                tvWifi.setVisibility(View.GONE);
-                tvCount.setVisibility(View.GONE);
-                ivShake.setVisibility(View.GONE);
+                rlyShake.setVisibility(View.GONE);
                 if (mShakeListener != null) {
                     mShakeListener.stop();
                 }
@@ -468,19 +554,18 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         if (reqCount > 0 && !punchCardEntity.getToworktype().equals("1")) {
             tvWifi.setText("摇一摇抽取今日大奖");
             tvCount.setText("剩余抽奖次数 " + reqCount + "次");
-            tvWifi.setVisibility(View.VISIBLE);
-            tvCount.setVisibility(View.VISIBLE);
+            rlyShake.setVisibility(View.VISIBLE);
             ivShake.setVisibility(View.VISIBLE);
             mShakeListener = new ShakeListener(this);
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
                 @Override
                 public void onShake() {
-                    if (!TimeUtil.isFastDoubleClick() &&(adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
+                    if (!TimeUtil.isFastDoubleClick() && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
                         mShakeListener.stop();
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
                                 DrawLotteryEntity drawLotteryEntity = moneyData.getResult();
-                                reqCount = (int)drawLotteryEntity.getRemainder();
+                                reqCount = (int) drawLotteryEntity.getRemainder();
                                 moneyCount = (double) drawLotteryEntity.getSumAmount();
                                 double money = drawLotteryEntity.getWinAmount();
                                 showMoney(money, moneyCount);
@@ -515,16 +600,14 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                 }
             });
-        } else if (TextUtils.isEmpty(punchCardEntity.getToworktype())) {
-            tvWifi.setVisibility(View.GONE);
-            tvCount.setVisibility(View.GONE);
+        } else if (TextUtils.isEmpty(punchCardEntity.getToworktype()) || !punchCardEntity.getToworktype().equals("0") ) {
+            rlyShake.setVisibility(View.GONE);
             ivShake.setVisibility(View.GONE);
             if (mShakeListener != null) {
                 mShakeListener.stop();
             }
         } else {
-            tvWifi.setVisibility(View.VISIBLE);
-            tvCount.setVisibility(View.VISIBLE);
+            rlyShake.setVisibility(View.VISIBLE);
             ivShake.setVisibility(View.GONE);
             tvWifi.setText("今日抽奖次数已达到上限");
             tvCount.setText("今日红包总计:" + moneyCount + "元");

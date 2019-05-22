@@ -6,10 +6,12 @@ import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.TodayMoneyEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.List;
@@ -43,7 +45,7 @@ public interface ContactsService {
     Flowable<BaseResponse<List<PositionEntity>>> getPositionList(@QueryMap Map<String, String> request);
 
     @POST("urm/mobileLogin.json")
-    Flowable<BaseResponse<UserEntity>> login(@QueryMap Map<String, String> request);
+    Flowable<BaseResponse<LoginUserEntity>> login(@QueryMap Map<String, String> request);
 
     @POST("office/attendance/getAttedaily.json")
     Flowable<BaseResponse<PunchCardEntity>> getAttendance(@QueryMap Map<String, String> request);
@@ -70,6 +72,9 @@ public interface ContactsService {
     @POST("urm/user/rest/selectFinancePInfoContent.json")
     Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
 
+
+    @POST("office/lottery/loadDailyLotterys.json")
+    Flowable<BaseResponse<List<TodayMoneyEntity>>> loadDailyLotterys(@QueryMap Map<String, String> request);
 
 
 
