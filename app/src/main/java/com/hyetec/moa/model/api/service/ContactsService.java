@@ -1,5 +1,6 @@
 package com.hyetec.moa.model.api.service;
 
+import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.BonusEntity;
@@ -57,7 +58,7 @@ public interface ContactsService {
     Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);
 
     @GET("office/lottery/loadLotterysMonth.json")
-    Flowable<BaseResponse<List<BonusEntity>>> getLoadLotterysMonth();
+    Flowable<BaseResponse<List<BonusEntity>>> getLoadLotterysMonth(@QueryMap Map<String, String> request);
 
     @GET("office/attendance/getApBSSIds.json")
     Flowable<BaseResponse<BssidEntity>> getApBSSIds();
@@ -65,12 +66,25 @@ public interface ContactsService {
     @POST("office/lottery/drawLottery.json")
     Flowable<BaseResponse<DrawLotteryEntity>> getDrawLottery(@QueryMap Map<String, String> request);
 
+    @POST("office/lottery/getActLotteryInfo.json")
+    Flowable<BaseResponse<DrawLotteryEntity>> getDrawLotteryNum(@QueryMap Map<String, String> request);
+
     @GET("urm/mobileLogout.json")
     Flowable<BaseResponse<ResultEntity>> logout();
 
     @Headers("Content-Type: application/json")
     @POST("urm/user/rest/selectFinancePInfoContent.json")
-    Flowable<BaseResponse<List<MessageEntity>>> getMessageLists();
+    Flowable<BaseResponse<List<MessageEntity>>> getMessageLists(@Body Map<String, String> request);
+
+
+    @POST("office/activityEvent/list.json")
+    Flowable<BaseResponse<List<MessageEntity>>> getActivityEventLists();
+
+    @POST("office/activitySign/save.json")
+    Flowable<BaseResponse<ResultEntity>> activitySign(@QueryMap Map<String, String> request);
+
+    @POST("office/activityEvent/detailsById.json")
+    Flowable<BaseResponse<ActivityEventEntity>> getActivityEvent(@QueryMap Map<String, String> request);
 
 
     @POST("office/lottery/loadDailyLotterys.json")

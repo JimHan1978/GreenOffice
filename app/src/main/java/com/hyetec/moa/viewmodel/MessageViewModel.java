@@ -35,9 +35,11 @@ public class MessageViewModel extends BaseViewModel<MessageModel> {
         super(application, model);
     }
 
-    public LiveData<BaseResponse<List<MessageEntity>>> getMessageList() {
+    public LiveData<BaseResponse<List<MessageEntity>>> getMessageList(int id) {
+        Map<String, String> request = new HashMap<>(1);
+        request.put("id", id+"");
         mMessageData = new MediatorLiveData<>();
-        mMessageResponse = mModel.getMessageLists();
+        mMessageResponse = mModel.getMessageLists(request);
         mMessageData.addSource(mMessageResponse, messageResource -> {
             if (messageResource == null) {
                 messageResource = Resource.error("", null);

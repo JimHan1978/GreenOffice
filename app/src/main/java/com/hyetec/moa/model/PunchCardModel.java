@@ -121,11 +121,11 @@ public class PunchCardModel extends BaseModel {
 
     }
 
-    public MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> getBonus() {
+    public MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> getBonus(Map<String, String> request) {
         mBonusResource=new MutableLiveData<>();
         mRepositoryManager
                 .obtainRetrofitService(ContactsService.class)
-                .getLoadLotterysMonth()
+                .getLoadLotterysMonth(request)
                 .onBackpressureLatest()
                 .subscribeOn(Schedulers.io())
                 .doOnNext(logoutResponse -> {

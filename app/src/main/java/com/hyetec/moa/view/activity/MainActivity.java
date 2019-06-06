@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             setPushAlias(userEntity.getUserno());
 
         }
-        JPushInterface.stopCrashHandler(this);
+        //JPushInterface.stopCrashHandler(this);
         return R.layout.activity_main;
     }
 

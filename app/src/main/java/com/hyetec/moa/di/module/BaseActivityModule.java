@@ -19,6 +19,7 @@ package com.hyetec.moa.di.module;
 import com.hyetec.moa.view.activity.BonusListActivity;
 import com.hyetec.moa.view.activity.ChangePasswordActivity;
 import com.hyetec.moa.view.activity.CompanyActivity;
+import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
@@ -73,4 +74,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
     abstract CompanyActivity contributeCompanyActivityViewActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
+    abstract CompanyListActivity contributeCompanyListActivityViewActivity();
 }

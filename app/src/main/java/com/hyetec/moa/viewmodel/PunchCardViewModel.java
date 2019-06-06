@@ -110,9 +110,12 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
         return mPunchCardData;
     }
 
-    public LiveData<BaseResponse<List<BonusEntity>>> getBonusList() {
+    public LiveData<BaseResponse<List<BonusEntity>>> getBonusList(String type ,String optDate) {
+        Map<String, String> request = new HashMap<>(1);
+        request.put("type", type);
+        request.put("optDate", optDate);
         mBonusData = new MediatorLiveData<>();
-        mBonusResponse = mModel.getBonus();
+        mBonusResponse = mModel.getBonus(request);
         mBonusData.addSource(mBonusResponse, infoResource -> {
             if (infoResource == null) {
                 infoResource = Resource.error("", null);

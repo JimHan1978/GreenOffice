@@ -41,15 +41,16 @@ public class MessageModel extends BaseModel {
                 .rxErrorHandler();
     }
 
-    public MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> getMessageLists() {
+    public MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> getMessageLists(Map<String, String> request) {
 
         mMessageResponse=new MutableLiveData<>();
         mRepositoryManager
                 .obtainRetrofitService(ContactsService.class)
-                .getMessageLists()
+                .getMessageLists(request)
                 .onBackpressureLatest()
                 .subscribeOn(Schedulers.io())
                 .doOnNext(messageResponse -> {
+
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<MessageEntity>>>(mErrorHandler) {

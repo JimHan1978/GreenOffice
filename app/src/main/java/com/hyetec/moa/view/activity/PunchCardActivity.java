@@ -120,7 +120,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
     private double moneyCount = 0;
     private int reqCount = 0;
-    private String toWorktype ;
+    private String toWorktype;
 
     private AnimationDrawable animationDrawable;
     private ShakeListener mShakeListener = null;
@@ -223,7 +223,6 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
 
-
     class Broadcast extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -238,25 +237,31 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
         }
     }
+
     public void showBssid(String bssid) {
-        if(TextUtils.isEmpty(bssid)){
-            bssid="请连接wifi并打开位置信息权限!";
+        if (TextUtils.isEmpty(bssid)) {
+            bssid = "请连接wifi并在通知栏中打开定位服务!";
+        }else {
+            bssid = bssid+"此Id未加入列表,请通知工作人员加入!";
         }
-        adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("BSSID")
-                .setMessage(bssid).
-                        setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }).create();
+        if(adBuilder==null||(adBuilder!=null&&!adBuilder.isShowing())) {
+            adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("提示")
+                    .setMessage(bssid).
+                            setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).create();
 
 
-        adBuilder.setCanceledOnTouchOutside(false);
-        adBuilder.show();
+            adBuilder.setCanceledOnTouchOutside(false);
+            adBuilder.show();
+        }
     }
+
     private void updatePunchCardView() {
-        showBssid(strBSSID);
+        // showBssid(strBSSID);
 
         if (isWifi(this) && strBSSID != null && checkWiFiBssId(strBSSID)) {
             ivDaka.setEnabled(true);
@@ -296,14 +301,23 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
     private boolean checkWiFiBssId(String bssId) {
-        if (!TextUtils.isEmpty(bssIds)) {
-            return bssId.startsWith("02:00:00") || bssIds.contains(bssId.substring(0, bssId.length() - 3));
+        if (!TextUtils.isEmpty(bssId)) {
+            if (bssId.startsWith("02:00:00")) {
+                showBssid("");
+                return false;
+            } else if (bssId.contains(bssId.substring(0, bssId.length() - 3))) {
+                return true;
+            }else {
+                showBssid(bssId);
+                return false;
+            }
+            // return bssId.startsWith("02:00:00") || bssIds.contains(bssId.substring(0, bssId.length() - 3));
         }
         return false;
     }
 
 
-    @OnClick({R.id.iv_left, R.id.iv_daka, R.id.tv_add,R.id.rly_shake,})
+    @OnClick({R.id.iv_left, R.id.iv_daka, R.id.tv_add, R.id.rly_shake,})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
@@ -316,7 +330,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 startActivity(new Intent(PunchCardActivity.this, BonusListActivity.class));
                 break;
             case R.id.rly_shake:
-                if(reqCount==0 ) {
+                if (reqCount == 0) {
                     getTodayMoneyList();
                 }
 
@@ -336,9 +350,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
     private void showMoneyList(List<TodayMoneyEntity> todayMoneyEntities) {
-        String[] items=new String[todayMoneyEntities.size()];
-        for(int i=0;i<todayMoneyEntities.size();i++){
-            items[i]= "第"+(i+1) +"次     "+ todayMoneyEntities.get(i).getWinAmount()+"元";
+        String[] items = new String[todayMoneyEntities.size()];
+        for (int i = 0; i < todayMoneyEntities.size(); i++) {
+            items[i] = "第" + (i + 1) + "次     " + todayMoneyEntities.get(i).getWinAmount() + "元";
         }
 
         AlertDialog alertDialog3 = new AlertDialog.Builder(this)
@@ -514,7 +528,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         tvZaoState.setText(GetCode.chiOrTuiState(punchCardEntity.getToworktype(), true));
         reqCount = punchCardEntity.getRemainder();
         moneyCount = punchCardEntity.getSumAmount();
-        toWorktype=punchCardEntity.getToworktype();
+        toWorktype = punchCardEntity.getToworktype();
         if (!punchCardEntity.getToworktype().equals("9")) {
             if (punchCardEntity.getToworktype().equals("1")
                     || punchCardEntity.getToworktype().equals("4")) {
@@ -560,7 +574,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             mShakeListener.setOnShakeListener(new ShakeListener.OnShakeListener() {
                 @Override
                 public void onShake() {
-                    if (!TimeUtil.isFastDoubleClick() && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
+                    if (!TimeUtil.isFastDoubleClick(1000) && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
                         mShakeListener.stop();
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
@@ -600,7 +614,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                 }
             });
-        } else if (TextUtils.isEmpty(punchCardEntity.getToworktype()) || !punchCardEntity.getToworktype().equals("0") ) {
+        } else if (TextUtils.isEmpty(punchCardEntity.getToworktype()) || !punchCardEntity.getToworktype().equals("0")) {
             rlyShake.setVisibility(View.GONE);
             ivShake.setVisibility(View.GONE);
             if (mShakeListener != null) {

@@ -64,7 +64,7 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("月度红包排行榜");
         ivLeft.setVisibility(View.VISIBLE);
-        mViewModel.getBonusList().observe(this, bonuslists -> {
+        mViewModel.getBonusList("Month","").observe(this, bonuslists -> {
             if(bonuslists!=null && bonuslists.isSuccess()){
                 if( bonuslists.getResult()!=null) {
                     mBonusList = bonuslists.getResult();

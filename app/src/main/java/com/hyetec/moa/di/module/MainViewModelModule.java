@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.hyetec.moa.model.ChangPasswordModel;
 import com.hyetec.moa.viewmodel.ChangPasswordViewModel;
+import com.hyetec.moa.viewmodel.CompanyViewModel;
 import com.hyetec.moa.viewmodel.DetailsViewModel;
 import com.hyetec.moa.viewmodel.GroupViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
@@ -66,6 +67,9 @@ public abstract class MainViewModelModule {
     @ViewModelScope(PunchCardViewModel.class)
     abstract ViewModel bindPunchCardViewModel(PunchCardViewModel punchCardViewModel);
 
-
+    @Binds
+    @IntoMap
+    @ViewModelScope(CompanyViewModel.class)
+    abstract ViewModel bindCompanyViewModel(CompanyViewModel companyViewModel);
 
 }

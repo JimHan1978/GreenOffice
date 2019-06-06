@@ -28,11 +28,11 @@ public class TimeUtil {
 
 	private static long lastClickTime=0;
 
-	public static boolean isFastDoubleClick()
+	public static boolean isFastDoubleClick(int i)
 	{
 		long time = System.currentTimeMillis();
 		long timeD = time - lastClickTime;
-		if(timeD>=0 && timeD<=1000){
+		if(timeD>=0 && timeD<=i){
 			return true;
 		}else {
 			lastClickTime = time;

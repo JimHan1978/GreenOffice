@@ -46,11 +46,12 @@ public class ViewHolder
     public static ViewHolder get(Context context, View convertView,
                                  ViewGroup parent, int layoutId, int position)
     {
-        if (convertView == null)
-        {
+
+//        if (convertView == null)
+//        {
             return new ViewHolder(context, parent, layoutId, position);
-        }
-        return (ViewHolder) convertView.getTag();
+//        }
+//        return (ViewHolder) convertView.getTag();
     }
 
     public View getConvertView()
@@ -118,7 +119,6 @@ public class ViewHolder
     {
         ImageView view = getView(viewId);
         view.setImageResource(drawableId);
-
         return this;
     }
 
@@ -131,6 +131,13 @@ public class ViewHolder
         return this;
     }
 
+    public ViewHolder setImagehttps(int viewId, String phont,Context context)
+    {
+        ImageView view = getView(viewId);
+        Glide.with(context).load(Api.IMG_URL+phont).into(view);
+        return this;
+    }
+
     public ViewHolder setImagehttp(int viewId, String phont,Context context)
     {
         ImageView view = getView(viewId);
@@ -140,6 +147,14 @@ public class ViewHolder
         return this;
     }
 
+    public ViewHolder setImagehttpMessage(int viewId, String phont,Context context)
+    {
+        ImageView view = getView(viewId);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.ic_walker_icon);
+        Glide.with(context).load(Api.IMG_URL+phont).apply(requestOptions).into(view);
+        return this;
+    }
 
     /**
      * 为ImageView设置图片

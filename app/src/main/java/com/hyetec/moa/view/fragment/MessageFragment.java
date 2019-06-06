@@ -9,14 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.hmdp.core.base.BaseFragment;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.view.activity.CompanyActivity;
+import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
@@ -31,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import cn.jpush.android.api.JPushInterface;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,7 +53,9 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
     Unbinder unbinder;
     @BindView(R.id.gv_message)
     GdPullToRefreshView gvMessage;
-
+    @BindView(R.id.iv_banner)
+    ImageView ivBanner;
+    private LoginUserEntity userInfo;
     private CommonAdapter mAdapter;
     private List<MessageEntity> messageList;
 
@@ -82,6 +92,10 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
         gvMessage.setOnHeaderRefreshListener(this);
         gvMessage.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
 //        gvMessage.getHeaderView().setBackgroundColor(getActivity().getResources().getColor(R.color.rosybrown));
+        Glide.with(getActivity()).load(Api.IMG_URL + "/upload/banner.jpg").into(ivBanner);
+        if (ACache.get(getActivity()).getAsObject(MoaApp.USER_DATA) != null) {
+            userInfo = (LoginUserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+        }
         getData();
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -90,6 +104,8 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
                     startActivity(new Intent(getActivity(), WebViewActivity.class).putExtra("date", messageList.get(i).getYearAndMonth()));
                 } else if (messageList.get(i).getMessageType().equals("attendance")) {
                     startActivity(new Intent(getActivity(), PunchCardActivity.class));
+                }else {
+                    startActivity(new Intent(getActivity(), CompanyActivity.class).putExtra("date", messageList.get(i)));
                 }
             }
         });
@@ -102,12 +118,11 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
     }
 
     public void getData() {
-        mViewModel.getMessageList().observe(this, messageLists -> {
+        mViewModel.getMessageList(userInfo.getUserId()).observe(this, messageLists -> {
             gvMessage.onHeaderRefreshFinish();
             if (messageLists != null && messageLists.isSuccess()) {
                 if (messageLists.getResult() != null) {
                     messageList = messageLists.getResult();
-
                     lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
                             getActivity().getApplicationContext(), messageList, R.layout.item_message) {
                         @Override
@@ -123,18 +138,19 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
                                 } else {
                                     helper.setViewVisibility(R.id.iv_message_new, View.VISIBLE);
                                 }
+                            } else if (item.getMessageType().equals("activity")) {
+                                helper.setImagehttpMessage(R.id.iv_message, item.getIconUrl(), getActivity());
+                                helper.setViewVisibility(R.id.iv_message_new, View.GONE);
                             } else if (item.getMessageType().equals("attendance")) {
                                 helper.setImageResource(R.id.iv_message, R.drawable.ic_attendance);
                                 helper.setViewVisibility(R.id.iv_message_new, View.GONE);
                             }
-
-
                         }
                     });
                 }
-            } else {
-
+            } else if (messageLists.getMessage() != null && !messageLists.isSuccess()) {
                 if (messageLists.getMessage().equals("session过期")) {
+                    JPushInterface.stopPush(getActivity());
                     Toast.makeText(getActivity(), "登录失效，请重新登录!", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getActivity(), LoginActivity.class));
                     getActivity().finish();

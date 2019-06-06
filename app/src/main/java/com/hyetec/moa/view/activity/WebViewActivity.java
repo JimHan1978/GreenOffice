@@ -12,6 +12,7 @@ package com.hyetec.moa.view.activity;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -40,6 +42,8 @@ import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -49,6 +53,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.jpush.android.api.JPushInterface;
 
 
 public class WebViewActivity extends BaseActivity<WebViewModel> {
@@ -65,7 +70,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
     private String url;
     private String billDate;
-    private  AlphaAnimation  mHideAnimation ;
+    private AlphaAnimation mHideAnimation;
+
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -113,7 +119,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();
-        Glide.with(this).load(Api.IMG_URL+"static/images/coverpage.jpg").into( ivHomePage);
+        Glide.with(this).load(Api.IMG_URL + "static/images/coverpage.jpg").into(ivHomePage);
         wv_item.loadUrl("file:///android_asset/month-bill.html");
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
@@ -123,18 +129,25 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
                 mViewModel.getData(billDate).observe(WebViewActivity.this, billData -> {
                     if (billData != null && billData.isSuccess()) {
                         Gson gson = new Gson();
-
-                        wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
-                            @Override
-                            public void onReceiveValue(String value) {
-                                value.toString();
-
-                            }
-                        });
+                        if (billData.getResult().getDetail() != null) {
+                            wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
+                                @Override
+                                public void onReceiveValue(String value) {
+                                    value.toString();
+                                }
+                            });
+                        }
+                    } else if (billData != null) {
+                        if (billData.getMessage().equals("session过期")) {
+                            Toast.makeText(WebViewActivity.this, "登录失效，请重新登录!", Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(WebViewActivity.this, LoginActivity.class));
+                            finish();
+                        } else {
+                            Toast.makeText(WebViewActivity.this, billData.getMessage(), Toast.LENGTH_LONG).show();
+                        }
                     }
                 });
             }
-
         });
 
 
@@ -162,18 +175,16 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         });
 
 
-
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
-                setHideAnimation(ivHomePage,1000);
+                setHideAnimation(ivHomePage, 1000);
             }
         }, 3000);
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
                 ivHomePage.setVisibility(View.GONE);
             }
         }, 4000);
-
 
 
     }
@@ -181,15 +192,12 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     /**
      * View渐隐动画效果
      */
-    public  void setHideAnimation( View view, int duration)
-    {
-        if (null == view || duration < 0)
-        {
+    public void setHideAnimation(View view, int duration) {
+        if (null == view || duration < 0) {
             return;
         }
 
-        if (null != mHideAnimation)
-        {
+        if (null != mHideAnimation) {
             mHideAnimation.cancel();
         }
         // 监听动画结束的操作

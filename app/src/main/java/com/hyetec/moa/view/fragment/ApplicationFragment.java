@@ -6,15 +6,23 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseFragment;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.LoginUserEntity;
+import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.view.activity.CompanyActivity;
+import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
+import com.hyetec.moa.view.adapter.CommonAdapter;
+import com.hyetec.moa.view.adapter.ViewHolder;
+import com.hyetec.moa.view.ui.MyGridView;
 import com.hyetec.moa.viewmodel.ApplicationViewModel;
 
 import butterknife.BindView;
@@ -28,10 +36,16 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     TextView mTitleView;
     @BindView(R.id.iv_left)
     ImageView ivLeft;
-    @BindView(R.id.iv_bg)
-    ImageView ivBg;
-    Unbinder unbinder;
 
+    Unbinder unbinder;
+    @BindView(R.id.gv_office)
+    MyGridView gvOffice;
+    @BindView(R.id.gv_attendance)
+    MyGridView gvAttendance;
+
+    private CommonAdapter oaAdapter;
+    private CommonAdapter kqAdapter;
+    private LoginUserEntity userInfo;
     public static ApplicationFragment newInstance() {
         ApplicationFragment applicationFragment = new ApplicationFragment();
         return applicationFragment;
@@ -60,21 +74,79 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     @Override
     public void initData(Bundle savedInstanceState) {
         mTitleView.setText("应用");
+        if( ACache.get(getActivity()).getAsObject(MoaApp.USER_DATA)!=null) {
+            userInfo = (LoginUserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+
+            if(userInfo.getKqMenus()!=null ) {
+                gvOffice.setAdapter(oaAdapter = new CommonAdapter<LoginUserEntity.OaMenusBean>(
+                        getActivity().getApplicationContext(), userInfo.getOaMenus(), R.layout.item_menu) {
+                    @Override
+                    public void convert(ViewHolder helper, LoginUserEntity.OaMenusBean item, int pos) {
+
+                        helper.setText(R.id.tv_name, item.getMenuName());
+                        helper.setImagehttpMessage(R.id.iv_application, item.getMenuIcon(), getActivity());
+
+
+                    }
+                });
+
+
+                gvOffice.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        switch (userInfo.getOaMenus().get(i).getMenuCode()) {
+                            case "event":
+                                startActivity(new Intent(getActivity(), CompanyListActivity.class));
+                                break;
+                            case "lottery":
+                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "bill":
+                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "notice":
+                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                break;
+                            default:
+                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                break;
+
+
+                        }
+                    }
+                });
+
+                gvAttendance.setAdapter(kqAdapter = new CommonAdapter<LoginUserEntity.KqMenusBean>(
+                        getActivity().getApplicationContext(), userInfo.getKqMenus(), R.layout.item_menu) {
+                    @Override
+                    public void convert(ViewHolder helper, LoginUserEntity.KqMenusBean item, int pos) {
+                        helper.setText(R.id.tv_name, item.getMenuName());
+                        helper.setImagehttp(R.id.iv_application, item.getMenuIcon(), getActivity());
+
+                    }
+                });
+
+                gvAttendance.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                        switch (userInfo.getKqMenus().get(i).getMenuCode()) {
+                            case "attendence":
+                                startActivity(new Intent(getActivity(), PunchCardActivity.class));
+                                break;
+
+
+                        }
+                    }
+                });
+            }
+        }
+
     }
 
-    /**
-     * Activity 与 Fragment 通信接口
-     * 此方法是让外部调用使 Fragment 做一些操作的,比如说外部的 Fragment 想让 Fragment 对象执行一些方法,
-     * 建议在有多个需要让外界调用的方法时,统一传 {@link Message},通过what字段,来区分不同的方法,
-     * 在此方法中就可以 switch 做不同的操作,这样就可以用统一的入口方法做不同的事
-     * <p>
-     * 新姿势：可以通过 Activity 的 ViewModel 共享数据给包含的 Fragment，配合 LiveData 好用到爆。
-     *
-     * @param data Object
-     * @see <a href="https://developer.android.com/topic/libraries/architecture/viewmodel.html#sharing_data_between_fragments">Sharing Data Between Fragments</a>
-     */
+
     @Override
     public void setData(Object data) {
+
 
     }
 
@@ -92,8 +164,5 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.iv_bg)
-    public void onViewClicked() {startActivity(new Intent(getActivity(),CompanyActivity.class));
-       // Toast.makeText(getContext(),"敬请期待!",Toast.LENGTH_SHORT).show();
-    }
+
 }
