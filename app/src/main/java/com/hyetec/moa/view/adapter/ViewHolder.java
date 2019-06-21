@@ -138,6 +138,13 @@ public class ViewHolder
         return this;
     }
 
+    public ViewHolder setImageAttachments(int viewId, String phont,Context context)
+    {
+        ImageView view = getView(viewId);
+        Glide.with(context).load(Api.IMG_URL_ATTACHMENT+phont).into(view);
+        return this;
+    }
+
     public ViewHolder setImagehttp(int viewId, String phont,Context context)
     {
         ImageView view = getView(viewId);

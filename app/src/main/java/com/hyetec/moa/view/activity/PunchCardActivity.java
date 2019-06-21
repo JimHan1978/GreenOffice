@@ -127,7 +127,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     private boolean isVibrator;  //是否正在播放音频
     private Vibrator vibrator;     //振动器对象
     private AlertDialog adBuilder = null;
-
+    private boolean dialogFlag =true;
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_punch_card);
@@ -305,7 +305,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             if (bssId.startsWith("02:00:00")) {
                 showBssid("");
                 return false;
-            } else if (bssId.contains(bssId.substring(0, bssId.length() - 3))) {
+            } else if (bssIds.contains(bssId.substring(0, bssId.length() - 3))) {
                 return true;
             }else {
                 showBssid(bssId);
@@ -327,10 +327,10 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 daKa();
                 break;
             case R.id.tv_add:
-                startActivity(new Intent(PunchCardActivity.this, BonusListActivity.class));
+                startActivity(new Intent(PunchCardActivity.this, BonusListActivity.class).putExtra("type","Month"));
                 break;
             case R.id.rly_shake:
-                if (reqCount == 0) {
+                if (reqCount <=0) {
                     getTodayMoneyList();
                 }
 
@@ -575,23 +575,27 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 @Override
                 public void onShake() {
                     if (!TimeUtil.isFastDoubleClick(1000) && (adBuilder == null || (adBuilder != null && !adBuilder.isShowing()))) {
-                        mShakeListener.stop();
+                        if (mShakeListener != null) {
+                            mShakeListener.stop();
+                        }
                         mViewModel.getDrawLottery(userId).observe(PunchCardActivity.this, moneyData -> {
                             if (moneyData != null && moneyData.isSuccess()) {
                                 DrawLotteryEntity drawLotteryEntity = moneyData.getResult();
                                 reqCount = (int) drawLotteryEntity.getRemainder();
                                 moneyCount = (double) drawLotteryEntity.getSumAmount();
                                 double money = drawLotteryEntity.getWinAmount();
-                                showMoney(money, moneyCount);
-                                vibratorPhone();
-                                if (reqCount > 0) {
+                                if(dialogFlag) {
+                                    showMoney(money, moneyCount);
+                                    vibratorPhone();
+                                }
+
+                                if (reqCount > 0 ) {
                                     tvWifi.setText("摇一摇抽取今日大奖");
                                     tvCount.setText("剩余抽奖次数 " + reqCount + "次");
                                     ivShake.setVisibility(View.VISIBLE);
                                     if (mShakeListener != null) {
                                         mShakeListener.start();
                                     }
-
                                 } else {
                                     tvWifi.setText("今日抽奖次数已达到上限");
                                     tvCount.setText("今日红包总计:" + moneyCount + "元");
@@ -599,19 +603,24 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                                     if (mShakeListener != null) {
                                         mShakeListener.stop();
                                     }
+                                    dialogFlag=false;
                                 }
 
                             } else {
                                 Toast.makeText(PunchCardActivity.this, moneyData.getMessage(), Toast.LENGTH_SHORT).show();
-                                if (mShakeListener != null) {
-                                    mShakeListener.start();
+                                if (reqCount > 0) {
+                                    if (mShakeListener != null) {
+                                        mShakeListener.start();
+                                    }
+                                }else {
+                                    if (mShakeListener != null) {
+                                        mShakeListener.stop();
+                                    }
+                                    dialogFlag=false;
                                 }
                             }
                         });
-                    } else {
-
                     }
-
                 }
             });
         } else if (TextUtils.isEmpty(punchCardEntity.getToworktype()) || !punchCardEntity.getToworktype().equals("0")) {
@@ -628,6 +637,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             if (mShakeListener != null) {
                 mShakeListener.stop();
             }
+            dialogFlag=false;
         }
     }
 

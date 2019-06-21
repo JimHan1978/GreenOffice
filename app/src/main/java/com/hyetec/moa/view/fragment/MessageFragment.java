@@ -22,6 +22,7 @@ import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.view.activity.CompanyActivity;
 import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
@@ -34,6 +35,7 @@ import com.hyetec.moa.view.ui.pullview.GdPullToRefreshView;
 import com.hyetec.moa.viewmodel.MessageViewModel;
 
 import java.util.List;
+import java.util.Timer;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,9 +92,13 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
         mTitleView.setText("格林办公");
         gvMessage.setLoadMoreEnable(false);
         gvMessage.setOnHeaderRefreshListener(this);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.placeholder(R.drawable.ic_message);
+        Glide.with(getActivity()).load(Api.IMG_URL + "/upload/banner.jpg"+"?v="+TimeUtil.getTime()).apply(requestOptions).into(ivBanner);
         gvMessage.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
-//        gvMessage.getHeaderView().setBackgroundColor(getActivity().getResources().getColor(R.color.rosybrown));
-        Glide.with(getActivity()).load(Api.IMG_URL + "/upload/banner.jpg").into(ivBanner);
+//      gvMessage.getHeaderView().setBackgroundColor(getActivity().getResources().getColor(R.color.rosybrown));
+
+
         if (ACache.get(getActivity()).getAsObject(MoaApp.USER_DATA) != null) {
             userInfo = (LoginUserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
         }

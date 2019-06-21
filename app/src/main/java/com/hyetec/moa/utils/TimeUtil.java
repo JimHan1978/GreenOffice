@@ -9,6 +9,7 @@
  */     
 package com.hyetec.moa.utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -24,6 +25,22 @@ public class TimeUtil {
 			return dateTime;
 		}
 
+	}
+	/**
+	 * 获取当前的时间戳
+	 */
+	public static long getTimestamp(){
+		long millis = System.currentTimeMillis();
+		return millis;
+	}
+
+	/**
+	 * 获取当前的时间戳
+	 */
+	public static String getTime(){
+		DateFormat df = new SimpleDateFormat("yyyy:MM:dd");
+		String time =df.format(new Date());
+		return time;
 	}
 
 	private static long lastClickTime=0;

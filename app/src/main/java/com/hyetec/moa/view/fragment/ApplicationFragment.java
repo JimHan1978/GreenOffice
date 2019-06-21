@@ -17,6 +17,8 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.utils.TimeUtil;
+import com.hyetec.moa.view.activity.BonusListActivity;
 import com.hyetec.moa.view.activity.CompanyActivity;
 import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
@@ -84,7 +86,7 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
                     public void convert(ViewHolder helper, LoginUserEntity.OaMenusBean item, int pos) {
 
                         helper.setText(R.id.tv_name, item.getMenuName());
-                        helper.setImagehttpMessage(R.id.iv_application, item.getMenuIcon(), getActivity());
+                        helper.setImagehttpMessage(R.id.iv_application, item.getMenuIcon()+"?v="+TimeUtil.getTime(), getActivity());
 
 
                     }
@@ -99,7 +101,7 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
                                 startActivity(new Intent(getActivity(), CompanyListActivity.class));
                                 break;
                             case "lottery":
-                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getActivity(), BonusListActivity.class).putExtra("type","All"));
                                 break;
                             case "bill":
                                 Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();

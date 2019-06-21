@@ -1,6 +1,8 @@
 package com.hyetec.moa.app;
 
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.hyetec.hmdp.core.base.BaseApplication;
 import com.hyetec.moa.di.component.AppComponent;
@@ -42,6 +44,8 @@ public class MoaApp extends BaseApplication {
         JPushInterface.setDebugMode(true);
         JPushInterface.init(this);
         PgyCrashManager.register(this);
+
+
     }
 
 

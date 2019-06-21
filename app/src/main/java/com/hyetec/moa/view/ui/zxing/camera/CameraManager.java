@@ -109,6 +109,7 @@ public class CameraManager {
         if (camera != null) {
             camera.release();
             camera = null;
+           // previewing=false;
             // Make sure to clear these each time we close the camera, so that
             // any scanning rect
             // requested by intent is forgotten.

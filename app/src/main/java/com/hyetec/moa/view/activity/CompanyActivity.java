@@ -101,6 +101,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private double moneyCount = 0;
     private int reqCount = 0;
     private AnimationDrawable animationDrawable;
+    private boolean dialogFlag =true;
     /**
      * UI 初始化
      *
@@ -164,7 +165,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             @Override
             public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
 
-                helper.setImagehttps(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+                helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
             }
         });
     }
@@ -224,14 +225,15 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 moneyCount=drawLotteryEntity.getResult().getSumAmount();
                 rlyShakeMoney.setVisibility(View.VISIBLE);
                 if (reqCount > 0) {
-                    tvWifi.setText("摇一摇抽取今日大奖");
+                    tvWifi.setText("摇一摇抽取大奖");
                     tvCount.setText("剩余抽奖次数 " + reqCount + "次");
                     animationDrawable.start();
                     scan();
                 }else {
-                    tvWifi.setText("今日抽奖次数已达到上限");
-                    tvCount.setText("今日红包总计:" + moneyCount + "元");
+                    tvWifi.setText("活动抽奖次数已达到上限");
+                    tvCount.setText("活动红包总计:" + moneyCount + "元");
                     animationDrawable.stop();
+                    dialogFlag=false;
                 }
             } else {
                 rlyShakeMoney.setVisibility(View.GONE);
@@ -255,10 +257,13 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                             reqCount = (int) drawLotteryEntity.getRemainder();
                             moneyCount = (double) drawLotteryEntity.getSumAmount();
                             double money = drawLotteryEntity.getWinAmount();
-                            showMoney(money, moneyCount);
-                            vibratorPhone();
+                            if(dialogFlag) {
+                                showMoney(money, moneyCount);
+                                vibratorPhone();
+                            }
+
                             if (reqCount > 0) {
-                                tvWifi.setText("摇一摇抽取今日大奖");
+                                tvWifi.setText("摇一摇抽取大奖");
                                 tvCount.setText("剩余抽奖次数 " + reqCount + "次");
                                 animationDrawable.start();
                                 if (mShakeListener != null) {
@@ -266,17 +271,25 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                                 }
 
                             } else {
-                                tvWifi.setText("今日抽奖次数已达到上限");
-                                tvCount.setText("今日红包总计:" + moneyCount + "元");
+                                tvWifi.setText("活动抽奖次数已达到上限");
+                                tvCount.setText("活动红包总计:" + moneyCount + "元");
                                 animationDrawable.stop();
                                 if (mShakeListener != null) {
                                     mShakeListener.stop();
                                 }
+                                dialogFlag=false;
                             }
                         } else {
                             Toast.makeText(CompanyActivity.this, moneyData.getMessage(), Toast.LENGTH_SHORT).show();
-                            if (mShakeListener != null) {
-                                mShakeListener.start();
+                            if (reqCount > 0) {
+                                if (mShakeListener != null) {
+                                    mShakeListener.start();
+                                }
+                            }else {
+                                if (mShakeListener != null) {
+                                    mShakeListener.stop();
+                                }
+                                dialogFlag=false;
                             }
                         }
                     });
@@ -321,7 +334,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
 
     public void showMoney(double count, double sum) {
         adBuilder = new AlertDialog.Builder(CompanyActivity.this).setTitle("中奖提示")
-                .setMessage(count != 0 ? "恭喜你摇出" + count + "元,今日总计" + sum + "元" : "本次未中奖,请继续努力").
+                .setMessage(count != 0 ? "恭喜你摇出" + count + "元,总计" + sum + "元" : "本次未中奖,请继续努力").
                         setPositiveButton("确认", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

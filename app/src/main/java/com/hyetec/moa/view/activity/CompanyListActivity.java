@@ -52,9 +52,11 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     GdPullToRefreshView gvActivity;
     @BindView(R.id.mPullRefreshView)
     LinearLayout mPullRefreshView;
+
     private CommonAdapter mAdapter;
     private List<ActivityPhotoEntity> mActivityImgList = new ArrayList<>();
     private List<MessageEntity> messageList;
+
     /**
      * UI 初始化
      *

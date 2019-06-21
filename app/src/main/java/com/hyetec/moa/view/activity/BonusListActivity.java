@@ -40,6 +40,7 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
 
     private CommonAdapter mAdapter;
     private List<BonusEntity> mBonusList;
+    private String type="All";
     /**
      * UI 初始化
      *
@@ -64,7 +65,15 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("月度红包排行榜");
         ivLeft.setVisibility(View.VISIBLE);
-        mViewModel.getBonusList("Month","").observe(this, bonuslists -> {
+        if( getIntent().getStringExtra("type")!=null) {
+            type=getIntent().getStringExtra("type");
+        }
+        if( type.equals("Month")){
+            tvTitle.setText("考勤红包月排行榜");
+        }else if(type.equals("All")){
+            tvTitle.setText("红包总榜");
+        }
+        mViewModel.getBonusList(type,"").observe(this, bonuslists -> {
             if(bonuslists!=null && bonuslists.isSuccess()){
                 if( bonuslists.getResult()!=null) {
                     mBonusList = bonuslists.getResult();

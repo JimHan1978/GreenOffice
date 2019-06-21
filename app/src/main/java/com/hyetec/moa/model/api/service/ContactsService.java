@@ -57,7 +57,7 @@ public interface ContactsService {
     @POST("office/attendance/attesign.json")
     Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);
 
-    @GET("office/lottery/loadLotterysMonth.json")
+    @GET("office/lottery/loadLotterysNumber.json")
     Flowable<BaseResponse<List<BonusEntity>>> getLoadLotterysMonth(@QueryMap Map<String, String> request);
 
     @GET("office/attendance/getApBSSIds.json")
