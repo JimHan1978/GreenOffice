@@ -9,17 +9,63 @@
     <!-- TODO: Update blank fragment layout -->
     <include layout="@layout/base_top_bar" />
 
-    <ImageView
-        android:id="@+id/iv_bg"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_app_bg"
-        />
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:gravity="center"-->
-        <!--android:textSize="@dimen/sp_16"-->
-        <!--android:text="@string/application"/>-->
+        android:scrollbars="none">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="日常办公"
+                android:textColor="@color/colorText"
+                android:textSize="18dp" />
+
+
+            <com.hyetec.moa.view.ui.MyGridView
+                android:id="@+id/gv_office"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:listSelector="#fff"
+                android:numColumns="4"
+                android:padding="10dp"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:textColor="@color/colorText"
+                android:text="考勤"
+                android:textSize="18dp" />
+
+
+            <com.hyetec.moa.view.ui.MyGridView
+                android:id="@+id/gv_attendance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff"
+                android:gravity="center"
+                android:horizontalSpacing="5dp"
+                android:listSelector="#fff"
+                android:numColumns="4"
+                android:padding="10dp"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

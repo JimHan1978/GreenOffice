@@ -15,8 +15,8 @@ android {
         applicationId "com.hyetec.moa"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 6
-        versionName "1.0.5"
+        versionCode 11
+        versionName "1.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         //https://developer.android.com/studio/build/multidex.html?hl=zh-cn
@@ -47,8 +47,8 @@ android {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+//            shrinkResources true
             zipAlignEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -112,6 +112,6 @@ dependencies {
     // 此处以JCore 1.1.9 版本为例。
     implementation files('libs/avalidations.jar')
     implementation files('libs/sticky_list_header.jar')
-
     implementation 'com.pgyersdk:sdk:2.8.1'
+    implementation files('libs/zxing.jar')
 }
