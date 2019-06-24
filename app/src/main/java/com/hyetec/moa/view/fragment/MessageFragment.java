@@ -129,6 +129,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
             if (messageLists != null && messageLists.isSuccess()) {
                 if (messageLists.getResult() != null) {
                     messageList = messageLists.getResult();
+
                     lvItem.setAdapter(mAdapter = new CommonAdapter<MessageEntity>(
                             getActivity().getApplicationContext(), messageList, R.layout.item_message) {
                         @Override

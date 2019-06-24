@@ -39,12 +39,14 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     @BindView(R.id.iv_left)
     ImageView ivLeft;
 
-    Unbinder unbinder;
+
     @BindView(R.id.gv_office)
     MyGridView gvOffice;
     @BindView(R.id.gv_attendance)
     MyGridView gvAttendance;
 
+
+    Unbinder unbinder;
     private CommonAdapter oaAdapter;
     private CommonAdapter kqAdapter;
     private LoginUserEntity userInfo;
