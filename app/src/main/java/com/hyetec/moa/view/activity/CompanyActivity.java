@@ -5,7 +5,9 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
@@ -165,11 +169,17 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             @Override
             public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
 
-                helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+               helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
             }
         });
     }
 
+    private SimpleTarget target = new SimpleTarget<Bitmap>() {
+        @Override
+        public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+
+        }
+    };
 
     @Override
     public void onDestroy() {

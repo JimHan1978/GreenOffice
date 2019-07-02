@@ -68,9 +68,6 @@ public class MainActivity extends BaseActivity<MainViewModel> {
 
     @Override
     public int initView(Bundle savedInstanceState) {
-
-
-
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //创建ViewModel
@@ -90,6 +87,8 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             setPushAlias(userEntity.getUserno());
 
         }
+        MoaApp app = (MoaApp) MoaApp.getInstance();
+        app.addActivity(this);
         //JPushInterface.stopCrashHandler(this);
         return R.layout.activity_main;
     }

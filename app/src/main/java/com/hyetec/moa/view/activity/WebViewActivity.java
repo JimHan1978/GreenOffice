@@ -120,22 +120,25 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         int sex = user.getSex();
         String joindate = user.getJoindate();
         Glide.with(this).load(Api.IMG_URL + "static/images/coverpage.jpg").into(ivHomePage);
-        wv_item.loadUrl("file:///android_asset/month-bill.html");
+
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
                 super.onPageFinished(view, url);
-
                 mViewModel.getData(billDate).observe(WebViewActivity.this, billData -> {
                     if (billData != null && billData.isSuccess()) {
+
                         Gson gson = new Gson();
-                        if (billData.getResult().getDetail() != null) {
+                        if (billData.getResult()!=null && billData.getResult().getDetail() != null) {
+                            wv_item.loadUrl("file:///android_asset/month-bill.html");
                             wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
                                 @Override
                                 public void onReceiveValue(String value) {
                                     value.toString();
                                 }
                             });
+                        }else {
+                            Toast.makeText(WebViewActivity.this, "账单获取失败!", Toast.LENGTH_LONG).show();
                         }
                     } else if (billData != null) {
                         if (billData.getMessage().equals("session过期")) {

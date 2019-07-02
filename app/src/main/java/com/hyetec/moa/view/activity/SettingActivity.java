@@ -77,6 +77,8 @@ public class SettingActivity extends BaseActivity<SettingViewModel> {
             if (logoutData != null && logoutData.isSuccess()) {
                 ACache.get(this.getApplicationContext()).put(MoaApp.IS_LOGIN, "false");
                 startActivity(new Intent(this, LoginActivity.class));
+                MoaApp app = (MoaApp) MoaApp.getInstance();
+                app.closeAllActivity();
                 finish();
                 JPushInterface.stopPush(this);
             }

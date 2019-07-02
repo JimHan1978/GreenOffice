@@ -1,5 +1,6 @@
 package com.hyetec.moa.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.StrictMode;
@@ -8,6 +9,8 @@ import com.hyetec.hmdp.core.base.BaseApplication;
 import com.hyetec.moa.di.component.AppComponent;
 import com.hyetec.moa.di.component.DaggerAppComponent;
 import com.pgyersdk.crash.PgyCrashManager;
+
+import java.util.ArrayList;
 
 import cn.jpush.android.api.JPushInterface;
 //import com.hyetec.moa.di.component.DaggerAppComponent;
@@ -29,7 +32,8 @@ public class MoaApp extends BaseApplication {
 
     private AppComponent mAppComponent;
     public static Context mContext;
-
+    private static MoaApp application;
+    private ArrayList<Activity> list = new ArrayList<Activity>();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -47,8 +51,39 @@ public class MoaApp extends BaseApplication {
 
 
     }
+    /**
+     * ； 提供公共的方法返回当前类的对象
+     *
+     * @return
+     */
+    public static synchronized MoaApp getInstance() {
 
+        if (application == null) {
+            application = new MoaApp();
+        }
+        return application;
+    }
 
+    /**
+     * 添加每个Activity的对象
+     *
+     * @param activity
+     */
+    public void addActivity(Activity activity) {
+
+        list.add(activity);
+
+    }
+
+    /**
+     * 遍历所有Activity 关闭
+     */
+    public void closeAllActivity() {
+        for (int i = 0; i < list.size(); i++) {
+            Activity activity = list.get(i);
+            activity.finish();
+        }
+    }
     public AppComponent getAppComponent() {
         return this.mAppComponent;
     }
