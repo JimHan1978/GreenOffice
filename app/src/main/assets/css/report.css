@@ -577,32 +577,41 @@
 }
 
 #tips-6 li:nth-child(1) {
-	text-indent: 0.9em;
-	margin-top: 0.6em;
+	text-indent: 0.4em;
+	margin-top: 0.2em;
 }
 
 #tips-6 li:nth-child(2) {
-	text-indent: 4.8em;
-	margin-top: 0.8em;
+	text-indent: 0.4em;
+	margin-top: 0.2em;
 }
 
 #tips-6 li:nth-child(3) {
-	text-indent: 7.2em;
-	margin-top: 1.6em;
+	text-indent: 0.4em;
+	margin-top: 0.2em;
 }
 
+
 .retract1 {
-	text-indent: 3.6em;
+	text-indent: 3em;
 }
 
 .retract2 {
-	text-indent: 6em;
+	text-indent: 3em;
+	padding: 0.5em 0em;
 }
 
 .retract3 {
-	text-indent: 7em;
+	text-indent: 6em;
 }
 
+.retract4 {
+	text-indent: 6em;
+}
+.retract5{
+	text-indent: 5em;
+	padding: 0.5em 0em;
+}
 .tips-attendance {
 	position: absolute;
 	left: 7.2em;
