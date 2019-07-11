@@ -23,6 +23,7 @@ import java.util.Map;
 
 import io.reactivex.Flowable;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
@@ -109,8 +110,7 @@ public interface ContactsService {
     @POST("urm/user/rest/getFinancePInfo.json")
     Flowable<BaseResponse<BillEntity>> monthBill(@Body Map<String, String> request);
 
-    @Headers("Content-Type: multipart/form-data")
     @Multipart
     @POST("office/attachment/upload.json")
-    Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@PartMap Map<String, Object> request);
+    Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@Part List<MultipartBody.Part> partList);
 }

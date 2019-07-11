@@ -11,7 +11,9 @@ package com.hyetec.moa.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class TimeUtil {
 	public static String clearSecond(String dateTime)
@@ -32,6 +34,27 @@ public class TimeUtil {
 	public static long getTimestamp(){
 		long millis = System.currentTimeMillis();
 		return millis;
+	}
+	/**
+	 * @Title:
+	 * @Description: 获取今天日期字符串
+	 *
+	 * @return
+	 */
+	public static String getToadyString() {
+		return formatDateTimeString(Calendar.getInstance(), "yyyy-MM-dd");
+	}
+
+	/**
+	 * 格式化日期格式
+	 *
+	 * @param calendar
+	 * @param template
+	 * @return
+	 */
+	public static String formatDateTimeString(Calendar calendar, String template) {
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(template, Locale.SIMPLIFIED_CHINESE);
+		return localSimpleDateFormat.format(calendar.getTime());
 	}
 
 	/**

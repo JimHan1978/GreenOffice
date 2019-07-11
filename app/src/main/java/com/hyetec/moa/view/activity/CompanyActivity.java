@@ -123,12 +123,13 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private double moneyCount = 0;
     private int reqCount = 0;
     private AnimationDrawable animationDrawable;
-    private boolean dialogFlag =true;
+    private boolean dialogFlag = true;
     private String message = "111";
     private boolean isSuccess = true;
     private byte[] texts = null;
     private Uri uri;
     private RequestBody requestFile;
+
     /**
      * UI 初始化
      *
@@ -153,7 +154,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("活动");
         ivLeft.setVisibility(View.VISIBLE);
-        ivAdd.setVisibility(View.GONE);
+        ivAdd.setVisibility(View.VISIBLE);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         animationDrawable = (AnimationDrawable) ivShake.getDrawable();
 
@@ -193,7 +194,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
         //int x = userInfo.getUserId();
         //int y = activityEventEntity.getOrganiser();
-        if(userInfo.getUserId()==activityEventEntity.getOrganiser()){
+        if (userInfo.getUserId() == activityEventEntity.getOrganiser()) {
             ivAdd.setVisibility(View.VISIBLE);
         }
         mActivityImgList = activityEventEntity.getImgList();
@@ -207,18 +208,18 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             @Override
             public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
 
-               helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+                helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
             }
         });
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(CompanyActivity.this,CompanyActivityImgActivity.class);
+                Intent intent = new Intent(CompanyActivity.this, CompanyActivityImgActivity.class);
                 ActivityEventEntity data = activityEventEntity;
                 List<ActivityEventEntity.ImgListBean> mActivityImgLists = new ArrayList<>();
                 mActivityImgLists = data.getImgList();
-                intent.putExtra("data",data);
-                intent.putExtra("pos",position);
+                intent.putExtra("data", data);
+                intent.putExtra("pos", position);
                 startActivity(intent);
             }
         });
@@ -246,24 +247,24 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
+        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
 
             case IMAGE_REQUEST_CODE: {
                 uri = data.getData();
                 String imgPath = uri.toString();
-                File file = new File(imgPath);
-                requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
-                MultipartBody.Part body = MultipartBody.Part.createFormData("multipartFiles[0]",file.getName(),requestFile);
-                mViewModel.getUploadList(actId+"",requestFile).observe(this, uploadEntities -> {
+                File file = new File("/storage/emulated/0/DCIM/Screenshots/Screenshot_20181231-202630_美团外卖.jpg");
+                requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                MultipartBody.Builder builder = new MultipartBody.Builder()
+                        .setType(MultipartBody.FORM)
+                        //在这里添加服务器除了文件之外的其他参数
+                        .addFormDataPart("id",actId+"")
+                        .addFormDataPart("multipartFiles[0]", file.getName(), requestFile);
+                List<MultipartBody.Part> parts = builder.build().parts();
+                //MultipartBody.Part body = MultipartBody.Part.createFormData("multipartFiles[0]", file.getName(), requestFile);
+                mViewModel.getUploadList(parts,actId+"").observe(this, uploadEntities -> {
                     if (uploadEntities != null) {
-                        for(int i=0;i!=uploadEntities.size();i++){
-                            List<UploadEntity.ResultBean> temp = uploadEntities.get(i).getResult();
-                            for(int j=0; j!=temp.size();j++){
-                                int x = temp.get(j).getId();
-                                System.out.println(x);
-                            }
-                        }
+                        uploadEntities.getResult();
                     }
                 });
                /* mPic = setImage(selectedImage);
@@ -297,7 +298,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }
     }*/
 
-    private void getLotteryData(String userId, String activityId,Boolean flag) {
+    private void getLotteryData(String userId, String activityId, Boolean flag) {
         mViewModel.getDrawLotteryNumber(userId, activityId).observe(this, drawLotteryEntity -> {
             /*mViewModel.getActivityLotteryList(activityId).observe(this, activityLotteryEntity ->{
                 if(activityLotteryEntity != null){
@@ -307,35 +308,34 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     System.out.println("111");
                 }
             });*/
-            if(drawLotteryEntity!=null) {
+            if (drawLotteryEntity != null) {
                 message = drawLotteryEntity.getMessage();
                 isSuccess = drawLotteryEntity.isSuccess();
             }
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
-                reqCount=drawLotteryEntity.getResult().getRemainder();
-                moneyCount=drawLotteryEntity.getResult().getSumAmount();
+                reqCount = drawLotteryEntity.getResult().getRemainder();
+                moneyCount = drawLotteryEntity.getResult().getSumAmount();
                 rlyShakeMoney.setVisibility(View.VISIBLE);
                 if (reqCount > 0) {
                     tvWifi.setText("摇一摇抽取大奖");
                     tvCount.setText("剩余抽奖次数 " + reqCount + "次");
                     animationDrawable.start();
                     scan();
-                }else {
+                } else {
                     tvWifi.setText("活动抽奖次数已达到上限");
                     tvCount.setText("活动红包总计:" + moneyCount + "元");
                     animationDrawable.stop();
-                    dialogFlag=false;
+                    dialogFlag = false;
                 }
             } else {
 
                 rlyShakeMoney.setVisibility(View.GONE);
-                if(flag) {
+                if (flag) {
                     Toast.makeText(this, drawLotteryEntity.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
-
 
 
     private void scan() {
@@ -351,7 +351,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                             reqCount = (int) drawLotteryEntity.getRemainder();
                             moneyCount = (double) drawLotteryEntity.getSumAmount();
                             double money = drawLotteryEntity.getWinAmount();
-                            if(dialogFlag) {
+                            if (dialogFlag) {
                                 showMoney(money, moneyCount);
                                 vibratorPhone();
                             }
@@ -371,7 +371,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                                 if (mShakeListener != null) {
                                     mShakeListener.stop();
                                 }
-                                dialogFlag=false;
+                                dialogFlag = false;
                             }
                         } else {
                             Toast.makeText(CompanyActivity.this, moneyData.getMessage(), Toast.LENGTH_SHORT).show();
@@ -379,11 +379,11 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                                 if (mShakeListener != null) {
                                     mShakeListener.start();
                                 }
-                            }else {
+                            } else {
                                 if (mShakeListener != null) {
                                     mShakeListener.stop();
                                 }
-                                dialogFlag=false;
+                                dialogFlag = false;
                             }
                         }
                     });
@@ -445,7 +445,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     protected void onStart() {
         super.onStart();
         rlyShakeMoney.setVisibility(View.GONE);
-        getLotteryData(userInfo.getUserId() + "", actId+"",false);
+        getLotteryData(userInfo.getUserId() + "", actId + "", false);
     }
 
     @Override
@@ -456,7 +456,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }
     }
 
-    private void switchToLottery(){
+    private void switchToLottery() {
         /*mViewModel.getDrawLotteryNumber(userInfo.getUserId()+"", actId+"").observe(this, drawLotteryEntity -> {
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()){
                 if(drawLotteryEntity.getMessage().isEmpty()){
@@ -471,20 +471,20 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             }
         });*/
         //if(message.isEmpty()){
-            Intent intent = new Intent(CompanyActivity.this,ActivityLotteryActivity.class);
-            intent.putExtra("actid",actId+"");
-            intent.putExtra("userid",userInfo.getUserId()+"");
-            startActivity(intent);
+        Intent intent = new Intent(CompanyActivity.this, ActivityLotteryActivity.class);
+        intent.putExtra("actid", actId + "");
+        intent.putExtra("userid", userInfo.getUserId() + "");
+        startActivity(intent);
         //}
     }
 
-    private void switchToSign(){
-       // if(isSuccess){
-            Intent intent2 = new Intent(CompanyActivity.this, ActivitySignActivity.class);
-            intent2.putExtra("actId", actId+"");
-            intent2.putExtra("userId",userInfo.getUserId()+"");
-            intent2.putExtra("message",messageEntity);
-            startActivity(intent2);
+    private void switchToSign() {
+        // if(isSuccess){
+        Intent intent2 = new Intent(CompanyActivity.this, ActivitySignActivity.class);
+        intent2.putExtra("actId", actId + "");
+        intent2.putExtra("userId", userInfo.getUserId() + "");
+        intent2.putExtra("message", messageEntity);
+        startActivity(intent2);
         //}
        /* else{
             startActivityForResult(new Intent(this, CaptureActivity.class), 0);
@@ -516,20 +516,19 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 /*i.setAction(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("image/*");*/
-                startActivityForResult(i,IMAGE_REQUEST_CODE);
+                startActivityForResult(i, IMAGE_REQUEST_CODE);
                 break;
         }
     }
 
-    private Bitmap setImage(Uri uri){
-        try{
+    private Bitmap setImage(Uri uri) {
+        try {
             Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
             //Bitmap show = BitmapFactory.decodeByteArray(texts,0,texts.length);
             //iv_photo.setImageBitmap(show);
             return bitmap;
             //iv_photo.setImageBitmap(bitmap);
-        }
-        catch(FileNotFoundException e ){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return null;
@@ -542,17 +541,17 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     }*/
 
 
-    public byte[] bitmabToBytes(Context context, Bitmap bitmap){
+    public byte[] bitmabToBytes(Context context, Bitmap bitmap) {
 
         int size = bitmap.getWidth() * bitmap.getHeight() * 4;
 
-        ByteArrayOutputStream baos= new ByteArrayOutputStream(size);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
         try {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
             byte[] imagedata = baos.toByteArray();
             return imagedata;
-        }catch (Exception e){
-        }finally {
+        } catch (Exception e) {
+        } finally {
             try {
                 bitmap.recycle();
                 baos.close();

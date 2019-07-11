@@ -25,6 +25,8 @@ import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
 import com.hyetec.moa.model.entity.UploadEntity;
 
+import org.w3c.dom.Text;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
@@ -32,6 +34,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import timber.log.Timber;
@@ -66,7 +69,7 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
     private MediatorLiveData<BaseResponse<DrawLotteryEntity>> mDrawLotteryNumData = new MediatorLiveData<BaseResponse<DrawLotteryEntity>>();
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryNumResponse;
 
-    private MediatorLiveData<List<UploadEntity>> mUploadData = new MediatorLiveData<List<UploadEntity>>();
+    private MediatorLiveData<BaseResponse<List<UploadEntity>>> mUploadData = new MediatorLiveData<BaseResponse<List<UploadEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
@@ -266,15 +269,15 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         return mActivitySignData;
     }
 
-    public LiveData<List<UploadEntity>> getUploadList(String actId, RequestBody requestFile){
-        Map<String, Object> request = new HashMap<>();
+    public LiveData<BaseResponse<List<UploadEntity>>> getUploadList(  List<MultipartBody.Part> parts ,String actId){
+       // RequestBody Id = RequestBody.create(MediaType.parse("int"), actId);
+        Map<String, String> request = new HashMap<>();
         request.put("id",actId);
-        request.put("multipartFiles[0]", requestFile);
         if (mUploadResponse!=null){
             mUploadData.removeSource(mUploadResponse);
         }
         mUploadData = new MediatorLiveData<>();
-        mUploadResponse = mModel.uploadImg(request);
+        mUploadResponse = mModel.uploadImg(parts,request);
         mUploadData.addSource(mUploadResponse, observer ->{
             mUploadData.removeSource(mUploadResponse);
             mUploadData.addSource(mUploadResponse,userResource ->{
@@ -286,7 +289,7 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
                     //STATUS.set(Status.LOADING);
                     Timber.d("Loadding.....");
                 } else if (userResource.status == Status.SUCCESS) {
-                    List <UploadEntity> result = userResource.data.getResult();
+                    BaseResponse<List <UploadEntity>> result = userResource.data;
                     mUploadData.postValue(result);
                 } else if (userResource.status == Status.ERROR){
                     Timber.d("Load error.....");

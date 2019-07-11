@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
             Manifest.permission.CALL_PHONE,
             Manifest.permission.CAMERA,
             Manifest.permission.VIBRATE,
-
+            Manifest.permission.READ_EXTERNAL_STORAGE,
     };
 
 

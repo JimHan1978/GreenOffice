@@ -117,6 +117,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         // 格式规定为:file:///android_asset/文件名.html
         String json = getFromAssets("data/report.json");
 
+
+
         LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();

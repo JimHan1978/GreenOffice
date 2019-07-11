@@ -26,6 +26,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.jessyan.rxerrorhandler.core.RxErrorHandler;
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriberOfFlowable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @author : created by Administrator
@@ -37,8 +39,10 @@ public class CompanyModel extends BaseModel {
     private RxErrorHandler mErrorHandler;
     private MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> mActivityEventListResource;
     private MutableLiveData<Resource<BaseResponse<ActivityEventEntity>>> mActivityEventResource;
+
     private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadListResource;
     private MutableLiveData<Resource<BaseResponse<ResultEntity>>> mResultEventResource;
+
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLottery;
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryNum;
     private MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> mActivityLotteryUserResource;
@@ -291,12 +295,12 @@ public class CompanyModel extends BaseModel {
         return  mActivitySignResource;
     }
 
-    public MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> uploadImg(Map<String, Object> request) {
+    public MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> uploadImg( List<MultipartBody.Part> parts ,Map<String,String> request) {
 
         mUploadListResource=new MutableLiveData<>();
         mRepositoryManager
                 .obtainRetrofitService(ContactsService.class)
-                .uploadImg(request)
+                .uploadImg(parts)
                 .onBackpressureLatest()
                 .subscribeOn(Schedulers.io())
                 .doOnNext(messageResponse -> {
