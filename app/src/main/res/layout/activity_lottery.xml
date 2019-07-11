@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mPullRefreshView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.fragment.MessageFragment">
+
+    <include layout="@layout/base_top_bar" />
+
+    <com.hyetec.moa.view.ui.pullview.GdPullToRefreshView
+        android:id="@+id/gv_activity"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:background="@color/bg_gray">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="600dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical">
+
+
+                <com.hyetec.moa.view.ui.MyListView
+                    android:id="@+id/lv_activity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:divider="@color/bg_gray"
+                    android:dividerHeight="1dp"
+                    android:scrollbars="none" />
+            </LinearLayout>
+
+        </ScrollView>
+    </com.hyetec.moa.view.ui.pullview.GdPullToRefreshView>
+
+    <ImageView
+        android:id="@+id/pic_shake"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/animation_shake"
+        android:layout_gravity="center"/>
+</LinearLayout>

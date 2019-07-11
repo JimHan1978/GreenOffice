@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <TextView
+        android:id="@+id/sign_id"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:text="1"
+        android:gravity="center"
+        android:paddingLeft="12dp"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/sign_name"
+        android:layout_toRightOf="@+id/sign_id"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:paddingLeft="12dp"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:text="紫微"/>
+
+    <TextView
+        android:id="@+id/sign_time"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:paddingRight="12dp"
+        android:layout_alignParentRight="true"
+        android:text="2019-07-04 17:27:25"
+
+        />
+</RelativeLayout>
