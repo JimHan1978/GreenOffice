@@ -78,10 +78,14 @@
         $("#income_bonus").text(Math.round(detail.jjsr));//奖励
         $("#rank_bonusIncomePercent").text(detail.beatBonusIncomePercent);
 
-        $("#income_other").text(Math.round(detail.qtjlsr));//红包
-        $("#rank_other").text(detail.beatQtjlsrPercent);
+//        $("#income_other").text(Math.round(detail.qtjlsr));//红包
+//        $("#rank_other").text(detail.beatQtjlsrPercent);
 
-
+        $("#income_other").text(Math.round(Math.round(detail.attendanceYoyo)+Math.round(detail.activityYoyo)));//红包
+        $("#income_rp_kq").text(detail.attendanceYoyo);
+        $("#rank_other_kq").text(detail.attendanceYoyoPercent);
+        $("#income_rp_hd").text(detail.activityYoyo);
+        $("#rank_other_hd").text(detail.activityYoyoPercent);
 
 
 

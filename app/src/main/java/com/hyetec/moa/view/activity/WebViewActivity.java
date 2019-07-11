@@ -40,6 +40,7 @@ import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.viewmodel.WebViewModel;
 
 import org.json.JSONObject;
@@ -119,8 +120,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();
-        Glide.with(this).load(Api.IMG_URL + "static/images/coverpage.jpg").into(ivHomePage);
-
+        Glide.with(this).load(Api.IMG_URL + "static/images/coverpage.jpg"+"?v="+TimeUtil.getTime()).into(ivHomePage);
+        wv_item.loadUrl("file:///android_asset/month-bill.html");
         wv_item.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {//当页面加载完成
@@ -130,7 +131,6 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
                         Gson gson = new Gson();
                         if (billData.getResult()!=null && billData.getResult().getDetail() != null) {
-                            wv_item.loadUrl("file:///android_asset/month-bill.html");
                             wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
                                 @Override
                                 public void onReceiveValue(String value) {
@@ -139,6 +139,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
                             });
                         }else {
                             Toast.makeText(WebViewActivity.this, "账单获取失败!", Toast.LENGTH_LONG).show();
+                            finish();
                         }
                     } else if (billData != null) {
                         if (billData.getMessage().equals("session过期")) {
@@ -277,11 +278,11 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             } else {
                 newDetailBean.setGs("");
             }
-            if (!TextUtils.isEmpty(detailBean.getQtjlsr())) {
-                newDetailBean.setQtjlsr(new String(Base64.decode(detailBean.getQtjlsr().getBytes(), Base64.DEFAULT)));
-            } else {
-                newDetailBean.setQtjlsr("");
-            }
+//            if (!TextUtils.isEmpty(detailBean.getQtjlsr())) {
+//                newDetailBean.setQtjlsr(new String(Base64.decode(detailBean.getQtjlsr().getBytes(), Base64.DEFAULT)));
+//            } else {
+//                newDetailBean.setQtjlsr("");
+//            }
             if (!TextUtils.isEmpty(detailBean.getJjsr())) {
                 newDetailBean.setJjsr(new String(Base64.decode(detailBean.getJjsr().getBytes(), Base64.DEFAULT)));
             } else {
@@ -341,6 +342,27 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
                 newDetailBean.setEmail(new String(Base64.decode(detailBean.getEmail().getBytes(), Base64.DEFAULT)));
             } else {
                 newDetailBean.setEmail("");
+            }
+
+            if (!TextUtils.isEmpty(detailBean.getActivityYoyo())) {
+                newDetailBean.setActivityYoyo(new String(Base64.decode(detailBean.getActivityYoyo().getBytes(), Base64.DEFAULT)));
+            } else {
+                newDetailBean.setActivityYoyo("");
+            }
+            if (!TextUtils.isEmpty(detailBean.getActivityYoyoPercent())) {
+                newDetailBean.setActivityYoyoPercent(new String(Base64.decode(detailBean.getActivityYoyoPercent().getBytes(), Base64.DEFAULT)));
+            } else {
+                newDetailBean.setActivityYoyoPercent("");
+            }
+            if (!TextUtils.isEmpty(detailBean.getAttendanceYoyo())) {
+                newDetailBean.setAttendanceYoyo(new String(Base64.decode(detailBean.getAttendanceYoyo().getBytes(), Base64.DEFAULT)));
+            } else {
+                newDetailBean.setAttendanceYoyo("");
+            }
+            if (!TextUtils.isEmpty(detailBean.getAttendanceYoyoPercent())) {
+                newDetailBean.setAttendanceYoyoPercent(new String(Base64.decode(detailBean.getAttendanceYoyoPercent().getBytes(), Base64.DEFAULT)));
+            } else {
+                newDetailBean.setAttendanceYoyoPercent("");
             }
             billEntity1.setDetail(newDetailBean);
         }
