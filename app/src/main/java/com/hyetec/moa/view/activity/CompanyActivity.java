@@ -1,19 +1,26 @@
 package com.hyetec.moa.view.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -29,9 +36,11 @@ import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
+import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.model.entity.UploadEntity;
 import com.hyetec.moa.utils.ShakeListener;
 import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.view.adapter.CommonAdapter;
@@ -43,6 +52,10 @@ import com.hyetec.moa.viewmodel.CompanyViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -51,6 +64,9 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @author : created by Administrator
@@ -93,6 +109,8 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     @BindView(R.id.rly_shake_money)
     LinearLayout rlyShakeMoney;
 
+    private Bitmap mPic = null;
+    private static final int IMAGE_REQUEST_CODE = 100;
     private boolean isVibrator;  //是否正在播放音频
     private Vibrator vibrator;     //振动器对象
     private MessageEntity messageEntity;
@@ -106,6 +124,11 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private int reqCount = 0;
     private AnimationDrawable animationDrawable;
     private boolean dialogFlag =true;
+    private String message = "111";
+    private boolean isSuccess = true;
+    private byte[] texts = null;
+    private Uri uri;
+    private RequestBody requestFile;
     /**
      * UI 初始化
      *
@@ -118,7 +141,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         ButterKnife.bind(this);
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(CompanyViewModel.class);
-        return R.layout.activity_bonus_list;
+        return R.layout.activity_company_activities;
     }
 
     /**
@@ -148,7 +171,17 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             });
 
         }
+        /*if(uri!=null){
+            String imgPath = uri.toString();
+            File file = new File(imgPath);
+             requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image",file.getName(),requestFile);
+            mViewModel.getUploadList(actId+"",requestFile).observe(this, uploadEntities -> {
+                if (uploadEntities != null && uploadEntities.get(0).isSuccess()) {
 
+                }
+            });
+        }*/
 
     }
 
@@ -158,6 +191,11 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         tvAvtivityTitle.setText(activityEventEntity.getTarget_name());
         tvAvtivityTime.setText(activityEventEntity.getJoinDate());
         tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
+        //int x = userInfo.getUserId();
+        //int y = activityEventEntity.getOrganiser();
+        if(userInfo.getUserId()==activityEventEntity.getOrganiser()){
+            ivAdd.setVisibility(View.VISIBLE);
+        }
         mActivityImgList = activityEventEntity.getImgList();
         if (mActivityImgList != null && mActivityImgList.size() > 0) {
             lvItem.setVisibility(View.VISIBLE);
@@ -170,6 +208,18 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
 
                helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+            }
+        });
+        lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(CompanyActivity.this,CompanyActivityImgActivity.class);
+                ActivityEventEntity data = activityEventEntity;
+                List<ActivityEventEntity.ImgListBean> mActivityImgLists = new ArrayList<>();
+                mActivityImgLists = data.getImgList();
+                intent.putExtra("data",data);
+                intent.putExtra("pos",position);
+                startActivity(intent);
             }
         });
     }
@@ -196,15 +246,34 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            Bundle bundle = data.getExtras();
-            String scanResult = bundle.getString("result");
-            activitySign(scanResult);
+        super.onActivityResult(requestCode,resultCode,data);
+        switch (requestCode) {
 
+            case IMAGE_REQUEST_CODE: {
+                uri = data.getData();
+                String imgPath = uri.toString();
+                File file = new File(imgPath);
+                requestFile = RequestBody.create(MediaType.parse("multipart/form-data"),file);
+                MultipartBody.Part body = MultipartBody.Part.createFormData("multipartFiles[0]",file.getName(),requestFile);
+                mViewModel.getUploadList(actId+"",requestFile).observe(this, uploadEntities -> {
+                    if (uploadEntities != null) {
+                        for(int i=0;i!=uploadEntities.size();i++){
+                            List<UploadEntity.ResultBean> temp = uploadEntities.get(i).getResult();
+                            for(int j=0; j!=temp.size();j++){
+                                int x = temp.get(j).getId();
+                                System.out.println(x);
+                            }
+                        }
+                    }
+                });
+               /* mPic = setImage(selectedImage);
+                texts = bitmabToBytes(CompanyActivity.this, mPic);
+                Bitmap show = BitmapFactory.decodeByteArray(texts, 0, texts.length);*/
+            }
         }
     }
 
-    private void activitySign(String scanResult) {
+    /*private void activitySign(String scanResult) {
         String code = new String(Base64.decode(scanResult.getBytes(), Base64.DEFAULT));
         try {
             JSONObject jsonObject = new JSONObject(code);
@@ -226,10 +295,22 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private void getLotteryData(String userId, String activityId,Boolean flag) {
         mViewModel.getDrawLotteryNumber(userId, activityId).observe(this, drawLotteryEntity -> {
+            /*mViewModel.getActivityLotteryList(activityId).observe(this, activityLotteryEntity ->{
+                if(activityLotteryEntity != null){
+                    System.out.println(activityLotteryEntity.get(0).getUserName());
+                }
+                else{
+                    System.out.println("111");
+                }
+            });*/
+            if(drawLotteryEntity!=null) {
+                message = drawLotteryEntity.getMessage();
+                isSuccess = drawLotteryEntity.isSuccess();
+            }
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
                 reqCount=drawLotteryEntity.getResult().getRemainder();
                 moneyCount=drawLotteryEntity.getResult().getSumAmount();
@@ -246,6 +327,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     dialogFlag=false;
                 }
             } else {
+
                 rlyShakeMoney.setVisibility(View.GONE);
                 if(flag) {
                     Toast.makeText(this, drawLotteryEntity.getMessage(), Toast.LENGTH_SHORT).show();
@@ -253,6 +335,8 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             }
         });
     }
+
+
 
     private void scan() {
         mShakeListener = new ShakeListener(this);
@@ -372,20 +456,111 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }
     }
 
+    private void switchToLottery(){
+        /*mViewModel.getDrawLotteryNumber(userInfo.getUserId()+"", actId+"").observe(this, drawLotteryEntity -> {
+            if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()){
+                if(drawLotteryEntity.getMessage().isEmpty()){
+                    Intent intent = new Intent(CompanyActivity.this,ActivityLotteryActivity.class);
+                    intent.putExtra("id",actId+"");
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            else{
+
+            }
+        });*/
+        //if(message.isEmpty()){
+            Intent intent = new Intent(CompanyActivity.this,ActivityLotteryActivity.class);
+            intent.putExtra("actid",actId+"");
+            intent.putExtra("userid",userInfo.getUserId()+"");
+            startActivity(intent);
+        //}
+    }
+
+    private void switchToSign(){
+       // if(isSuccess){
+            Intent intent2 = new Intent(CompanyActivity.this, ActivitySignActivity.class);
+            intent2.putExtra("actId", actId+"");
+            intent2.putExtra("userId",userInfo.getUserId()+"");
+            intent2.putExtra("message",messageEntity);
+            startActivity(intent2);
+        //}
+       /* else{
+            startActivityForResult(new Intent(this, CaptureActivity.class), 0);
+        }*/
+    }
+
     @OnClick({R.id.rly_scan, R.id.rly_shake, R.id.iv_add, R.id.iv_left})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rly_scan:
-                startActivityForResult(new Intent(this, CaptureActivity.class), 0);
+                switchToSign();
+                /*Intent intent2 = new Intent(CompanyActivity.this, ActivitySignActivity.class);
+                intent2.putExtra("data", actId+"");
+                intent2.putExtra("userId",userInfo.getUserId()+"");
+                startActivity(intent2);*/
+                //startActivityForResult(new Intent(this, CaptureActivity.class), 0);
                 break;
             case R.id.rly_shake:
-                getLotteryData(userInfo.getUserId() + "", actId+"",true);
+                //getLotteryData(userInfo.getUserId() + "", actId+"",true);
+                switchToLottery();
                 break;
             case R.id.tv_add:
                 break;
             case R.id.iv_left:
                 finish();
                 break;
+            case R.id.iv_add:
+                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                /*i.setAction(Intent.ACTION_GET_CONTENT);
+                i.addCategory(Intent.CATEGORY_OPENABLE);
+                i.setType("image/*");*/
+                startActivityForResult(i,IMAGE_REQUEST_CODE);
+                break;
         }
     }
+
+    private Bitmap setImage(Uri uri){
+        try{
+            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+            //Bitmap show = BitmapFactory.decodeByteArray(texts,0,texts.length);
+            //iv_photo.setImageBitmap(show);
+            return bitmap;
+            //iv_photo.setImageBitmap(bitmap);
+        }
+        catch(FileNotFoundException e ){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /*public String getRealPathFromURI(Uri contentUri){
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(contentUri,proj,null,null,null);
+    }*/
+
+
+    public byte[] bitmabToBytes(Context context, Bitmap bitmap){
+
+        int size = bitmap.getWidth() * bitmap.getHeight() * 4;
+
+        ByteArrayOutputStream baos= new ByteArrayOutputStream(size);
+        try {
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] imagedata = baos.toByteArray();
+            return imagedata;
+        }catch (Exception e){
+        }finally {
+            try {
+                bitmap.recycle();
+                baos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return new byte[0];
+    }
+
 }

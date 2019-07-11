@@ -16,9 +16,12 @@
 
 package com.hyetec.moa.di.module;
 
+import com.hyetec.moa.view.activity.ActivityLotteryActivity;
+import com.hyetec.moa.view.activity.ActivitySignActivity;
 import com.hyetec.moa.view.activity.BonusListActivity;
 import com.hyetec.moa.view.activity.ChangePasswordActivity;
 import com.hyetec.moa.view.activity.CompanyActivity;
+import com.hyetec.moa.view.activity.CompanyActivityImgActivity;
 import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
@@ -28,6 +31,7 @@ import com.hyetec.hmdp.core.di.scope.ActivityScope;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
+import com.hyetec.moa.viewmodel.MainViewModel;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -78,4 +82,16 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class,MainViewModelModule.class})
     abstract CompanyListActivity contributeCompanyListActivityViewActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract ActivityLotteryActivity contributeLotteryActivityActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract ActivitySignActivity contributeActivitySignActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract CompanyActivityImgActivity contributeCompanyActivityImgActivity();
 }

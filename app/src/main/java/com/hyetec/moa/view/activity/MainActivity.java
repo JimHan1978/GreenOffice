@@ -94,6 +94,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
     }
 
     private void updataApp() {
+
         PgyUpdateManager.register(MainActivity.this,
                 new UpdateManagerListener() {
                     @Override

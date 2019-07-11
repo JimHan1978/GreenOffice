@@ -15,18 +15,25 @@ import com.hyetec.moa.model.CompanyModel;
 import com.hyetec.moa.model.LoginModel;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
+import com.hyetec.moa.model.entity.ActivityLotteryEntity;
+import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.UploadEntity;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import timber.log.Timber;
 
 /**
@@ -36,6 +43,12 @@ import timber.log.Timber;
  * 描述：
  **/
 public class CompanyViewModel extends BaseViewModel<CompanyModel> {
+
+    private MediatorLiveData<List<ActivityLotteryEntity>> mActivityLotteryData;
+    private MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> mResponse;
+
+    private MediatorLiveData<List<ActivitySignEntity>> mActivitySignData;
+    private MutableLiveData<Resource<BaseResponse<List<ActivitySignEntity>>>> mActivitySignResponse;
 
     private MediatorLiveData<BaseResponse<List<MessageEntity>>> mActivityEventListData = new MediatorLiveData<BaseResponse<List<MessageEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> mActivityEventListResponse;
@@ -52,6 +65,9 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
 
     private MediatorLiveData<BaseResponse<DrawLotteryEntity>> mDrawLotteryNumData = new MediatorLiveData<BaseResponse<DrawLotteryEntity>>();
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryNumResponse;
+
+    private MediatorLiveData<List<UploadEntity>> mUploadData = new MediatorLiveData<List<UploadEntity>>();
+    private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -188,6 +204,96 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
             }
         });
         return mDrawLotteryNumData;
+    }
+
+    public LiveData<List<ActivityLotteryEntity>> getActivityLotteryList(String actId){
+        Map<String,String> request = new HashMap<>();
+        request.put("actId",actId);
+        if (mResponse!=null){
+            mActivityLotteryData.removeSource(mResponse);
+        }
+        mActivityLotteryData = new MediatorLiveData<>();
+        mResponse = mModel.getActivityLotteryList(request);
+        mActivityLotteryData.addSource(mResponse, observer -> {
+            mActivityLotteryData.removeSource(mResponse);
+            mActivityLotteryData.addSource(mResponse, userResource -> {
+                if (userResource == null) {
+                    userResource = Resource.error("", null);
+                }
+                Timber.d("Load weather now: %s", userResource.status);
+                if (userResource.status == Status.LOADING) {
+                    //STATUS.set(Status.LOADING);
+                    Timber.d("Loadding.....");
+                } else if (userResource.status == Status.SUCCESS) {
+                    List <ActivityLotteryEntity> result = userResource.data.getResult();
+                    mActivityLotteryData.postValue(result);
+                    //STATUS.set(Status.SUCCESS);
+                } else if (userResource.status == Status.ERROR) {
+                    //STATUS.set(Status.ERROR);
+                    Timber.d("Load error.....");
+                }
+            });
+        });
+        return mActivityLotteryData;
+    }
+
+    public LiveData<List<ActivitySignEntity>> getActivitySignList(String actId){
+        Map<String, String> request = new HashMap<>();
+        request.put("actId",actId);
+        if (mActivitySignResponse!=null){
+            mActivitySignData.removeSource(mActivitySignResponse);
+        }
+        mActivitySignData = new MediatorLiveData<>();
+        mActivitySignResponse = mModel.getActivitySignList(request);
+        mActivitySignData.addSource(mActivitySignResponse, observer ->{
+            mActivitySignData.removeSource(mActivitySignResponse);
+            mActivitySignData.addSource(mActivitySignResponse,userResource ->{
+                if(userResource == null){
+                    userResource = Resource.error("",null);
+                }
+                Timber.d("Load weather now: %s", userResource.status);
+                if (userResource.status == Status.LOADING) {
+                    //STATUS.set(Status.LOADING);
+                    Timber.d("Loadding.....");
+                } else if (userResource.status == Status.SUCCESS) {
+                    List <ActivitySignEntity> result = userResource.data.getResult();
+                    mActivitySignData.postValue(result);
+                } else if (userResource.status == Status.ERROR){
+                    Timber.d("Load error.....");
+                }
+            });
+        });
+        return mActivitySignData;
+    }
+
+    public LiveData<List<UploadEntity>> getUploadList(String actId, RequestBody requestFile){
+        Map<String, Object> request = new HashMap<>();
+        request.put("id",actId);
+        request.put("multipartFiles[0]", requestFile);
+        if (mUploadResponse!=null){
+            mUploadData.removeSource(mUploadResponse);
+        }
+        mUploadData = new MediatorLiveData<>();
+        mUploadResponse = mModel.uploadImg(request);
+        mUploadData.addSource(mUploadResponse, observer ->{
+            mUploadData.removeSource(mUploadResponse);
+            mUploadData.addSource(mUploadResponse,userResource ->{
+                if(userResource == null){
+                    userResource = Resource.error("",null);
+                }
+                Timber.d("Load weather now: %s", userResource.status);
+                if (userResource.status == Status.LOADING) {
+                    //STATUS.set(Status.LOADING);
+                    Timber.d("Loadding.....");
+                } else if (userResource.status == Status.SUCCESS) {
+                    List <UploadEntity> result = userResource.data.getResult();
+                    mUploadData.postValue(result);
+                } else if (userResource.status == Status.ERROR){
+                    Timber.d("Load error.....");
+                }
+            });
+        });
+        return mUploadData;
     }
 
 

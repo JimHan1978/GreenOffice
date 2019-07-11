@@ -147,7 +147,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
             });
         } else {
 
-            mViewModel.getUserList().observe(this, userLists -> {
+            mViewModel.getUserList().observe(this, userLAists -> {
                 size++;
                 if (size == 3) {
                     mViewModel.getContactList().observe(ContactsFragment.this, contactUserList -> {

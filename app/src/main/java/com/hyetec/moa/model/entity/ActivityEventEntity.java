@@ -161,7 +161,7 @@ public class ActivityEventEntity implements Serializable {
         this.imgList = imgList;
     }
 
-    public static class ImgListBean {
+    public static class ImgListBean implements Serializable {
         /**
          * del_flag : 0
          * id : 14

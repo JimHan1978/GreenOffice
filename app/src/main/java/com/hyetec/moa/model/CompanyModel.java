@@ -8,11 +8,14 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
+import com.hyetec.moa.model.entity.ActivityLotteryEntity;
+import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.UploadEntity;
 
 import org.reactivestreams.Subscription;
 
@@ -34,9 +37,13 @@ public class CompanyModel extends BaseModel {
     private RxErrorHandler mErrorHandler;
     private MutableLiveData<Resource<BaseResponse<List<MessageEntity>>>> mActivityEventListResource;
     private MutableLiveData<Resource<BaseResponse<ActivityEventEntity>>> mActivityEventResource;
+    private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadListResource;
     private MutableLiveData<Resource<BaseResponse<ResultEntity>>> mResultEventResource;
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLottery;
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryNum;
+    private MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> mActivityLotteryUserResource;
+    private MutableLiveData<Resource<BaseResponse<List<ActivitySignEntity>>>> mActivitySignResource;
+
     @Inject
     public CompanyModel(Application application) {
         super(application);
@@ -220,6 +227,105 @@ public class CompanyModel extends BaseModel {
 
     }
 
+    public MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> getActivityLotteryList(Map<String,String> request){
+        mActivityLotteryUserResource = new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .loadActivityLottery(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<ActivityLotteryEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<List<ActivityLotteryEntity>> listBaseResponse) {
+                        mActivityLotteryUserResource.setValue(Resource.success(listBaseResponse));
+                    }
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mActivityLotteryUserResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mActivityLotteryUserResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+                });
+        return  mActivityLotteryUserResource;
+    }
+
+    public MutableLiveData<Resource<BaseResponse<List<ActivitySignEntity>>>> getActivitySignList(Map<String,String> request){
+        mActivitySignResource = new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .loadActivitySign(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<ActivitySignEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onNext(BaseResponse<List<ActivitySignEntity>> listBaseResponse) {
+                        mActivitySignResource.setValue(Resource.success(listBaseResponse));
+                    }
+
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mActivitySignResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mActivitySignResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+                });
+        return  mActivitySignResource;
+    }
+
+    public MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> uploadImg(Map<String, Object> request) {
+
+        mUploadListResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .uploadImg(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<UploadEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mUploadListResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mUploadListResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<UploadEntity>> response) {
+                        mUploadListResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mUploadListResource;
+
+    }
 
     @Override
     public void onDestroy() {

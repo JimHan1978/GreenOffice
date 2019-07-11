@@ -1,6 +1,8 @@
 package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.ActivityEventEntity;
+import com.hyetec.moa.model.entity.ActivityLotteryEntity;
+import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.BonusEntity;
@@ -13,16 +15,21 @@ import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
 import com.hyetec.moa.model.entity.TodayMoneyEntity;
+import com.hyetec.moa.model.entity.UploadEntity;
 import com.hyetec.moa.model.entity.UserEntity;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Flowable;
+import okhttp3.MultipartBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.QueryMap;
 
 /**
@@ -90,12 +97,20 @@ public interface ContactsService {
     @POST("office/lottery/loadDailyLotterys.json")
     Flowable<BaseResponse<List<TodayMoneyEntity>>> loadDailyLotterys(@QueryMap Map<String, String> request);
 
+    @POST("office/lottery/loadLotterysAct.json")
+    Flowable<BaseResponse<List<ActivityLotteryEntity>>> loadActivityLottery(@QueryMap Map<String, String> request);
 
-
+    @POST("office/activitySign/listByActId.json")
+    Flowable<BaseResponse<List<ActivitySignEntity>>> loadActivitySign(@QueryMap Map<String, String> request);
 //    @POST("financePInfo/rest/selectFinancePInfo.json")
 //    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
     @POST("urm/user/rest/getFinancePInfo.json")
     Flowable<BaseResponse<BillEntity>> monthBill(@Body Map<String, String> request);
+
+    @Headers("Content-Type: multipart/form-data")
+    @Multipart
+    @POST("office/attachment/upload.json")
+    Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@PartMap Map<String, Object> request);
 }
