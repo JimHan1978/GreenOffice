@@ -550,16 +550,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 break;
             case R.id.iv_add:
                 show();
-            case R.id.tv_avtivity_address:
-                dateTimePicKDialog = new DateTimePickDialogUtil(this, TimeUtil.getNowTimeString());
-                dateTimePicKDialog.dateTimePickDialog2(tvAvtivityAddress, true);
 
-
-//                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                /*i.setAction(Intent.ACTION_GET_CONTENT);
-//                i.addCategory(Intent.CATEGORY_OPENABLE);
-//                i.setType("image/*");*/
-//                startActivityForResult(i, IMAGE_REQUEST_CODE);
                 break;
         }
     }
