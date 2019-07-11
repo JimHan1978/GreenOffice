@@ -18,6 +18,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
@@ -45,6 +46,11 @@ import com.hyetec.moa.utils.ShakeListener;
 import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.ViewHolder;
+import com.hyetec.moa.view.ui.ImageBucket.Camera;
+import com.hyetec.moa.view.ui.ImageBucket.CustomConstants;
+import com.hyetec.moa.view.ui.ImageBucket.ImageBucketChooseActivity;
+import com.hyetec.moa.view.ui.ImageBucket.ImageItem;
+import com.hyetec.moa.view.ui.ImageBucket.ImageUtils;
 import com.hyetec.moa.view.ui.MyListView;
 import com.hyetec.moa.view.ui.zxing.activity.CaptureActivity;
 import com.hyetec.moa.viewmodel.CompanyViewModel;
@@ -109,6 +115,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     @BindView(R.id.rly_shake_money)
     LinearLayout rlyShakeMoney;
 
+    public static List<ImageItem> photoList = new ArrayList<ImageItem>();
     private Bitmap mPic = null;
     private static final int IMAGE_REQUEST_CODE = 100;
     private boolean isVibrator;  //是否正在播放音频
@@ -129,6 +136,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private byte[] texts = null;
     private Uri uri;
     private RequestBody requestFile;
+    private String path = "";
 
     /**
      * UI 初始化
@@ -249,29 +257,57 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-
             case IMAGE_REQUEST_CODE: {
-                uri = data.getData();
-                String imgPath = uri.toString();
-                File file = new File("/storage/emulated/0/DCIM/Screenshots/Screenshot_20181231-202630_美团外卖.jpg");
-                requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-                MultipartBody.Builder builder = new MultipartBody.Builder()
-                        .setType(MultipartBody.FORM)
-                        //在这里添加服务器除了文件之外的其他参数
-                        .addFormDataPart("id",actId+"")
-                        .addFormDataPart("multipartFiles[0]", file.getName(), requestFile);
-                List<MultipartBody.Part> parts = builder.build().parts();
-                //MultipartBody.Part body = MultipartBody.Part.createFormData("multipartFiles[0]", file.getName(), requestFile);
-                mViewModel.getUploadList(parts,actId+"").observe(this, uploadEntities -> {
-                    if (uploadEntities != null) {
-                        uploadEntities.getResult();
+                if(photoList!=null &&photoList.size()>0) {
+                    upLoadImg(photoList);
+                }
+            }
+            case Camera.TAKE_PICTURE:
+                if (photoList.size() < CustomConstants.MAX_IMAGE_SIZE && resultCode == -1 && !TextUtils.isEmpty(path)) {
+                    ImageItem item = new ImageItem();
+                    item.thumbnailPath = path;
+                    item.sourcePath = path;
+                    item.isSelected = true;
+                    photoList.clear();
+                    photoList.add(item);
+                    upLoadImg(photoList);
+                }
+                break;
+        }
+    }
+
+    /** 
+     * @Title: 上传photoList中文件
+     * @Description: 
+     * @Time 2019/7/11 15:01
+     * @param    
+     * @return     
+     */  
+
+    private  void  upLoadImg(List<ImageItem> photoList){
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                //在这里添加服务器除了文件之外的其他参数
+                .addFormDataPart("id", actId + "");
+        for (int i = 0; i < photoList.size(); i++) {
+            File file = new File(ImageUtils.compressImage(photoList.get(i).sourcePath,CompanyActivity.this));
+            requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+            builder.addFormDataPart("multipartFiles[" + i + "]", file.getName(), requestFile);
+        }
+        List<MultipartBody.Part> parts = builder.build().parts();
+        mViewModel.getUploadList(parts, actId + "").observe(this, uploadEntities -> {
+            if (uploadEntities != null && uploadEntities.isSuccess()) {
+                photoList.clear();
+                Toast.makeText(this, uploadEntities.getMessage(), Toast.LENGTH_SHORT).show();
+                mViewModel.getActivityEventDetails(actId + "").observe(this, activityEvent -> {
+                    if (activityEvent != null && activityEvent.isSuccess()) {
+                        setData(activityEvent.getResult());
                     }
                 });
-               /* mPic = setImage(selectedImage);
-                texts = bitmabToBytes(CompanyActivity.this, mPic);
-                Bitmap show = BitmapFactory.decodeByteArray(texts, 0, texts.length);*/
+            } else {
+                Toast.makeText(this, uploadEntities.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        }
+        });
     }
 
     /*private void activitySign(String scanResult) {
@@ -512,13 +548,49 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 finish();
                 break;
             case R.id.iv_add:
-                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                /*i.setAction(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("image/*");*/
-                startActivityForResult(i, IMAGE_REQUEST_CODE);
+                show();
+
+//                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                /*i.setAction(Intent.ACTION_GET_CONTENT);
+//                i.addCategory(Intent.CATEGORY_OPENABLE);
+//                i.setType("image/*");*/
+//                startActivityForResult(i, IMAGE_REQUEST_CODE);
                 break;
         }
+    }
+
+    private void show() {
+        AlertDialog ad = new AlertDialog.Builder(this).setTitle("操作").setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == 0) {
+                    path = Camera.takePhoto(CompanyActivity.this);
+                } else if (which == 1) {
+                    Intent intent = new Intent(CompanyActivity.this, ImageBucketChooseActivity.class);
+                    intent.putExtra(CustomConstants.EXTRA_CAN_ADD_IMAGE_SIZE, getAvailableSize());
+                    intent.putExtra("info", "");
+                    startActivityForResult(intent,IMAGE_REQUEST_CODE);
+                }
+            }
+        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+
+        }).show();
+        ad.setCanceledOnTouchOutside(true);
+    }
+
+    /**
+     * @return 还可以添加几张图片
+     */
+    private int getAvailableSize() {
+        int availSize = CustomConstants.MAX_IMAGE_SIZE - photoList.size();
+        if (availSize >= 0) {
+            return availSize;
+        }
+        return 0;
     }
 
     private Bitmap setImage(Uri uri) {

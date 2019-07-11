@@ -122,6 +122,13 @@
             android:name=".view.ui.zxing.activity.CaptureActivity"
             android:screenOrientation="portrait" />
 
+        <activity android:name=".view.ui.ImageBucket.ImageChooseActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.ui.ImageBucket.ImageZoomActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".view.ui.ImageBucket.ImageBucketChooseActivity"
+            android:screenOrientation="portrait" />
+
         <meta-data
             android:name="com.hyetec.moa.app.RepositoryConfiguration"
             android:value="ConfigRepository" />
@@ -162,6 +169,16 @@
                 <category android:name="com.hyetec.moa" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.hyetec.moa.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
 
 </manifest>

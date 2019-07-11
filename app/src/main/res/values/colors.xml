@@ -14,11 +14,12 @@
     <color name="colorBorderGray">#D9D9D9</color>
     <color name="bg_slid">#202022</color>
     <color name="zao_time">#0083D2</color>
+    <color name="btn_gray">#d1d1d1</color>
     <color name="zao_bg">#3fd995</color>
     <color name="wifi">#A2A19F</color>
     <color name="punchcard_blue">#2F8CEB</color>
     <color name="punchcardwifi_gray">#A2A19F</color>
-
+    <color name="light_gray">#99a4b7</color>
     <color name="text_gray_dialog">#E6E6E6</color>
 
     <color name="crown_copper">#FF7203</color>

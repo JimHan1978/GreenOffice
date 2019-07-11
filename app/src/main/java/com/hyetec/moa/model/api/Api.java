@@ -9,45 +9,14 @@ public interface Api {
     /**
      * HTTP Url
      */
- //  String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
-   String IMG_URL = "http://hyserver.hyetec.com:8180/urm/";
-   String IMG_URL_ATTACHMENT = "http://hyserver.hyetec.com:8180/office/";
+    // String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
+     String IMG_URL = "http://hyserver.hyetec.com:8180/urm/";
+    // String IMG_URL_ATTACHMENT = "http://hyserver.hyetec.com:8180/office/";
 
-  String APP_DOMAIN = "http://192.168.176.170:8180/";
-//    String APP_DOMAIN = "http://192.168.10.10:8180/";
+    String IMG_URL_ATTACHMENT = "http://192.168.176.170:8180/office/";
+    //String IMG_URL = "http://192.168.176.170:8180/";
+    String APP_DOMAIN = "http://192.168.176.170:8180/";
 
-    //   String IMG_URL = "http://192.168.176.170:8882/urm/";
-
-    //String APP_DOMAIN = "http://192.168.10.10:8180/";
-    /**
-     * 心知天气API密钥
-     */
-    String API_KEY = "sokppqeydnrkohxe";
-
-    /**
-     * 心知天气API图标
-     */
-    String API_WEATHER_ICON_URL = "https://s3.sencdn.com/web/icons/3d_50/%s.png";
-
-    /**
-     * Api Key
-     */
-    String API_KEY_KEY = "key";
-
-    /**
-     * API Language
-     */
-    String API_KEY_LANGUAGE = "language";
-
-    /**
-     * Api temperature unit
-     */
-    String API_KEY_TEMP_UNIT = "unit";
-
-    /**
-     * Api location
-     */
-    String API_KEY_LOCATION = "location";
 
     /**
      * userId Key
