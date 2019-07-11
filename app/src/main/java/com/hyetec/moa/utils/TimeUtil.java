@@ -55,6 +55,14 @@ public class TimeUtil {
 		return 0L;
 	}
 
+
+	/**
+	 * String to date
+	 */
+	public static Date getDateByDateTimeString(String dateStr, String pattern) throws ParseException {
+		return new SimpleDateFormat(pattern).parse(dateStr);
+	}
+
 	public static String clearTime(String dateTime) {
 		if (dateTime == null) {
 			return null;
