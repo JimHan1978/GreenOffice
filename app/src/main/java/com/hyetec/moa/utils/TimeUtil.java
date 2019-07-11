@@ -10,6 +10,7 @@
 package com.hyetec.moa.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +45,27 @@ public class TimeUtil {
 	public static String getToadyString() {
 		return formatDateTimeString(Calendar.getInstance(), "yyyy-MM-dd");
 	}
+	public static long getDateTimeString2Long(String paramString1, String paramString2) {
+		SimpleDateFormat localSimpleDateFormat = new SimpleDateFormat(paramString2, Locale.SIMPLIFIED_CHINESE);
+		try {
+			Date localDate = localSimpleDateFormat.parse(paramString1);
+			return localDate.getTime();
+		} catch (ParseException localParseException) {
+		}
+		return 0L;
+	}
 
+	public static String clearTime(String dateTime) {
+		if (dateTime == null) {
+			return null;
+		}
+		if (dateTime.length() > 10) {
+			return dateTime.substring(0, 10);
+		} else {
+			return dateTime;
+		}
+
+	}
 	/**
 	 * 格式化日期格式
 	 *
