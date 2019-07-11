@@ -21,6 +21,13 @@
         android:text="@string/message"
         android:textColor="@color/white"
         android:textSize="@dimen/top_title_textSize" />
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_scan"
+        android:visibility="gone"/>
 </RelativeLayout>
 
 
