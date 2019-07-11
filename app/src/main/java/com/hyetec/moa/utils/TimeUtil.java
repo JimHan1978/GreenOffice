@@ -55,7 +55,14 @@ public class TimeUtil {
 		return 0L;
 	}
 
-
+	/**
+	 * @return
+	 * @Title:
+	 * @Description: 获取今天日期字符串
+	 */
+	public static String getNowTimeString() {
+		return formatDateTimeString(Calendar.getInstance(), "yyyy-MM-dd HH:mm");
+	}
 	/**
 	 * String to date
 	 */
