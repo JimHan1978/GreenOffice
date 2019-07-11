@@ -3,6 +3,7 @@ package com.hyetec.moa.view.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,6 +74,8 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
         }else if(type.equals("All")){
             tvTitle.setText("红包总榜");
         }
+
+
         mViewModel.getBonusList(type,"").observe(this, bonuslists -> {
             if(bonuslists!=null && bonuslists.isSuccess()){
                 if( bonuslists.getResult()!=null) {

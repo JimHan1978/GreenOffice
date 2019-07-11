@@ -42,6 +42,7 @@ import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.model.entity.UploadEntity;
+import com.hyetec.moa.utils.DateTimePickDialogUtil;
 import com.hyetec.moa.utils.ShakeListener;
 import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.view.adapter.CommonAdapter;
@@ -137,7 +138,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private Uri uri;
     private RequestBody requestFile;
     private String path = "";
-
+    private DateTimePickDialogUtil dateTimePicKDialog;
     /**
      * UI 初始化
      *
@@ -199,7 +200,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getLogoImgUrl()).into(ivLogo);
         tvAvtivityTitle.setText(activityEventEntity.getTarget_name());
         tvAvtivityTime.setText(activityEventEntity.getJoinDate());
-        tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
+        //tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
         //int x = userInfo.getUserId();
         //int y = activityEventEntity.getOrganiser();
         if (userInfo.getUserId() == activityEventEntity.getOrganiser()) {
@@ -279,7 +280,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     /** 
      * @Title: 上传photoList中文件
      * @Description: 
-     * @Time 2019/7/11 15:01
+     * @Time 2019/7/11 17:14
      * @param    
      * @return     
      */  
@@ -527,7 +528,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }*/
     }
 
-    @OnClick({R.id.rly_scan, R.id.rly_shake, R.id.iv_add, R.id.iv_left})
+    @OnClick({R.id.rly_scan, R.id.rly_shake, R.id.iv_add, R.id.iv_left,R.id.tv_avtivity_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rly_scan:
@@ -549,6 +550,10 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 break;
             case R.id.iv_add:
                 show();
+            case R.id.tv_avtivity_address:
+                dateTimePicKDialog = new DateTimePickDialogUtil(this, TimeUtil.getNowTimeString());
+                dateTimePicKDialog.dateTimePickDialog2(tvAvtivityAddress, true);
+
 
 //                Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 //                /*i.setAction(Intent.ACTION_GET_CONTENT);

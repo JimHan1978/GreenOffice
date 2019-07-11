@@ -11,7 +11,6 @@ import android.widget.TimePicker;
 import android.widget.TimePicker.OnTimeChangedListener;
 import android.widget.Toast;
 
-
 import com.hyetec.moa.R;
 
 import java.lang.reflect.Field;
@@ -21,75 +20,75 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-		public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChangedListener {
-			private DatePicker datePicker;
-			private TimePicker timePicker;
-			private AlertDialog ad;
-			private String dateTime;
-			private String initDateTime;
-			private Activity activity;
+public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChangedListener {
+	private DatePicker datePicker;
+	private TimePicker timePicker;
+	private AlertDialog ad;
+	private String dateTime;
+	private String initDateTime;
+	private Activity activity;
 
-			private DateTimeOnDateChangedListener dtListener;
+	private DateTimeOnDateChangedListener dtListener;
 
-			public DateTimePickDialogUtil(Activity activity, String initDateTime) {
-				this.activity = activity;
-				this.initDateTime = initDateTime;
-			}
+	public DateTimePickDialogUtil(Activity activity, String initDateTime) {
+		this.activity = activity;
+		this.initDateTime = initDateTime;
+	}
 
-			public void setDateTimeOnDateChangedListener(DateTimeOnDateChangedListener dtListener) {
-				this.dtListener = dtListener;
-			}
+	public void setDateTimeOnDateChangedListener(DateTimeOnDateChangedListener dtListener) {
+		this.dtListener = dtListener;
+	}
 
-			@Override
-			public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-				// TODO Auto-generated method stub
-				// 获得日历实例
-				Calendar calendar = Calendar.getInstance();
-				if(timePicker!=null){
-					calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-					dateTime = sdf.format(calendar.getTime());
-					ad.setTitle(dateTime);
-				}else {
-					calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-					dateTime = sdf.format(calendar.getTime());
-					ad.setTitle(dateTime);
-				}
-			}
+	@Override
+	public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+		// TODO Auto-generated method stub
+		// 获得日历实例
+		Calendar calendar = Calendar.getInstance();
+		if(timePicker!=null){
+			calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), timePicker.getCurrentHour(), timePicker.getCurrentMinute());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			dateTime = sdf.format(calendar.getTime());
+			ad.setTitle(dateTime);
+		}else {
+			calendar.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			dateTime = sdf.format(calendar.getTime());
+			ad.setTitle(dateTime);
+		}
+	}
 
-			@Override
-			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-				// TODO Auto-generated method stub
-				onDateChanged(null, 0, 0, 0);
-			}
-			public void init(DatePicker datePicker) {
-				Calendar calendar = Calendar.getInstance();
-				if (!(null == initDateTime || "".equals(initDateTime))) {
-					calendar = this.getCalendarByInintData(initDateTime);
-				} else {
-					initDateTime = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
-				}
+	@Override
+	public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+		// TODO Auto-generated method stub
+		onDateChanged(null, 0, 0, 0);
+	}
+	public void init(DatePicker datePicker) {
+		Calendar calendar = Calendar.getInstance();
+		if (!(null == initDateTime || "".equals(initDateTime))) {
+			calendar = this.getCalendarByInintData(initDateTime);
+		} else {
+			initDateTime = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH);
+		}
 
-				datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), this);
+		datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), this);
 
-			}
-			public void init(DatePicker datePicker, TimePicker timePicker) {
-				Calendar calendar = Calendar.getInstance();
-				if (!(null == initDateTime || "".equals(initDateTime))) {
-					calendar = this.getCalendarByInintData(initDateTime);
-				} else {
-					initDateTime = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR_OF_DAY)
-							+ ":" + calendar.get(Calendar.MINUTE);
-				}
+	}
+	public void init(DatePicker datePicker, TimePicker timePicker) {
+		Calendar calendar = Calendar.getInstance();
+		if (!(null == initDateTime || "".equals(initDateTime))) {
+			calendar = this.getCalendarByInintData(initDateTime);
+		} else {
+			initDateTime = calendar.get(Calendar.YEAR) + "-" + calendar.get(Calendar.MONTH) + "-" + calendar.get(Calendar.DAY_OF_MONTH) + " " + calendar.get(Calendar.HOUR_OF_DAY)
+					+ ":" + calendar.get(Calendar.MINUTE);
+		}
 
-				datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), this);
-				timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-				timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-			}
-			public AlertDialog dateTimePicKDialog(final TextView inputDate) {
-				LinearLayout dateTimeLayout = (LinearLayout) activity
-						.getLayoutInflater().inflate(R.layout.common_datetime, null);
+		datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), this);
+		timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+		timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+	}
+	public AlertDialog dateTimePicKDialog(final TextView inputDate) {
+		LinearLayout dateTimeLayout = (LinearLayout) activity
+				.getLayoutInflater().inflate(R.layout.common_datetime, null);
 		datePicker = (DatePicker) dateTimeLayout.findViewById(R.id.datepicker);
 		timePicker = (TimePicker) dateTimeLayout.findViewById(R.id.timepicker);
 		//timePicker.setIs24HourView(true);
