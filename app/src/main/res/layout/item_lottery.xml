@@ -54,6 +54,7 @@
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/black"
             android:layout_toRightOf="@+id/iv_head"
 
             android:textSize="16sp" />
@@ -71,11 +72,12 @@
             android:layout_width="wrap_content"
             android:minWidth="60dp"
             android:layout_height="30dp"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:layout_marginRight="20dp"
+            android:textColor="@color/black"
             android:layout_alignTop="@+id/tv_message_name"
             android:layout_alignParentRight="true"
-            android:text=""
+            android:text="88.88"
             android:textSize="16sp" />
         <TextView
             android:id="@+id/best"
