@@ -129,7 +129,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private ShakeListener mShakeListener = null;
     private AlertDialog adBuilder = null;
     private double moneyCount = 0;
-    private int reqCount = 0;
+    private int reqCount = -2;
     private AnimationDrawable animationDrawable;
     private boolean dialogFlag = true;
     private String message = "111";
@@ -139,6 +139,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private RequestBody requestFile;
     private String path = "";
     private DateTimePickDialogUtil dateTimePicKDialog;
+
     /**
      * UI 初始化
      *
@@ -259,7 +260,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case IMAGE_REQUEST_CODE: {
-                if(photoList!=null &&photoList.size()>0) {
+                if (photoList != null && photoList.size() > 0) {
                     upLoadImg(photoList);
                 }
             }
@@ -277,21 +278,21 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }
     }
 
-    /** 
+    /**
+     * @param
+     * @return
      * @Title: 上传photoList中文件
-     * @Description: 
+     * @Description:
      * @Time 2019/7/11 17:14
-     * @param    
-     * @return     
-     */  
+     */
 
-    private  void  upLoadImg(List<ImageItem> photoList){
+    private void upLoadImg(List<ImageItem> photoList) {
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 //在这里添加服务器除了文件之外的其他参数
                 .addFormDataPart("id", actId + "");
         for (int i = 0; i < photoList.size(); i++) {
-            File file = new File(ImageUtils.compressImage(photoList.get(i).sourcePath,CompanyActivity.this));
+            File file = new File(ImageUtils.compressImage(photoList.get(i).sourcePath, CompanyActivity.this));
             requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
             builder.addFormDataPart("multipartFiles[" + i + "]", file.getName(), requestFile);
         }
@@ -345,10 +346,10 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     System.out.println("111");
                 }
             });*/
-            if (drawLotteryEntity != null) {
-                message = drawLotteryEntity.getMessage();
-                isSuccess = drawLotteryEntity.isSuccess();
-            }
+//            if (drawLotteryEntity != null) {
+//                message = drawLotteryEntity.getMessage();
+//                isSuccess = drawLotteryEntity.isSuccess();
+//            }
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
                 reqCount = drawLotteryEntity.getResult().getRemainder();
                 moneyCount = drawLotteryEntity.getResult().getSumAmount();
@@ -508,10 +509,16 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
             }
         });*/
         //if(message.isEmpty()){
-        Intent intent = new Intent(CompanyActivity.this, ActivityLotteryActivity.class);
-        intent.putExtra("actid", actId + "");
-        intent.putExtra("userid", userInfo.getUserId() + "");
-        startActivity(intent);
+
+        if (reqCount < -1) {
+            getLotteryData(userInfo.getUserId() + "", actId + "", true);
+        } else {
+
+            Intent intent = new Intent(CompanyActivity.this, ActivityLotteryActivity.class);
+            intent.putExtra("actid", actId + "");
+            intent.putExtra("userid", userInfo.getUserId() + "");
+            startActivity(intent);
+        }
         //}
     }
 
@@ -528,7 +535,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }*/
     }
 
-    @OnClick({R.id.rly_scan, R.id.rly_shake, R.id.iv_add, R.id.iv_left,R.id.tv_avtivity_address})
+    @OnClick({R.id.rly_scan, R.id.rly_shake, R.id.iv_add, R.id.iv_left, R.id.tv_avtivity_address})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rly_scan:
@@ -565,7 +572,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     Intent intent = new Intent(CompanyActivity.this, ImageBucketChooseActivity.class);
                     intent.putExtra(CustomConstants.EXTRA_CAN_ADD_IMAGE_SIZE, getAvailableSize());
                     intent.putExtra("info", "");
-                    startActivityForResult(intent,IMAGE_REQUEST_CODE);
+                    startActivityForResult(intent, IMAGE_REQUEST_CODE);
                 }
             }
         }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -596,8 +603,6 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         String[] proj = {MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(contentUri,proj,null,null,null);
     }*/
-
-
 
 
 }

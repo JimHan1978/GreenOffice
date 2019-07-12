@@ -97,13 +97,13 @@ public class ActivityLotteryActivity extends BaseActivity<CompanyViewModel> impl
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
                 reqCount=drawLotteryEntity.getResult().getRemainder();
                 moneyCount=drawLotteryEntity.getResult().getSumAmount();
-                /*if (reqCount > 0) {
-                    animationDrawable.start();
-                    scan();
+                if (reqCount > 0) {
+                   // animationDrawable.start();
+                   // scan();
                 } else{
-                    animationDrawable.stop();
+                   // animationDrawable.stop();
                     dialogFlag=false;
-                }*/
+                }
             }
         });
 

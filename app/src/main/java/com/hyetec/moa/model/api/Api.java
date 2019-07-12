@@ -10,12 +10,12 @@ public interface Api {
      * HTTP Url
      */
     String APP_DOMAIN = "http://hyserver.hyetec.com:8180/";
-   String IMG_URL = "http://hyserver.hyetec.com:8180/urm/";
-      String IMG_URL_ATTACHMENT = "http://hyserver.hyetec.com:8180/office/";
+    String IMG_URL = "http://hyserver.hyetec.com:8180/urm/";
+    String IMG_URL_ATTACHMENT = "http://hyserver.hyetec.com:8180/office/";
 
     //String IMG_URL_ATTACHMENT = "http://192.168.176.170:8180/office/";
-   // String IMG_URL = "http://192.168.176.170:8180/";
-   // String APP_DOMAIN = "http://192.168.176.170:8180/";
+    // String IMG_URL = "http://192.168.176.170:8180/";
+    // String APP_DOMAIN = "http://192.168.176.170:8180/";
 
 
     /**

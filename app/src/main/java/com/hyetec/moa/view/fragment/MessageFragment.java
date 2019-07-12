@@ -102,7 +102,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
         if (ACache.get(getActivity()).getAsObject(MoaApp.USER_DATA) != null) {
             userInfo = (LoginUserEntity) ACache.get(getActivity().getApplicationContext()).getAsObject(MoaApp.USER_DATA);
         }
-        getData();
+  //      getData();
         lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -179,7 +179,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
     @Override
     public void onResume() {
         super.onResume();
-
+        getData();
     }
 
     @Override
