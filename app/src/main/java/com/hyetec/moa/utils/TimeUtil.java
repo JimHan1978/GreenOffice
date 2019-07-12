@@ -74,13 +74,14 @@ public class TimeUtil {
     }
 
 
-    public static String clearSecond(String dateTime) {
-        if (dateTime == null) {
+    public static String clearSecond(String dateTime)
+    {
+        if(dateTime==null){
             return null;
         }
-        if (dateTime.length() > 16) {
-            return dateTime.substring(0, 16);
-        } else {
+        if(dateTime.length()>10){
+            return dateTime.substring(0, 10);
+        }else{
             return dateTime;
         }
 
