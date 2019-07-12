@@ -48,13 +48,13 @@
         <TextView
             android:id="@+id/tv_user_name"
             android:layout_width="100dp"
+            android:text="紫微"
             android:layout_height="60dp"
             android:layout_marginLeft="20dp"
             android:gravity="center"
             android:layout_toRightOf="@+id/iv_head"
             android:layout_alignTop="@+id/iv_head"
             android:textSize="16sp" />
-
         <TextView
             android:id="@+id/tv_amount_money"
             android:layout_width="wrap_content"

@@ -17,6 +17,7 @@ public class ActivityLotteryEntity implements Serializable {
     private String photo;
     private String userName;
     private double sumAmount;
+    private String lotteryTime;
 
     public int getTimes() {
         return times;
@@ -56,5 +57,13 @@ public class ActivityLotteryEntity implements Serializable {
 
     public void setSumAmount(double sumAmount) {
         this.sumAmount = sumAmount;
+    }
+
+    public String getLotteryTime() {
+        return lotteryTime;
+    }
+
+    public void setLotteryTime(String lotteryTime) {
+        this.lotteryTime = lotteryTime;
     }
 }

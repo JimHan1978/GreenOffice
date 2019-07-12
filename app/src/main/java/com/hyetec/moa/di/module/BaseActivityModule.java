@@ -23,6 +23,7 @@ import com.hyetec.moa.view.activity.ChangePasswordActivity;
 import com.hyetec.moa.view.activity.CompanyActivity;
 import com.hyetec.moa.view.activity.CompanyActivityImgActivity;
 import com.hyetec.moa.view.activity.CompanyListActivity;
+import com.hyetec.moa.view.activity.CreateActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
@@ -94,4 +95,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
     abstract CompanyActivityImgActivity contributeCompanyActivityImgActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract CreateActivity contributeCreateActivity();
 }

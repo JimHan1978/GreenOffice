@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Vibrator;
+import android.support.v7.util.SortedList;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import com.hyetec.moa.view.ui.pullview.GdPullToRefreshView;
 import com.hyetec.moa.viewmodel.CompanyViewModel;
 import com.hyetec.moa.viewmodel.PunchCardViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -49,8 +51,9 @@ public class ActivityLotteryActivity extends BaseActivity<CompanyViewModel> impl
     MyListView lvItem;
     @BindView(R.id.gv_activity)
     GdPullToRefreshView gvActivity;
-    @BindView(R.id.pic_shake)
-    ImageView picShake;
+    /*@BindView(R.id.pic_shake)
+    ImageView picShake;*/
+
 
     private CommonAdapter mAdapter;
     private AnimationDrawable animationDrawable;
@@ -82,8 +85,8 @@ public class ActivityLotteryActivity extends BaseActivity<CompanyViewModel> impl
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
-        animationDrawable = (AnimationDrawable) picShake.getDrawable();
-        animationDrawable.start();
+        /*animationDrawable = (AnimationDrawable) picShake.getDrawable();
+        animationDrawable.start();*/
 
     }
 
@@ -94,29 +97,52 @@ public class ActivityLotteryActivity extends BaseActivity<CompanyViewModel> impl
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
                 reqCount=drawLotteryEntity.getResult().getRemainder();
                 moneyCount=drawLotteryEntity.getResult().getSumAmount();
-                if (reqCount > 0) {
+                /*if (reqCount > 0) {
                     animationDrawable.start();
                     scan();
                 } else{
                     animationDrawable.stop();
                     dialogFlag=false;
-                }
+                }*/
             }
         });
 
         mViewModel.getActivityLotteryList(actId).observe(this,activityLotteryEntities -> {
-            if(activityLotteryEntities!=null){
+            if(activityLotteryEntities!=null) {
                 List<ActivityLotteryEntity> list = activityLotteryEntities;
-                lvItem.setAdapter(mAdapter = new CommonAdapter<ActivityLotteryEntity>(
-                        this, list, R.layout.item_bonus) {
-                    @Override
-                    public void convert(ViewHolder helper, ActivityLotteryEntity item, int pos) {
-                        helper.setText(R.id.tv_ranking, pos+1+"");
-                        helper.setText(R.id.tv_user_name, item.getUserName());
-                        helper.setText(R.id.tv_amount_money, item.getSumAmount()+"元");
-                        helper.setImagehttp(R.id.iv_head, item.getPhoto(),ActivityLotteryActivity.this);
+                //find max sum amount
+                if (list.size() != 0) {
+                    double temp = list.get(0).getSumAmount();
+                    for (int i = 0; i != list.size(); i++) {
+                        double x = list.get(i).getSumAmount();
+                        if (temp < x) {
+                            temp = x;
+                        }
+                    }
+                    //find user
+                    List<Integer> temp2 = new ArrayList<>();
+                    for (int i = 0; i != list.size(); i++) {
+                        if (temp == list.get(i).getSumAmount()) {
+                            temp2.add(i);
+                        }
+                    }
+                    lvItem.setAdapter(mAdapter = new CommonAdapter<ActivityLotteryEntity>(
+                            this, list, R.layout.item_lottery) {
+                        @Override
+                        public void convert(ViewHolder helper, ActivityLotteryEntity item, int pos) {
+                            //helper.setText(R.id.tv_ranking, pos+1+"");
+                            helper.setText(R.id.tv_user_name, item.getUserName());
+                            helper.setText(R.id.tv_amount_money, item.getSumAmount() + "元");
+                            helper.setText(R.id.tv_time, item.getLotteryTime());
+                            helper.setImagehttp(R.id.iv_head, item.getPhoto(), ActivityLotteryActivity.this);
 
-                        if(pos==0){
+                            for (int i = 0; i != temp2.size(); i++) {
+                                if (pos == temp2.get(i)) {
+                                    helper.setText(R.id.best, "手气最佳");
+                                    helper.setViewVisibility(R.id.best_pic, View.VISIBLE);
+                                }
+                            }
+                        /*if(pos==0){
                             helper.setImageResource(R.id.iv_crown,R.drawable.shape_ring_gold);
                             helper.setImageResource(R.id.iv_crown_type,R.drawable.ic_crown_gold);
                             helper.setViewVisibility(R.id.iv_crown,View.VISIBLE);
@@ -138,10 +164,12 @@ public class ActivityLotteryActivity extends BaseActivity<CompanyViewModel> impl
                             helper.setViewVisibility(R.id.iv_crown,View.GONE);
                             helper.setViewVisibility(R.id.iv_crown_type,View.GONE);
                             helper.setTextColor(R.id.tv_ranking,getResources().getColor(R.color.text_gray));
+                        }*/
                         }
-                    }
-                });
-            } else{
+                    });
+                }
+            }
+            else{
 
             }
         });

@@ -163,7 +163,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("活动");
         ivLeft.setVisibility(View.VISIBLE);
-        ivAdd.setVisibility(View.VISIBLE);
+        ivAdd.setVisibility(View.GONE);
         vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
         animationDrawable = (AnimationDrawable) ivShake.getDrawable();
 
@@ -200,7 +200,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getLogoImgUrl()).into(ivLogo);
         tvAvtivityTitle.setText(activityEventEntity.getTarget_name());
         tvAvtivityTime.setText(activityEventEntity.getJoinDate());
-        //tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
+        tvAvtivityAddress.setText(activityEventEntity.getVenue() + "-" + activityEventEntity.getOrganiser_name());
         //int x = userInfo.getUserId();
         //int y = activityEventEntity.getOrganiser();
         if (userInfo.getUserId() == activityEventEntity.getOrganiser()) {
@@ -589,18 +589,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         return 0;
     }
 
-    private Bitmap setImage(Uri uri) {
-        try {
-            Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            //Bitmap show = BitmapFactory.decodeByteArray(texts,0,texts.length);
-            //iv_photo.setImageBitmap(show);
-            return bitmap;
-            //iv_photo.setImageBitmap(bitmap);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+
 
     /*public String getRealPathFromURI(Uri contentUri){
         String res = null;
@@ -609,25 +598,6 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     }*/
 
 
-    public byte[] bitmabToBytes(Context context, Bitmap bitmap) {
 
-        int size = bitmap.getWidth() * bitmap.getHeight() * 4;
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream(size);
-        try {
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-            byte[] imagedata = baos.toByteArray();
-            return imagedata;
-        } catch (Exception e) {
-        } finally {
-            try {
-                bitmap.recycle();
-                baos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return new byte[0];
-    }
 
 }

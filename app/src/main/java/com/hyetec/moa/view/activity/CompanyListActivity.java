@@ -42,6 +42,8 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
 
     @BindView(R.id.iv_left)
     ImageView ivLeft;
+    @BindView(R.id.iv_right)
+    ImageView ivRight;
     @BindView(R.id.tv_title)
     TextView tvTitle;
     @BindView(R.id.rly_title)
@@ -69,7 +71,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         ButterKnife.bind(this);
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(CompanyViewModel.class);
-        return R.layout.activity_bonus_list;
+        return R.layout.activity_company_list;
     }
 
     /**
@@ -80,6 +82,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("活动列表");
         ivLeft.setVisibility(View.VISIBLE);
+        //ivRight.setVisibility(View.VISIBLE);
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
@@ -131,13 +134,15 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
 
     }
 
-    @OnClick({R.id.iv_left, R.id.tv_title})
+    @OnClick({R.id.iv_left, R.id.tv_title, R.id.iv_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
                 finish();
                 break;
-
+            /*case R.id.iv_right:
+                Intent intent = new Intent(CompanyListActivity.this,CreateActivity.class);
+                startActivity(intent);*/
         }
     }
 

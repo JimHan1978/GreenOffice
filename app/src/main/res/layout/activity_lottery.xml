@@ -12,12 +12,12 @@
     <com.hyetec.moa.view.ui.pullview.GdPullToRefreshView
         android:id="@+id/gv_activity"
         android:layout_width="match_parent"
-        android:layout_height="600dp"
+        android:layout_height="match_parent"
         android:background="@color/bg_gray">
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="600dp">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -25,9 +25,15 @@
 
                 android:orientation="vertical">
 
-
+                <!--<TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:text="红包总数：1个  已摇个数：1个"
+                    android:gravity="center"/>-->
                 <com.hyetec.moa.view.ui.MyListView
                     android:id="@+id/lv_activity"
+                    android:paddingTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
@@ -39,10 +45,10 @@
         </ScrollView>
     </com.hyetec.moa.view.ui.pullview.GdPullToRefreshView>
 
-    <ImageView
+    <!--<ImageView
         android:id="@+id/pic_shake"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/animation_shake"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"/>-->
 </LinearLayout>
