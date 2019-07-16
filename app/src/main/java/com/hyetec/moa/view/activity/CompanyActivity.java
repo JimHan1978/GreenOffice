@@ -53,6 +53,7 @@ import com.hyetec.moa.view.ui.ImageBucket.ImageBucketChooseActivity;
 import com.hyetec.moa.view.ui.ImageBucket.ImageItem;
 import com.hyetec.moa.view.ui.ImageBucket.ImageUtils;
 import com.hyetec.moa.view.ui.MyListView;
+import com.hyetec.moa.view.ui.manager.PhotoDialog;
 import com.hyetec.moa.view.ui.zxing.activity.CaptureActivity;
 import com.hyetec.moa.viewmodel.CompanyViewModel;
 
@@ -144,6 +145,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private DateTimePickDialogUtil dateTimePicKDialog;
     private List<String> p = new ArrayList<>();
     private List<int[]> picSize = new ArrayList<>();
+    private PhotoDialog photoDialog = new PhotoDialog("拍照","相册");
     /**
      * UI 初始化
      *
@@ -567,26 +569,32 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     }
 
     private void show() {
-        AlertDialog ad = new AlertDialog.Builder(this).setTitle("操作").setItems(new String[]{"拍照", "相册"}, new DialogInterface.OnClickListener() {
+        photoDialog.setOnCameraClickListener(new PhotoDialog.PhotoCameraCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (which == 0) {
-                    path = Camera.takePhoto(CompanyActivity.this);
-                } else if (which == 1) {
-                    Intent intent = new Intent(CompanyActivity.this, ImageBucketChooseActivity.class);
-                    intent.putExtra(CustomConstants.EXTRA_CAN_ADD_IMAGE_SIZE, getAvailableSize());
-                    intent.putExtra("info", "");
-                    startActivityForResult(intent, IMAGE_REQUEST_CODE);
-                }
+            public void onClick() {
+                photoDialog.dismiss();
+                path = Camera.takePhoto(CompanyActivity.this);
             }
-        }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        });
+        photoDialog.setOnChoosePhotoClickListener(new PhotoDialog.ChoosePhotoCallback() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+            public void onClick() {
+                photoDialog.dismiss();
+                Intent intent = new Intent(CompanyActivity.this, ImageBucketChooseActivity.class);
+                intent.putExtra(CustomConstants.EXTRA_CAN_ADD_IMAGE_SIZE, getAvailableSize());
+                intent.putExtra("info", "");
+                startActivityForResult(intent, IMAGE_REQUEST_CODE);
             }
+        });
+        photoDialog.setOnCancleClickListener(new PhotoDialog.PhoneCancelCallback() {
+            @Override
+            public void onClick() {
+                photoDialog.dismiss();
 
-        }).show();
-        ad.setCanceledOnTouchOutside(true);
+            }
+        });
+        photoDialog.show(CompanyActivity.this.getFragmentManager(), "");
+
     }
 
     /**

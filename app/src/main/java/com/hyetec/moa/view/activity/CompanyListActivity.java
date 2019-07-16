@@ -16,13 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityPhotoEntity;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.ViewHolder;
 import com.hyetec.moa.view.ui.MyListView;
+import com.hyetec.moa.view.ui.manager.PhotoDialog;
 import com.hyetec.moa.view.ui.pullview.GdPullToRefreshView;
 import com.hyetec.moa.viewmodel.CompanyViewModel;
 import com.hyetec.moa.viewmodel.PunchCardViewModel;
@@ -64,7 +68,8 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     private List<MessageEntity> messageList;
     private Dialog mDialog;
     private int pos;
-
+    private LoginUserEntity userInfo;
+    private PhotoDialog photoDialog = new PhotoDialog("编辑","删除");
     /**
      * UI 初始化
      *
@@ -92,7 +97,9 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
-
+        if (ACache.get(this).getAsObject(MoaApp.USER_DATA) != null) {
+            userInfo = (LoginUserEntity) ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+        }
         lvActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -102,8 +109,10 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         lvActivity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                pos = messageList.get(position).getActId();
-                showDialog();
+                if(userInfo.getUserId()==messageList.get(position).getOrganiser()) {
+                    pos = messageList.get(position).getActId();
+                    showDialog();
+                }
                 return true;
             }
         });
@@ -171,29 +180,34 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     }
 
     private void showDialog(){
-        if(mDialog==null){
+        if(photoDialog!=null && !photoDialog.isVisible()){
             initDialog();
         }
-        mDialog.show();
     }
 
     private void initDialog(){
-        mDialog =  new Dialog(this, R.style.menuItemStyle);
-        mDialog.setCanceledOnTouchOutside(true);
-        mDialog.setCancelable(true);
-        Window window = mDialog.getWindow();
-        window.setGravity(Gravity.BOTTOM);
-       // window.setWindowAnimations();
-        View view = View.inflate(this, R.layout.dialog_company_activity,null);
-        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+        photoDialog.setOnCameraClickListener(new PhotoDialog.PhotoCameraCallback() {
             @Override
-            public void onClick(View v) {
-                deleteActivity(pos);
-                mDialog.dismiss();
+            public void onClick() {
+                photoDialog.dismiss();
+
             }
         });
-        window.setContentView(view);
-        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        photoDialog.setOnChoosePhotoClickListener(new PhotoDialog.ChoosePhotoCallback() {
+            @Override
+            public void onClick() {
+                photoDialog.dismiss();
+                deleteActivity(pos);
+            }
+        });
+        photoDialog.setOnCancleClickListener(new PhotoDialog.PhoneCancelCallback() {
+            @Override
+            public void onClick() {
+                photoDialog.dismiss();
+
+            }
+        });
+        photoDialog.show(CompanyListActivity.this.getFragmentManager(), "");
     }
 
     private void deleteActivity(int id){
