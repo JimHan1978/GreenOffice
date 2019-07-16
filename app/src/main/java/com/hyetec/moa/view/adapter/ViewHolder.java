@@ -1,17 +1,21 @@
 package com.hyetec.moa.view.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.didichuxing.doraemonkit.util.DeviceUtils;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.view.activity.BonusListActivity;
@@ -141,7 +145,16 @@ public class ViewHolder
     public ViewHolder setImageAttachments(int viewId, String phont,Context context)
     {
         ImageView view = getView(viewId);
+        /*ViewGroup.LayoutParams vgl = view.getLayoutParams();
+        final float scale = context.getResources().getDisplayMetrics().density;
+        int height_px = (int)(height*scale + 0.5f);
+
+        vgl.height = height_px;
+
+        view.setLayoutParams(vgl);*/
+        view.setVisibility(View.VISIBLE);
         Glide.with(context).load(Api.IMG_URL_ATTACHMENT+phont).into(view);
+
         return this;
     }
 
@@ -186,4 +199,12 @@ public class ViewHolder
         CheckedTextView view = getView(viewId);
         view.setCompoundDrawables(drawable,null,null,null);
     }
+
+    public void changeView(int viewId){
+        ImageView imageView = getView(viewId);
+        ViewGroup.LayoutParams vgl = imageView.getLayoutParams();
+        vgl.height = 2000;
+        imageView.setLayoutParams(vgl);
+    }
+
 }

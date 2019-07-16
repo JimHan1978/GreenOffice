@@ -63,6 +63,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -139,7 +142,8 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private RequestBody requestFile;
     private String path = "";
     private DateTimePickDialogUtil dateTimePicKDialog;
-
+    private List<String> p = new ArrayList<>();
+    private List<int[]> picSize = new ArrayList<>();
     /**
      * UI 初始化
      *
@@ -197,6 +201,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     }
 
     private void setData(ActivityEventEntity activityEventEntity) {
+
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getBgImgUrl()).into(ivHead);
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getLogoImgUrl()).into(ivLogo);
         tvAvtivityTitle.setText(activityEventEntity.getTarget_name());
@@ -213,15 +218,22 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         } else {
             lvItem.setVisibility(View.GONE);
         }
-        lvItem.setAdapter(mAdapter = new CommonAdapter<ActivityEventEntity.ImgListBean>(
+        for(int i=0; i!=mActivityImgList.size();i++){
+            p.add(Api.IMG_URL_ATTACHMENT+mActivityImgList.get(i).getUrl());
+        }
+        new Thread(runnable).start();
+        /*lvItem.setAdapter(mAdapter = new CommonAdapter<ActivityEventEntity.ImgListBean>(
                 CompanyActivity.this, mActivityImgList, R.layout.layout_ativity_img) {
             @Override
             public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
 
                 helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+                //p = Api.IMG_URL_ATTACHMENT+item.getUrl();
+                new Thread(runnable).start();
+
             }
-        });
-        lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        });*/
+        /*lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CompanyActivity.this, CompanyActivityImgActivity.class);
@@ -232,7 +244,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 intent.putExtra("pos", position);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 
     private SimpleTarget target = new SimpleTarget<Bitmap>() {
@@ -338,18 +350,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
 
     private void getLotteryData(String userId, String activityId, Boolean flag) {
         mViewModel.getDrawLotteryNumber(userId, activityId).observe(this, drawLotteryEntity -> {
-            /*mViewModel.getActivityLotteryList(activityId).observe(this, activityLotteryEntity ->{
-                if(activityLotteryEntity != null){
-                    System.out.println(activityLotteryEntity.get(0).getUserName());
-                }
-                else{
-                    System.out.println("111");
-                }
-            });*/
-//            if (drawLotteryEntity != null) {
-//                message = drawLotteryEntity.getMessage();
-//                isSuccess = drawLotteryEntity.isSuccess();
-//            }
+
             if (drawLotteryEntity != null && drawLotteryEntity.isSuccess()) {
                 reqCount = drawLotteryEntity.getResult().getRemainder();
                 moneyCount = drawLotteryEntity.getResult().getSumAmount();
@@ -604,5 +605,58 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         Cursor cursor = getContentResolver().query(contentUri,proj,null,null,null);
     }*/
 
+    private int[] getBitmap(String path) {
+        try {
+            URL url = new URL(path);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("GET");
+            if (conn.getResponseCode() == 200) {
+                InputStream inputStream = conn.getInputStream();
 
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inJustDecodeBounds = true;
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream, null, options);
+                return new int[]{options.outWidth, options.outHeight};
+            }
+
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Message msg = new Message();
+            for(int i=0;i!=p.size();i++) {
+                picSize.add(getBitmap(p.get(i)));
+            }
+            handler1.sendMessage(msg);
+        }
+    };
+
+    Handler handler1 = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            lvItem.setAdapter(mAdapter = new CommonAdapter<ActivityEventEntity.ImgListBean>(
+                    CompanyActivity.this, mActivityImgList, R.layout.layout_ativity_img) {
+                @Override
+                public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
+                    int x = picSize.get(pos)[0];
+                    int y = picSize.get(pos)[1];
+                    if(picSize.get(pos)[0]>=picSize.get(pos)[1]) {
+                        helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+                        //p = Api.IMG_URL_ATTACHMENT+item.getUrl();
+                        //new Thread(runnable).start();
+                    }
+                    else{
+                        helper.setImageAttachments(R.id.iv_activity_photos_2,item.getUrl(),CompanyActivity.this);
+                    }
+                }
+            });
+        }
+    };
 }

@@ -5,17 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
 
    <com.hyetec.moa.view.ui.RoundImageView
        android:id="@+id/iv_activity_photos"
        android:layout_width="match_parent"
+       android:visibility="gone"
        android:layout_height="200dp"
+       android:adjustViewBounds="true"
        android:scaleType="centerCrop"
-       app:type="round"
        app:radius="@dimen/dp_8"
+       app:type="round"
 
        />
+
+   <com.hyetec.moa.view.ui.RoundImageView
+       android:id="@+id/iv_activity_photos_2"
+       android:layout_width="match_parent"
+       android:layout_height="400dp"
+       android:scaleType="centerCrop"
+       app:radius="8dp"
+       app:type="round"
+       android:visibility="gone"/>
+
 
 </LinearLayout>
