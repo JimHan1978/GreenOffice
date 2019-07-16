@@ -63,7 +63,7 @@ public class CompanyActivityImgActivity extends BaseActivity<CompanyViewModel> {
         for(int i=0;i!=size;i++){
             String s = Api.IMG_URL_ATTACHMENT+mActivityImgList.get(i).getUrl();
             LayoutInflater layoutInflater = LayoutInflater.from(this);
-            View view = layoutInflater.inflate(R.layout.layout_ativity_img,null);
+            View view = layoutInflater.inflate(R.layout.item_ativity_img,null);
             //View view2 = layoutInflater.inflate(R.layout.item_dot,null);
             //linearLayout.addView(view2);
             RoundImageView roundImageView = view.findViewById(R.id.iv_activity_photos);

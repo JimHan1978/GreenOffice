@@ -73,6 +73,12 @@ public class GroupActivity extends BaseActivity<GroupViewModel>  {
                 mViewModel.getContactList().observe(this, contactUserList -> {
                     if (contactUserList != null) {
                         mGroupList = contactUserList;
+                        for (int i=0;i<mGroupList.size();i++){
+                            if(mGroupList.get(i).getUserEntities() !=null && mGroupList.get(i).getUserEntities().size()==0){
+                                mGroupList.remove(i);
+                                break;
+                            }
+                        }
                         plvExpandablelist.setHeaderView(LayoutInflater.from(this).inflate(R.layout.item_group_head,
                                 plvExpandablelist, false));
                         mAdapter = new ExpandableContactAdapter(mGroupList, this);
