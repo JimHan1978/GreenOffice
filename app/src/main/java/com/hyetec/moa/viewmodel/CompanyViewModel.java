@@ -14,6 +14,7 @@ import com.hyetec.hmdp.repository.http.Status;
 import com.hyetec.moa.model.CompanyModel;
 import com.hyetec.moa.model.LoginModel;
 import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.model.entity.ActivityDeleteEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -71,6 +72,9 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
 
     private MediatorLiveData<BaseResponse<List<UploadEntity>>> mUploadData = new MediatorLiveData<BaseResponse<List<UploadEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadResponse;
+
+    private MediatorLiveData<BaseResponse<ActivityDeleteEntity>> mDeleteActivityData = new MediatorLiveData<BaseResponse<ActivityDeleteEntity>>();
+    private MutableLiveData<Resource<BaseResponse<ActivityDeleteEntity>>> mDeleteActivityResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -183,6 +187,7 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         });
         return mDrawLotteryData;
     }
+
     public LiveData<BaseResponse<DrawLotteryEntity>> getDrawLotteryNumber(String userId,String actId) {
         Map<String, String> request = new HashMap<>(1);
         request.put("userId", userId);
@@ -297,6 +302,32 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
             });
         });
         return mUploadData;
+    }
+
+    public LiveData<BaseResponse<ActivityDeleteEntity>> deleteActivity(String id) {
+        Map<String, String> request = new HashMap<>(1);
+        request.put("delFlag", "-1");
+        request.put("id", id);
+        mDeleteActivityData=new MediatorLiveData<>();
+        mDeleteActivityResponse = mModel.deleteActivity(request);
+        mDeleteActivityData.addSource(mDeleteActivityResponse, infoResource -> {
+            if (infoResource == null) {
+                infoResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", infoResource.status);
+            if (infoResource.status == Status.LOADING) {
+                //STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (infoResource.status == Status.SUCCESS) {
+                BaseResponse<ActivityDeleteEntity> result = infoResource.data;
+                mDeleteActivityData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (infoResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mDeleteActivityData;
     }
 
 

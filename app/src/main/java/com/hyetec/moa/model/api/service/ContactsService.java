@@ -1,5 +1,6 @@
 package com.hyetec.moa.model.api.service;
 
+import com.hyetec.moa.model.entity.ActivityDeleteEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -113,4 +114,7 @@ public interface ContactsService {
     @Multipart
     @POST("office/attachment/upload.json")
     Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@Part List<MultipartBody.Part> partList);
+
+    @POST("office/activityEvent/save.json")
+    Flowable<BaseResponse<ActivityDeleteEntity>> deleteActivity(@QueryMap Map<String, String> request);
 }

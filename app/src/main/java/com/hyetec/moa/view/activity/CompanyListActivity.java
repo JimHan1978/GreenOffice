@@ -1,9 +1,13 @@
 package com.hyetec.moa.view.activity;
 
+import android.app.Dialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -58,6 +62,8 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     private CommonAdapter mAdapter;
     private List<ActivityPhotoEntity> mActivityImgList = new ArrayList<>();
     private List<MessageEntity> messageList;
+    private Dialog mDialog;
+    private int pos;
 
     /**
      * UI 初始化
@@ -91,6 +97,14 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     startActivity(new Intent(CompanyListActivity.this, CompanyActivity.class).putExtra("date", messageList.get(i)));
+            }
+        });
+        lvActivity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                pos = messageList.get(position).getActId();
+                showDialog();
+                return true;
             }
         });
         getListData();
@@ -154,5 +168,41 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
+    }
+
+    private void showDialog(){
+        if(mDialog==null){
+            initDialog();
+        }
+        mDialog.show();
+    }
+
+    private void initDialog(){
+        mDialog =  new Dialog(this, R.style.menuItemStyle);
+        mDialog.setCanceledOnTouchOutside(true);
+        mDialog.setCancelable(true);
+        Window window = mDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+       // window.setWindowAnimations();
+        View view = View.inflate(this, R.layout.dialog_company_activity,null);
+        view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteActivity(String.valueOf(pos));
+                mDialog.dismiss();
+            }
+        });
+        window.setContentView(view);
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void deleteActivity(String id){
+        mViewModel.deleteActivity(id).observe(this, deleteActivityResult->{
+            if(deleteActivityResult!=null){
+                if(deleteActivityResult.isSuccess())
+                Toast.makeText(CompanyListActivity.this,deleteActivityResult.getMessage(),Toast.LENGTH_SHORT);
+            }
+            //getListData();
+        });
     }
 }
