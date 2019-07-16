@@ -7,6 +7,7 @@ import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
+import com.hyetec.moa.model.entity.DictionaryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
@@ -79,6 +80,9 @@ public interface ContactsService {
 
     @GET("urm/mobileLogout.json")
     Flowable<BaseResponse<ResultEntity>> logout();
+
+    @GET("office/dict/list.json")
+    Flowable<BaseResponse<List<DictionaryEntity>>> getDictionary();
 
     @Headers("Content-Type: application/json")
     @POST("urm/user/rest/selectFinancePInfoContent.json")
