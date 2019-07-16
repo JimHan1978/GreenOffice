@@ -29,7 +29,11 @@
     <string name="mobileDemo">18601969158</string>
     <string name="modifyPassword">修改密码</string>
     <string name="complete">完成</string>
-
+    <string name="activityType">活动类型</string>
+    <string name="activityPlace">活动地点</string>
+    <string name="assembingPlace">集合地点</string>
+    <string name="startTime">开始时间</string>
+    <string name="bonus">红包金额</string>
 
     <string name="scan">扫一扫签到</string>
     <string name="shake">摇一摇红包</string>
