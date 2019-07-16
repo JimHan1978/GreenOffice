@@ -11,6 +11,7 @@ import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.DictionaryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
@@ -47,6 +48,9 @@ public class CompanyModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLotteryNum;
     private MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> mActivityLotteryUserResource;
     private MutableLiveData<Resource<BaseResponse<List<ActivitySignEntity>>>> mActivitySignResource;
+
+    private MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> mDictionaryResource;
+
 
     @Inject
     public CompanyModel(Application application) {
@@ -330,6 +334,45 @@ public class CompanyModel extends BaseModel {
         return mUploadListResource;
 
     }
+
+    public MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> getDictionaryLists() {
+
+        mDictionaryResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .getDictionary()
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<DictionaryEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mDictionaryResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mDictionaryResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<DictionaryEntity>> response) {
+                        mDictionaryResource.setValue(Resource.success(response));
+
+                    }
+                });
+
+        return mDictionaryResource;
+
+    }
+
+
 
     @Override
     public void onDestroy() {
