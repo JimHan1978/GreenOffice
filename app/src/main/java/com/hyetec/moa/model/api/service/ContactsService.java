@@ -103,8 +103,8 @@ public interface ContactsService {
 
     @POST("office/activitySign/listByActId.json")
     Flowable<BaseResponse<List<ActivitySignEntity>>> loadActivitySign(@QueryMap Map<String, String> request);
-//    @POST("financePInfo/rest/selectFinancePInfo.json")
-//    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
+// @POST("financePInfo/rest/selectFinancePInfo.json")
+//  Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
     @POST("urm/user/rest/getFinancePInfo.json")
