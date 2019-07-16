@@ -201,7 +201,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     }
 
     private void setData(ActivityEventEntity activityEventEntity) {
-
+        picSize.clear();
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getBgImgUrl()).into(ivHead);
         Glide.with(CompanyActivity.this).load(Api.IMG_URL + activityEventEntity.getLogoImgUrl()).into(ivLogo);
         tvAvtivityTitle.setText(activityEventEntity.getTarget_name());
@@ -212,12 +212,14 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         if (userInfo.getUserId() == activityEventEntity.getOrganiser()) {
             ivAdd.setVisibility(View.VISIBLE);
         }
+
         mActivityImgList = activityEventEntity.getImgList();
         if (mActivityImgList != null && mActivityImgList.size() > 0) {
             lvItem.setVisibility(View.VISIBLE);
         } else {
             lvItem.setVisibility(View.GONE);
         }
+        p.clear();
         for(int i=0; i!=mActivityImgList.size();i++){
             p.add(Api.IMG_URL_ATTACHMENT+mActivityImgList.get(i).getUrl());
         }
@@ -233,7 +235,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
 
             }
         });*/
-        /*lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(CompanyActivity.this, CompanyActivityImgActivity.class);
@@ -244,7 +246,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                 intent.putExtra("pos", position);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 
     private SimpleTarget target = new SimpleTarget<Bitmap>() {
@@ -312,6 +314,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         mViewModel.getUploadList(parts, actId + "").observe(this, uploadEntities -> {
             if (uploadEntities != null && uploadEntities.isSuccess()) {
                 photoList.clear();
+
                 Toast.makeText(this, uploadEntities.getMessage(), Toast.LENGTH_SHORT).show();
                 mViewModel.getActivityEventDetails(actId + "").observe(this, activityEvent -> {
                     if (activityEvent != null && activityEvent.isSuccess()) {
@@ -637,6 +640,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         }
     };
 
+    @SuppressLint("HandlerLeak")
     Handler handler1 = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -649,6 +653,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     int y = picSize.get(pos)[1];
                     if(picSize.get(pos)[0]>=picSize.get(pos)[1]) {
                         helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+
                         //p = Api.IMG_URL_ATTACHMENT+item.getUrl();
                         //new Thread(runnable).start();
                     }
