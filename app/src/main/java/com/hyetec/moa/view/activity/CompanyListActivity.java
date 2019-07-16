@@ -140,9 +140,10 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
             case R.id.iv_left:
                 finish();
                 break;
-            /*case R.id.iv_right:
-                Intent intent = new Intent(CompanyListActivity.this,CreateActivity.class);
-                startActivity(intent);*/
+            case R.id.iv_right:
+                Intent intent = new Intent(this,NewActivity.class);
+                startActivity(intent);
+                break;
         }
     }
 
