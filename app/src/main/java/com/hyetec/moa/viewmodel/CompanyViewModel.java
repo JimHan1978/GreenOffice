@@ -73,8 +73,8 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
     private MediatorLiveData<BaseResponse<List<UploadEntity>>> mUploadData = new MediatorLiveData<BaseResponse<List<UploadEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadResponse;
 
-    private MediatorLiveData<BaseResponse<ActivityDeleteEntity>> mDeleteActivityData = new MediatorLiveData<BaseResponse<ActivityDeleteEntity>>();
-    private MutableLiveData<Resource<BaseResponse<ActivityDeleteEntity>>> mDeleteActivityResponse;
+    private MediatorLiveData<BaseResponse<List<ResultEntity>>> mDeleteActivityData = new MediatorLiveData<BaseResponse<List<ResultEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -304,10 +304,33 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         return mUploadData;
     }
 
-    public LiveData<BaseResponse<ActivityDeleteEntity>> deleteActivity(String id) {
+    public LiveData<BaseResponse<List<ResultEntity>>> SaveAndUpdateActivity(ActivityEventEntity activityEventEntity) {
         Map<String, String> request = new HashMap<>(1);
-        request.put("delFlag", "-1");
-        request.put("id", id);
+        if(activityEventEntity.getDel_flag()!=null) {
+            request.put("delFlag", activityEventEntity.getDel_flag());
+        }
+        if(activityEventEntity.getId()!=0) {
+            request.put("id", activityEventEntity.getId() + "");
+        }
+        if(activityEventEntity.getType()!=0) {
+            request.put("type", activityEventEntity.getType() + "");
+        }
+        if(activityEventEntity.getTarget()!=0) {
+            request.put("target", activityEventEntity.getTarget() + "");
+        }
+        if(activityEventEntity.getJoinDate()!=null) {
+            request.put("joindate", activityEventEntity.getJoinDate());
+        }
+        if(activityEventEntity.getVenue()!=null) {
+            request.put("venue", activityEventEntity.getVenue());
+        }
+        if(activityEventEntity.getOrganiser()!=0) {
+            request.put("organiser", activityEventEntity.getOrganiser() + "");
+        }
+        if(activityEventEntity.getAmount()!=0) {
+            request.put("amount", activityEventEntity.getAmount() + "");
+        }
+
         mDeleteActivityData=new MediatorLiveData<>();
         mDeleteActivityResponse = mModel.deleteActivity(request);
         mDeleteActivityData.addSource(mDeleteActivityResponse, infoResource -> {
@@ -319,7 +342,7 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
                 //STATUS.set(Status.LOADING);
                 Timber.d("Loadding.....");
             } else if (infoResource.status == Status.SUCCESS) {
-                BaseResponse<ActivityDeleteEntity> result = infoResource.data;
+                BaseResponse<List<ResultEntity>> result = infoResource.data;
                 mDeleteActivityData.postValue(result);
                 //STATUS.set(Status.SUCCESS);
             } else if (infoResource.status == Status.ERROR) {

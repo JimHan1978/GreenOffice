@@ -49,6 +49,17 @@ public class ActivityEventEntity implements Serializable {
     private String create_date;
     private List<ImgListBean> imgList;
 
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
+    private int amount;
+
+
     public String getDel_flag() {
         return del_flag;
     }

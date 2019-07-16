@@ -49,7 +49,7 @@ public class CompanyModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<List<ActivityLotteryEntity>>>> mActivityLotteryUserResource;
     private MutableLiveData<Resource<BaseResponse<List<ActivitySignEntity>>>> mActivitySignResource;
 
-    private MutableLiveData<Resource<BaseResponse<ActivityDeleteEntity>>> mDeleteActivityResource;
+    private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResource;
     @Inject
     public CompanyModel(Application application) {
         super(application);
@@ -333,7 +333,7 @@ public class CompanyModel extends BaseModel {
 
     }
 
-    public MutableLiveData<Resource<BaseResponse<ActivityDeleteEntity>>> deleteActivity(Map<String, String> request) {
+    public MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> deleteActivity(Map<String, String> request) {
 
         mDeleteActivityResource=new MutableLiveData<>();
         mRepositoryManager
@@ -345,7 +345,7 @@ public class CompanyModel extends BaseModel {
 
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<ActivityDeleteEntity>>(mErrorHandler) {
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<ResultEntity>>>(mErrorHandler) {
                     @Override
                     public void onSubscribe(Subscription s) {
                         mDeleteActivityResource.setValue(Resource.loading(null));
@@ -360,7 +360,7 @@ public class CompanyModel extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(BaseResponse<ActivityDeleteEntity> response) {
+                    public void onNext(BaseResponse<List<ResultEntity>> response) {
                         mDeleteActivityResource.setValue(Resource.success(response));
 
                     }

@@ -188,7 +188,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         view.findViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteActivity(String.valueOf(pos));
+                deleteActivity(pos);
                 mDialog.dismiss();
             }
         });
@@ -196,13 +196,17 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
     }
 
-    private void deleteActivity(String id){
-        mViewModel.deleteActivity(id).observe(this, deleteActivityResult->{
-            if(deleteActivityResult!=null){
-                if(deleteActivityResult.isSuccess())
+    private void deleteActivity(int id){
+        ActivityEventEntity activityEventEntity =new ActivityEventEntity();
+        activityEventEntity.setId(id);
+        activityEventEntity.setDel_flag("-1");
+        mViewModel.SaveAndUpdateActivity(activityEventEntity).observe(this, deleteActivityResult->{
+            if(deleteActivityResult!=null && deleteActivityResult.isSuccess()){
+                getListData();
+                Toast.makeText(CompanyListActivity.this,deleteActivityResult.getMessage(),Toast.LENGTH_SHORT);
+            }else {
                 Toast.makeText(CompanyListActivity.this,deleteActivityResult.getMessage(),Toast.LENGTH_SHORT);
             }
-            //getListData();
         });
     }
 }

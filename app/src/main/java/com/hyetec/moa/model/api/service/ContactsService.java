@@ -116,5 +116,5 @@ public interface ContactsService {
     Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@Part List<MultipartBody.Part> partList);
 
     @POST("office/activityEvent/save.json")
-    Flowable<BaseResponse<ActivityDeleteEntity>> deleteActivity(@QueryMap Map<String, String> request);
+    Flowable<BaseResponse<List<ResultEntity>>> deleteActivity(@QueryMap Map<String, String> request);
 }
