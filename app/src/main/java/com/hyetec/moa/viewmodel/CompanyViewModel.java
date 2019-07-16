@@ -19,6 +19,7 @@ import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
+import com.hyetec.moa.model.entity.DictionaryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
@@ -71,6 +72,9 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
 
     private MediatorLiveData<BaseResponse<List<UploadEntity>>> mUploadData = new MediatorLiveData<BaseResponse<List<UploadEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<UploadEntity>>>> mUploadResponse;
+
+    private MediatorLiveData<BaseResponse<List<DictionaryEntity>>> mDictionaryData = new MediatorLiveData<BaseResponse<List<DictionaryEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> mDictionaryResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -299,6 +303,28 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         return mUploadData;
     }
 
+    public LiveData<BaseResponse<List<DictionaryEntity>>> setDictionary(){
+
+        mDictionaryData = new MediatorLiveData<>();
+        mDictionaryResponse = mModel.getDictionaryLists();
+        mDictionaryData.addSource(mDictionaryResponse, dictionaryResource -> {
+            if (dictionaryResource == null) {
+                dictionaryResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", dictionaryResource.status);
+            if (dictionaryResource.status == Status.LOADING){
+                Timber.d("Loadding.....");
+            }else if(dictionaryResource.status == Status.SUCCESS){
+                BaseResponse<List<DictionaryEntity>> result = dictionaryResource.data;
+                mDictionaryData.postValue(result);
+            }else if (dictionaryResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+
+        });
+        return mDictionaryData;
+    }
 
     @Override
     public void onCleared() {
