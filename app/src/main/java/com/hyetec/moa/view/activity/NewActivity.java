@@ -77,7 +77,6 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
         setContentView(R.layout.activity_new);
         ButterKnife.bind(this);
         ivLeft.setVisibility(View.VISIBLE);
-
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(CompanyViewModel.class);
 
