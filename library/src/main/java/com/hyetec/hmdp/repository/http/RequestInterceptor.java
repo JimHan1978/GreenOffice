@@ -116,7 +116,6 @@ public class RequestInterceptor implements Interceptor {
 
         //打印响应结果
         String bodyString = printResult(request, originalResponse.newBuilder().build(), logResponse);
-
         //这里可以比客户端提前一步拿到服务器返回的结果,可以做一些操作,比如token超时,重新获取
         if (mHandler != null) {
             return mHandler.onHttpResultResponse(bodyString, chain, originalResponse);
