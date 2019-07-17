@@ -337,7 +337,7 @@ public class CompanyModel extends BaseModel {
 
     }
 
-    public MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> deleteActivity(Map<String, String> request) {
+    /*public MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> deleteActivity(Map<String, String> request) {
 
         mDeleteActivityResource=new MutableLiveData<>();
         mRepositoryManager
@@ -371,7 +371,7 @@ public class CompanyModel extends BaseModel {
                 });
         return mDeleteActivityResource;
 
-    }
+    }*/
 
     public MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> getDictionaryLists() {
 
@@ -411,6 +411,42 @@ public class CompanyModel extends BaseModel {
     }
 
 
+
+    public MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> deleteActivity(Map<String, String> request) {
+
+        mDeleteActivityResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .deleteActivity(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<ResultEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mDeleteActivityResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mDeleteActivityResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<ResultEntity>> response) {
+                        mDeleteActivityResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mDeleteActivityResource;
+
+    }
 
     @Override
     public void onDestroy() {

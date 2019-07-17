@@ -2,6 +2,7 @@ package com.hyetec.moa.view.activity;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
@@ -20,9 +21,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
+import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
+import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.DictionaryEntity;
+import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.utils.DateTimePickDialogUtil;
 import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.utils.spinner.MaterialSpinner;
@@ -51,6 +56,8 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
     EditText assemblingPlace;
     @BindView (R.id.activity_start_time)
     Button startTime;
+    @BindView(R.id.activity_create)
+    Button createActivity;
     @BindView (R.id.activity_bonus)
     EditText bonus;
     @BindView(R.id.tv_title)
@@ -58,6 +65,8 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
     @BindView(R.id.iv_left)
     ImageView ivLeft;
 
+    List<String> mActivityType;
+    List<String> mActivityPlace;
 
     private DateTimePickDialogUtil dateTimePicKDialog;
     private List<DictionaryEntity> mDictionaryList;
@@ -83,6 +92,7 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
         dateTimePicKDialog = new DateTimePickDialogUtil(this, TimeUtil.getNowTimeString());
         startTime.setOnClickListener(this);
         ivLeft.setOnClickListener(this);
+        createActivity.setOnClickListener(this);
 
         getTypeListData();
     }
@@ -98,8 +108,8 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
             if (activityTypeList != null && activityTypeList.isSuccess()) {
                 if( activityTypeList.getResult()!=null) {
                     mDictionaryList =  activityTypeList.getResult();
-                    List<String> mActivityType = new ArrayList<>();
-                    List<String> mActivityPlace = new ArrayList<>();
+                    mActivityType = new ArrayList<>();
+                    mActivityPlace = new ArrayList<>();
                     mActivityPlace.add("-请选择-");
                     mActivityType.add("-请选择-");
                     Iterator it1 = mDictionaryList.iterator();
@@ -172,6 +182,57 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
             case R.id.iv_left:
                 finish();
                 break;
+
+            case R.id.activity_create:
+
+                int ac_place = 0;
+                int ac_type = 0;
+                Iterator it = mDictionaryList.iterator();
+                while(it.hasNext()){
+                    DictionaryEntity de = (DictionaryEntity) it.next();
+                    if(de.getLabel().equals(spinner_type.getItems().get(spinner_type.getSelectedIndex()))){
+                        ac_type = de.getId();
+                    }
+                }
+
+                Iterator it1 = mDictionaryList.iterator();
+                while(it1.hasNext()){
+                    DictionaryEntity de = (DictionaryEntity) it1.next();
+                    if(de.getLabel().equals(spinner_place.getItems().get(spinner_place.getSelectedIndex()))){
+                        ac_place = de.getId();
+                    }
+                }
+
+
+                String as_place = assemblingPlace.getText().toString();
+                int ac_bonus =  Integer.valueOf(bonus.getText().toString());
+                String st_time = startTime.getText().toString();
+
+                LoginUserEntity userInfo = (LoginUserEntity) ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+
+                ActivityEventEntity newActivity = new ActivityEventEntity();
+                newActivity.setType(ac_type);
+                newActivity.setTarget(ac_place);
+                newActivity.setOrganiser(userInfo.getUserId());
+                newActivity.setJoinDate(st_time);
+                newActivity.setVenue(as_place);
+                newActivity.setAmount(ac_bonus);
+
+                mViewModel.SaveAndUpdateActivity(newActivity).observe(this, activityUpdateList -> {
+
+                });
+
+                Intent intent = new Intent(NewActivity.this,CompanyListActivity.class);
+//                intent.putExtra("ac_type",newActivity.getType());
+//                intent.putExtra("ac_place",newActivity.getTarget());
+//                intent.putExtra("st_time",newActivity.getJoinDate());
+//                intent.putExtra("as_place",newActivity.getVenue());
+//                intent.putExtra("ac_type",newActivity.getType());
+
+                startActivity(intent);
+
+                break;
+
 
             default:
                 break;
