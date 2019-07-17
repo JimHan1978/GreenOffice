@@ -4,11 +4,14 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -71,11 +74,13 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         //创建ViewModel
+
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(MainViewModel.class);
         if (savedInstanceState != null) {
             //Restore data
             mReplace = savedInstanceState.getInt(EventBusTags.ACTIVITY_FRAGMENT_REPLACE);
         }
+
         updataApp();
 
         // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。
@@ -92,6 +97,7 @@ public class MainActivity extends BaseActivity<MainViewModel> {
         //JPushInterface.stopCrashHandler(this);
         return R.layout.activity_main;
     }
+
 
     private void updataApp() {
 

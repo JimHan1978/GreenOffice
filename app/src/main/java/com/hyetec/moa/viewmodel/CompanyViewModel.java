@@ -14,6 +14,7 @@ import com.hyetec.hmdp.repository.http.Status;
 import com.hyetec.moa.model.CompanyModel;
 import com.hyetec.moa.model.LoginModel;
 import com.hyetec.moa.model.api.Api;
+import com.hyetec.moa.model.entity.ActivityDeleteEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -75,6 +76,9 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
 
     private MediatorLiveData<BaseResponse<List<DictionaryEntity>>> mDictionaryData = new MediatorLiveData<BaseResponse<List<DictionaryEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> mDictionaryResponse;
+
+    private MediatorLiveData<BaseResponse<List<ResultEntity>>> mDeleteActivityData = new MediatorLiveData<BaseResponse<List<ResultEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -187,6 +191,7 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         });
         return mDrawLotteryData;
     }
+
     public LiveData<BaseResponse<DrawLotteryEntity>> getDrawLotteryNumber(String userId,String actId) {
         Map<String, String> request = new HashMap<>(1);
         request.put("userId", userId);
@@ -325,6 +330,55 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         });
         return mDictionaryData;
     }
+    public LiveData<BaseResponse<List<ResultEntity>>> SaveAndUpdateActivity(ActivityEventEntity activityEventEntity) {
+        Map<String, String> request = new HashMap<>(1);
+        if(activityEventEntity.getDel_flag()!=null) {
+            request.put("delFlag", activityEventEntity.getDel_flag());
+        }
+        if(activityEventEntity.getId()!=0) {
+            request.put("id", activityEventEntity.getId() + "");
+        }
+        if(activityEventEntity.getType()!=0) {
+            request.put("type", activityEventEntity.getType() + "");
+        }
+        if(activityEventEntity.getTarget()!=0) {
+            request.put("target", activityEventEntity.getTarget() + "");
+        }
+        if(activityEventEntity.getJoinDate()!=null) {
+            request.put("joindate", activityEventEntity.getJoinDate());
+        }
+        if(activityEventEntity.getVenue()!=null) {
+            request.put("venue", activityEventEntity.getVenue());
+        }
+        if(activityEventEntity.getOrganiser()!=0) {
+            request.put("organiser", activityEventEntity.getOrganiser() + "");
+        }
+        if(activityEventEntity.getAmount()!=0) {
+            request.put("amount", activityEventEntity.getAmount() + "");
+        }
+
+        mDeleteActivityData=new MediatorLiveData<>();
+        mDeleteActivityResponse = mModel.deleteActivity(request);
+        mDeleteActivityData.addSource(mDeleteActivityResponse, infoResource -> {
+            if (infoResource == null) {
+                infoResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", infoResource.status);
+            if (infoResource.status == Status.LOADING) {
+                //STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (infoResource.status == Status.SUCCESS) {
+                BaseResponse<List<ResultEntity>> result = infoResource.data;
+                mDeleteActivityData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (infoResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mDeleteActivityData;
+    }
+
 
     @Override
     public void onCleared() {

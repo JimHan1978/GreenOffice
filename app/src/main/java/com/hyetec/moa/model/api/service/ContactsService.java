@@ -1,5 +1,6 @@
 package com.hyetec.moa.model.api.service;
 
+import com.hyetec.moa.model.entity.ActivityDeleteEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -107,8 +108,8 @@ public interface ContactsService {
 
     @POST("office/activitySign/listByActId.json")
     Flowable<BaseResponse<List<ActivitySignEntity>>> loadActivitySign(@QueryMap Map<String, String> request);
-//    @POST("financePInfo/rest/selectFinancePInfo.json")
-//    Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
+// @POST("financePInfo/rest/selectFinancePInfo.json")
+//  Flowable<BaseResponse<String>> monthBill(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
     @POST("urm/user/rest/getFinancePInfo.json")
@@ -117,4 +118,7 @@ public interface ContactsService {
     @Multipart
     @POST("office/attachment/upload.json")
     Flowable<BaseResponse<List<UploadEntity>>> uploadImg(@Part List<MultipartBody.Part> partList);
+
+    @POST("office/activityEvent/save.json")
+    Flowable<BaseResponse<List<ResultEntity>>> deleteActivity(@QueryMap Map<String, String> request);
 }

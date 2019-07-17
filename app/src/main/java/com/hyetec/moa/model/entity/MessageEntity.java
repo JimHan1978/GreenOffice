@@ -33,6 +33,15 @@ public class MessageEntity implements Serializable {
 	private String yearAndMonth;
 	private String title;
 
+	public int getOrganiser() {
+		return organiser;
+	}
+
+	public void setOrganiser(int organiser) {
+		this.organiser = organiser;
+	}
+
+	private int organiser;
 	public int getType() {
 		return type;
 	}

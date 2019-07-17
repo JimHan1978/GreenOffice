@@ -7,6 +7,7 @@ import com.hyetec.hmdp.core.mvvm.BaseModel;
 import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
+import com.hyetec.moa.model.entity.ActivityDeleteEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -52,6 +53,7 @@ public class CompanyModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> mDictionaryResource;
 
 
+    private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResource;
     @Inject
     public CompanyModel(Application application) {
         super(application);
@@ -332,6 +334,42 @@ public class CompanyModel extends BaseModel {
                     }
                 });
         return mUploadListResource;
+
+    }
+
+    public MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> deleteActivity(Map<String, String> request) {
+
+        mDeleteActivityResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .deleteActivity(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<ResultEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mDeleteActivityResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mDeleteActivityResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<ResultEntity>> response) {
+                        mDeleteActivityResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mDeleteActivityResource;
 
     }
 
