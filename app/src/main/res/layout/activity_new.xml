@@ -14,7 +14,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:background="@drawable/shape_background_block"
         android:orientation="vertical"
         android:padding="@dimen/dp_1">
@@ -39,30 +38,36 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.hyetec.moa.utils.spinner.MaterialSpinner
-                    android:id="@+id/spinner_type"
-                    android:maxLines="1"
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="31dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="125dp"
                     android:layout_marginLeft="280dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@drawable/et_login_bg"
-                    android:textSize="14sp"
-                    spinner:ignore="MissingConstraints"
-                    spinner:ms_background_color="@android:color/white"
-                    spinner:ms_popupwindow_height="wrap_content"
-                    spinner:ms_popupwindow_maxheight="200dp"
-                    spinner:ms_text_color="@android:color/black" />
+                    android:background="@drawable/edit_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_1">
 
+                    <com.hyetec.moa.utils.spinner.MaterialSpinner
+                        android:id="@+id/spinner_type"
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        spinner:ignore="MissingConstraints"
+                        spinner:ms_background_color="@android:color/white"
+                        spinner:ms_popupwindow_height="wrap_content"
+                        spinner:ms_popupwindow_maxheight="200dp"
+                        spinner:ms_text_color="@android:color/black" />
+                </LinearLayout>
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@drawable/shape_background_block"
             android:orientation="vertical"
             android:padding="@dimen/dp_1">
@@ -78,31 +83,36 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <com.hyetec.moa.utils.spinner.MaterialSpinner
-                    android:id="@+id/spinner_place"
-                    android:maxLines="1"
-                    android:gravity="center"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="31dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="125dp"
                     android:layout_marginLeft="280dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@drawable/et_login_bg"
-                    android:textSize="14sp"
-                    spinner:ignore="MissingConstraints"
-                    spinner:ms_background_color="@android:color/white"
-                    spinner:ms_popupwindow_height="wrap_content"
-                    spinner:ms_popupwindow_maxheight="200dp"
-                    spinner:ms_text_color="@android:color/black" />
+                    android:background="@drawable/edit_bg"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_1">
 
+                    <com.hyetec.moa.utils.spinner.MaterialSpinner
+                        android:id="@+id/spinner_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="28dp"
+                        android:gravity="center"
+                        android:maxLines="1"
+                        android:textSize="14sp"
+                        spinner:ignore="MissingConstraints"
+                        spinner:ms_background_color="@android:color/white"
+                        spinner:ms_popupwindow_height="wrap_content"
+                        spinner:ms_popupwindow_maxheight="200dp"
+                        spinner:ms_text_color="@android:color/black" />
+                </LinearLayout>
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@drawable/shape_background_block"
             android:orientation="vertical"
             android:padding="@dimen/dp_1">
@@ -119,17 +129,16 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:background="@drawable/edit_bg"
                     android:id="@+id/activity_assembling_place"
-                    android:maxLines="1"
                     android:layout_width="180dp"
-                    android:layout_height="32dp"
-                    android:paddingTop="5dp"
-                    android:gravity="center"
-                    android:textSize="16dp"
-                    android:hint="请输入集合地点"
+                    android:layout_height="30dp"
                     android:layout_marginStart="160dp"
                     android:layout_marginEnd="30dp"
+                    android:background="@drawable/edit_bg"
+                    android:gravity="center"
+                    android:hint="请输入集合地点"
+                    android:maxLines="1"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -140,7 +149,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@drawable/shape_background_block"
             android:orientation="vertical"
             android:padding="@dimen/dp_1">
@@ -157,13 +165,13 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:background="@drawable/edit_bg"
                     android:id="@+id/activity_start_time"
                     android:layout_width="180dp"
-                    android:layout_height="32dp"
-                    android:textSize="16dp"
+                    android:layout_height="30dp"
                     android:layout_marginStart="160dp"
                     android:layout_marginEnd="30dp"
+                    android:background="@drawable/edit_bg"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -174,7 +182,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@drawable/shape_background_block"
             android:orientation="vertical"
             android:padding="@dimen/dp_1">
@@ -191,15 +198,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:background="@drawable/edit_bg"
                     android:id="@+id/activity_bonus"
                     android:layout_width="180dp"
                     android:layout_height="32dp"
-                    android:gravity="center"
-                    android:textSize="16dp"
                     android:layout_marginStart="160dp"
                     android:layout_marginEnd="30dp"
-                    android:text="50"
+                    android:background="@drawable/edit_bg"
+                    android:gravity="center"
+                    android:inputType="number"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -221,8 +228,8 @@
 
                 <TextView
                     style="@style/SettingTextStyle"
-                    android:textSize="14dp"
                     android:text="注：红包金额默认50元，如需修改，请输入对应金额"
+                    android:textSize="14dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -231,16 +238,16 @@
         </LinearLayout>
 
         <Button
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
             android:id="@+id/activity_create"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="5dp"
-            android:background="@color/mediumaquamarine"
+            android:layout_marginEnd="30dp"
             android:layout_marginBottom="20dp"
-            android:textColor="@color/white"
+            android:background="@color/mediumaquamarine"
             android:text="提      交"
+            android:textColor="@color/white"
             android:textSize="16dp" />
 
 

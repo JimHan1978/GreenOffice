@@ -93,7 +93,8 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("活动列表");
         ivLeft.setVisibility(View.VISIBLE);
-        //ivRight.setVisibility(View.VISIBLE);
+        ivRight.setVisibility(View.VISIBLE);
+        ivRight.setImageResource(R.drawable.ic_add);
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
