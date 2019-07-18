@@ -15,6 +15,7 @@ import com.hyetec.moa.model.CompanyModel;
 import com.hyetec.moa.model.LoginModel;
 import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.ActivityDeleteEntity;
+import com.hyetec.moa.model.entity.ActivityEndEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -79,6 +80,9 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
 
     private MediatorLiveData<BaseResponse<List<ResultEntity>>> mDeleteActivityData = new MediatorLiveData<BaseResponse<List<ResultEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResponse;
+
+    private MediatorLiveData<BaseResponse<ActivityEndEntity>> mEndActivityData = new MediatorLiveData<BaseResponse<ActivityEndEntity>>();
+    private MutableLiveData<Resource<BaseResponse<ActivityEndEntity>>> mEndActivityResponse;
     @Inject
     public CompanyViewModel(Application application, CompanyModel model) {
         super(application, model);
@@ -379,6 +383,33 @@ public class CompanyViewModel extends BaseViewModel<CompanyModel> {
         return mDeleteActivityData;
     }
 
+
+    public LiveData<BaseResponse<ActivityEndEntity>> endActivity(String id) {
+        Map<String, String> request = new HashMap<>(1);
+        request.put("id", id);
+
+        mEndActivityData = new MediatorLiveData<>();
+        mEndActivityResponse = mModel.endActivity(request);
+        mEndActivityData.addSource(mEndActivityResponse, messageResource -> {
+            if (messageResource == null) {
+                messageResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", messageResource.status);
+            if (messageResource.status == Status.LOADING) {
+//                    STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (messageResource.status == Status.SUCCESS) {
+                BaseResponse<ActivityEndEntity> result = messageResource.data;
+                mEndActivityData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (messageResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+
+        return mEndActivityData;
+    }
 
     @Override
     public void onCleared() {

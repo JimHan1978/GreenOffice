@@ -8,6 +8,7 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.ActivityDeleteEntity;
+import com.hyetec.moa.model.entity.ActivityEndEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -54,6 +55,7 @@ public class CompanyModel extends BaseModel {
 
 
     private MutableLiveData<Resource<BaseResponse<List<ResultEntity>>>> mDeleteActivityResource;
+    private MutableLiveData<Resource<BaseResponse<ActivityEndEntity>>> mEndActivityResource;
     @Inject
     public CompanyModel(Application application) {
         super(application);
@@ -372,6 +374,40 @@ public class CompanyModel extends BaseModel {
         return mDeleteActivityResource;
 
     }*/
+
+    public MutableLiveData<Resource<BaseResponse<ActivityEndEntity>>> endActivity(Map<String, String> request) {
+        mEndActivityResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .endActivity(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<ActivityEndEntity>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mEndActivityResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mEndActivityResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<ActivityEndEntity> response) {
+                        mEndActivityResource.setValue(Resource.success(response));
+                    }
+                });
+        return mEndActivityResource;
+
+    }
+
 
     public MutableLiveData<Resource<BaseResponse<List<DictionaryEntity>>>> getDictionaryLists() {
 

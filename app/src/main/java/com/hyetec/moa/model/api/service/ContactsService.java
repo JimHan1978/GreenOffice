@@ -1,6 +1,7 @@
 package com.hyetec.moa.model.api.service;
 
 import com.hyetec.moa.model.entity.ActivityDeleteEntity;
+import com.hyetec.moa.model.entity.ActivityEndEntity;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.ActivityLotteryEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
@@ -121,4 +122,7 @@ public interface ContactsService {
 
     @POST("office/activityEvent/save.json")
     Flowable<BaseResponse<List<ResultEntity>>> deleteActivity(@QueryMap Map<String, String> request);
+
+    @POST("office/activityEvent/endingActivity.json")
+    Flowable<BaseResponse<ActivityEndEntity>> endActivity(@QueryMap Map<String, String> request);
 }
