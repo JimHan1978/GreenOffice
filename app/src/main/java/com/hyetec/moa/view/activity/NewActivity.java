@@ -67,6 +67,7 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
 
     List<String> mActivityType;
     List<String> mActivityPlace;
+    Intent intent;
 
     private DateTimePickDialogUtil dateTimePicKDialog;
     private List<DictionaryEntity> mDictionaryList;
@@ -79,21 +80,66 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
         ivLeft.setVisibility(View.VISIBLE);
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(CompanyViewModel.class);
-
         return R.layout.activity_new;
     }
 
     @Override
     public void initData(Bundle savedInstanceState) {
-        tvTitle.setText("创建活动");
+
+
         String time = TimeUtil.getNowTimeString();
         startTime.setText(time);
         dateTimePicKDialog = new DateTimePickDialogUtil(this, TimeUtil.getNowTimeString());
+
+
+        intent = getIntent();
+        if(intent.getStringExtra("intent").equals("edit")){
+            tvTitle.setText("修改活动");
+            createActivity.setText("修       改");
+            getActivityDetail();
+        }else{
+            tvTitle.setText("创建活动");
+
+        }
+
         startTime.setOnClickListener(this);
         ivLeft.setOnClickListener(this);
         createActivity.setOnClickListener(this);
-
         getTypeListData();
+    }
+
+
+    public void getActivityDetail(){
+        mViewModel.getActivityEventDetails(String.valueOf(intent.getIntExtra("actId",-1))).observe(this, activityEvent -> {
+            if (activityEvent != null && activityEvent.isSuccess()) {
+                assemblingPlace.setText(activityEvent.getResult().getVenue());
+                bonus.setText(activityEvent.getResult().getAmount()+"");
+                startTime.setText(activityEvent.getResult().getJoinDate());
+
+                int place = 0;
+                int type = 0;
+                Iterator it = mActivityType.iterator();
+                String string1 = activityEvent.getResult().getType_name();
+                for(int i = 0; it.hasNext(); i++){
+                    String s = (String) it.next();
+                    if (s.equals(string1)){
+                        type = i;
+                    }
+                }
+                spinner_type.setSelectedIndex(type);
+
+                Iterator it1 = mActivityPlace.iterator();
+                String string = activityEvent.getResult().getTarget_name();
+                for(int i = 0; it1.hasNext(); i++){
+                    String s = (String) it1.next();
+                    if (s.equals(string)){
+                        place = i;
+                    }
+                }
+                spinner_place.setSelectedIndex(place);
+
+            }
+        });
     }
 
 
@@ -217,18 +263,26 @@ public class NewActivity extends BaseActivity<CompanyViewModel> implements View.
                 newActivity.setVenue(as_place);
                 newActivity.setAmount(ac_bonus);
 
-                mViewModel.SaveAndUpdateActivity(newActivity).observe(this, activityUpdateList -> {
 
-                });
 
-                Intent intent = new Intent(NewActivity.this,CompanyListActivity.class);
-//                intent.putExtra("ac_type",newActivity.getType());
-//                intent.putExtra("ac_place",newActivity.getTarget());
-//                intent.putExtra("st_time",newActivity.getJoinDate());
-//                intent.putExtra("as_place",newActivity.getVenue());
-//                intent.putExtra("ac_type",newActivity.getType());
+                if(intent.getStringExtra("intent").equals("edit")){
+                    newActivity.setId(intent.getIntExtra("actId",-1));
+                    mViewModel.SaveAndUpdateActivity(newActivity).observe(this, activityUpdateList -> {
 
-                startActivity(intent);
+
+                    });
+
+                    Intent intent = new Intent(NewActivity.this,CompanyListActivity.class);
+                    startActivity(intent);
+                }else{
+
+                    mViewModel.SaveAndUpdateActivity(newActivity).observe(this, activityUpdateList -> {
+
+                    });
+
+                    Intent intent = new Intent(NewActivity.this,CompanyListActivity.class);
+                    startActivity(intent);
+                }
 
                 break;
 

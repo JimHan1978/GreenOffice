@@ -66,6 +66,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     private CommonAdapter mAdapter;
     private List<ActivityPhotoEntity> mActivityImgList = new ArrayList<>();
     private List<MessageEntity> messageList;
+    private MessageEntity messageEntity;
     private Dialog mDialog;
     private int pos;
     private LoginUserEntity userInfo;
@@ -111,6 +112,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 if(userInfo.getUserId()==messageList.get(position).getOrganiser()) {
+                    messageEntity = messageList.get(position);
                     pos = messageList.get(position).getActId();
                     showDialog();
                 }
@@ -166,6 +168,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
                 break;
             case R.id.iv_right:
                 Intent intent = new Intent(this,NewActivity.class);
+                intent.putExtra("intent","create");
                 startActivity(intent);
                 break;
         }
@@ -192,7 +195,10 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
             @Override
             public void onClick() {
                 photoDialog.dismiss();
-
+                Intent intent = new Intent(CompanyListActivity.this, NewActivity.class);
+                intent.putExtra("intent","edit");
+                intent.putExtra("actId",messageEntity.getActId());
+                startActivity(intent);
             }
         });
         photoDialog.setOnChoosePhotoClickListener(new PhotoDialog.ChoosePhotoCallback() {

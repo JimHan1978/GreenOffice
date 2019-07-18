@@ -43,6 +43,7 @@ public abstract class MaterialSpinnerBaseAdapter<T> extends BaseAdapter {
     private final Context context;
     private int selectedIndex;
     private int textColor;
+    private int backgroundFrame;
     private int backgroundSelector;
 
     public MaterialSpinnerBaseAdapter(Context context) {

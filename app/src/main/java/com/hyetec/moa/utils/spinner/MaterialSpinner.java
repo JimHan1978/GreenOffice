@@ -406,7 +406,7 @@ public class MaterialSpinner extends android.support.v7.widget.AppCompatTextView
      * @param <T>   The item type
      */
     public <T> void setItems(@NonNull List<T> items) {
-        adapter = new MaterialSpinnerAdapter<>(getContext(), items).setBackgroundSelector(backgroundSelector).setTextColor(textColor);
+        adapter = new MaterialSpinnerAdapter<>(getContext(), items).setBackgroundSelector(R.drawable.edit_bg).setTextColor(textColor);
         setAdapterInternal(adapter);
     }
 
