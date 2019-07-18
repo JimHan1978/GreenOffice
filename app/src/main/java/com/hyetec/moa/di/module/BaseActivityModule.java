@@ -29,6 +29,7 @@ import com.hyetec.moa.view.activity.GroupActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
 import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.hmdp.core.di.scope.ActivityScope;
+import com.hyetec.moa.view.activity.NewActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
@@ -99,4 +100,8 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
     abstract CreateActivity contributeCreateActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract NewActivity contributeNewActivity();
 }

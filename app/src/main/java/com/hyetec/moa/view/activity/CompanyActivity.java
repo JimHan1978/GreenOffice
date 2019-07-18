@@ -136,10 +136,6 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private int reqCount = -2;
     private AnimationDrawable animationDrawable;
     private boolean dialogFlag = true;
-    private String message = "111";
-    private boolean isSuccess = true;
-    private byte[] texts = null;
-    private Uri uri;
     private RequestBody requestFile;
     private String path = "";
     private DateTimePickDialogUtil dateTimePicKDialog;
@@ -658,16 +654,14 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
                     CompanyActivity.this, mActivityImgList, R.layout.layout_ativity_img) {
                 @Override
                 public void convert(ViewHolder helper, ActivityEventEntity.ImgListBean item, int pos) {
-                    int x = picSize.get(pos)[0];
-                    int y = picSize.get(pos)[1];
-                    if(picSize.get(pos)[0]>=picSize.get(pos)[1]) {
-                        helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
-
-                        //p = Api.IMG_URL_ATTACHMENT+item.getUrl();
-                        //new Thread(runnable).start();
-                    }
-                    else{
-                        helper.setImageAttachments(R.id.iv_activity_photos_2,item.getUrl(),CompanyActivity.this);
+                    if(picSize!=null && picSize.size()>0) {
+                        int x = picSize.get(pos)[0];
+                        int y = picSize.get(pos)[1];
+                        if (picSize.get(pos)[0] >= picSize.get(pos)[1]) {
+                            helper.setImageAttachments(R.id.iv_activity_photos, item.getUrl(), CompanyActivity.this);
+                        } else {
+                            helper.setImageAttachments(R.id.iv_activity_photos_2, item.getUrl(), CompanyActivity.this);
+                        }
                     }
                 }
             });

@@ -72,4 +72,5 @@ public abstract class MainViewModelModule {
     @ViewModelScope(CompanyViewModel.class)
     abstract ViewModel bindCompanyViewModel(CompanyViewModel companyViewModel);
 
+
 }
