@@ -91,7 +91,6 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                     ACache.get(LoginActivity.this).put(MoaApp.USER_DATA,loginData.getResult());
                     ACache.get(LoginActivity.this).put(MoaApp.USER_NAME,userName);
                     ACache.get(LoginActivity.this).put(MoaApp.POSS_WORD,password);
-
                     startActivity(new Intent(LoginActivity.this,MainActivity.class));
                     finish();
                 }else {
