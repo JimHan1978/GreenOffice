@@ -111,6 +111,7 @@ public class MessageFragment extends BaseFragment<MessageViewModel> implements G
                 } else if (messageList.get(i).getMessageType().equals("attendance")) {
                     startActivity(new Intent(getActivity(), PunchCardActivity.class));
                 }else {
+                    MessageEntity messageEntity = messageList.get(i);
                     startActivity(new Intent(getActivity(), CompanyActivity.class).putExtra("date", messageList.get(i)));
                 }
             }

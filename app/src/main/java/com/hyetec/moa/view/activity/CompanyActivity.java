@@ -146,6 +146,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
     private List<String> p = new ArrayList<>();
     private List<int[]> picSize = new ArrayList<>();
     private PhotoDialog photoDialog = new PhotoDialog("拍照","相册");
+    private int organiser;
     /**
      * UI 初始化
      *
@@ -214,7 +215,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         if (userInfo.getUserId() == activityEventEntity.getOrganiser()) {
             ivAdd.setVisibility(View.VISIBLE);
         }
-
+        organiser = activityEventEntity.getOrganiser();
         mActivityImgList = activityEventEntity.getImgList();
         if (mActivityImgList != null && mActivityImgList.size() > 0) {
             lvItem.setVisibility(View.VISIBLE);
@@ -533,7 +534,7 @@ public class CompanyActivity extends BaseActivity<CompanyViewModel> {
         Intent intent2 = new Intent(CompanyActivity.this, ActivitySignActivity.class);
         intent2.putExtra("actId", actId + "");
         intent2.putExtra("userId", userInfo.getUserId() + "");
-        intent2.putExtra("message", messageEntity);
+        intent2.putExtra("org",organiser+"");
         startActivity(intent2);
         //}
        /* else{

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.moa.R;
+import com.hyetec.moa.model.entity.ActivityEndEntity;
 import com.hyetec.moa.model.entity.ActivitySignEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
@@ -40,6 +41,8 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
     ImageView ivRight;
     @BindView(R.id.tv_title)
     TextView tvTitle;
+    @BindView(R.id.end_activity)
+    TextView endActivity;
     @BindView(R.id.rly_title)
     RelativeLayout rlyTitle;
     @BindView(R.id.lv_activity)
@@ -54,6 +57,7 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
     private MessageEntity messageEntity;
     private String actId;
     private String userId;
+    private String organiser="";
 
     @Override
     public int initView(Bundle savedInstanceState) {
@@ -68,10 +72,19 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("扫一扫签到");
         ivLeft.setVisibility(View.VISIBLE);
-        ivRight.setVisibility(View.VISIBLE);
         actId = getIntent().getStringExtra("actId");
         userId = getIntent().getStringExtra("userId");
-        messageEntity = (MessageEntity)getIntent().getSerializableExtra("message");
+        organiser = getIntent().getStringExtra("org");
+       // messageEntity = (MessageEntity)getIntent().getSerializableExtra("message");
+
+        if(organiser.equals(userId)){
+            ivRight.setVisibility(View.GONE);
+            endActivity.setVisibility(View.VISIBLE);
+        }
+        else{
+            endActivity.setVisibility(View.GONE);
+            ivRight.setVisibility(View.VISIBLE);
+        }
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
@@ -141,7 +154,13 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
         }
     }
 
-    @OnClick({R.id.iv_left,R.id.iv_right})
+    private void endActivity(String id){
+        mViewModel.endActivity(actId).observe(this,endAct->{
+            Toast.makeText(this,endAct.getMessage(),Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    @OnClick({R.id.iv_left,R.id.iv_right,R.id.end_activity})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:
@@ -149,6 +168,9 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
                 break;
             case R.id.iv_right:
                 startActivityForResult(new Intent(this, CaptureActivity.class), 0);
+                break;
+            case R.id.end_activity:
+                endActivity(actId);
         }
     }
 
