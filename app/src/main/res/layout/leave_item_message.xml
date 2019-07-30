@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_marginBottom="5dp">
+
+
+
+        <ImageView
+            android:id="@+id/iv_message"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_message_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_message"
+            android:layout_toRightOf="@id/iv_message"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/ap_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_alignRight="@+id/tv_personal_message"
+            android:layout_toRightOf="@id/tv_message_name"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_personal_message"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_below="@id/tv_message_name"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/iv_message"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tv_message_content"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_below="@id/tv_personal_message"
+            android:layout_marginRight="20dp"
+            android:layout_toRightOf="@id/iv_message"
+            android:textColor="@color/text_gray"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:id="@+id/tv_leave_type"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@id/iv_arrow"
+            android:textColor="@color/brown"
+            android:textSize="13sp" />
+
+
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/contents_arrow" />
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

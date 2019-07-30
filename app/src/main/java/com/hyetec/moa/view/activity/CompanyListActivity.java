@@ -71,6 +71,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     private int pos;
     private LoginUserEntity userInfo;
     private PhotoDialog photoDialog = new PhotoDialog("编辑","删除");
+    private List<String> roles = new ArrayList<>();
     /**
      * UI 初始化
      *
@@ -94,13 +95,20 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
     public void initData(Bundle savedInstanceState) {
         tvTitle.setText("活动列表");
         ivLeft.setVisibility(View.VISIBLE);
-        ivRight.setVisibility(View.VISIBLE);
+        //ivRight.setVisibility(View.VISIBLE);
         ivRight.setImageResource(R.drawable.ic_add);
         gvActivity.setLoadMoreEnable(false);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
         if (ACache.get(this).getAsObject(MoaApp.USER_DATA) != null) {
             userInfo = (LoginUserEntity) ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+            roles = userInfo.getRoles();
+            if(roles.contains("ActManager")){
+                ivRight.setVisibility(View.VISIBLE);
+            }
+            else{
+                ivRight.setVisibility(View.GONE);
+            }
         }
         lvActivity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -111,7 +119,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         lvActivity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(userInfo.getUserId()==messageList.get(position).getOrganiser()) {
+                if(userInfo.getUserId() == messageList.get(position).getOrganiser()) {
                     messageEntity = messageList.get(position);
                     pos = messageList.get(position).getActId();
                     showDialog();
