@@ -50,6 +50,7 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
     public LiveData<BaseResponse<LoginUserEntity>> login(String userName, String password) {
         Map<String, String> request = new HashMap<>(1);
         request.put(Api.API_USER_NAME_KEY, userName);
+        String temp = Base64.encodeToString(password.getBytes(),Base64.NO_WRAP);
         request.put(Api.API_USER_PASSWORD_KEY, Base64.encodeToString(password.getBytes(),Base64.NO_WRAP));
         mLoginData=new MediatorLiveData<>();
         mLoginResponse=mModel.login(request);
