@@ -80,6 +80,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         //创建ViewModel
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(WebViewModel.class);
         return R.layout.activity_webview;
+
     }
 
 

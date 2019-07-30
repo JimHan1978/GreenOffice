@@ -7,6 +7,11 @@
         return intervalMonth;
 	}
 
+	function getIntervalDays(startDate,endDate){
+        var dateSpan = Math.abs(endDate-startDate);
+        var intervalDays = Math.floor(dateSpan / (24 * 3600 * 1000));
+        return intervalDays;
+	}
 	/**
 	 * 设置账单数据接口
 	 * @param son_str
@@ -19,7 +24,7 @@
 		}
         var detail = result.detail;
         //更新首页
-        var months = getIntervalMonth(new Date(joinDateStr),new Date());
+        var intervalDays = getIntervalDays(new Date(joinDateStr),new Date());
         $("#name").text(detail.name);
         $("#nameTitle").text(sex==117?"先生":"女士")
         $("#totalMonth").text(months);
