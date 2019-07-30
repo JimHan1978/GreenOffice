@@ -2,7 +2,6 @@ package com.hyetec.moa.view.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +15,10 @@ import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
 import com.hyetec.moa.model.entity.LoginUserEntity;
-import com.hyetec.moa.model.entity.MessageEntity;
 import com.hyetec.moa.utils.TimeUtil;
 import com.hyetec.moa.view.activity.BonusListActivity;
-import com.hyetec.moa.view.activity.CompanyActivity;
 import com.hyetec.moa.view.activity.CompanyListActivity;
+import com.hyetec.moa.view.activity.LeaveListActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
 import com.hyetec.moa.view.adapter.ViewHolder;
@@ -29,7 +27,6 @@ import com.hyetec.moa.viewmodel.ApplicationViewModel;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
@@ -110,6 +107,9 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
                                 break;
                             case "notice":
                                 Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                                break;
+                            case "leave":
+                                startActivity(new Intent(getActivity(), LeaveListActivity.class));
                                 break;
                             default:
                                 Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();

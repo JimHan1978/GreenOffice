@@ -26,10 +26,12 @@ import com.hyetec.moa.view.activity.CompanyListActivity;
 import com.hyetec.moa.view.activity.CreateActivity;
 import com.hyetec.moa.view.activity.DetailsActivity;
 import com.hyetec.moa.view.activity.GroupActivity;
+import com.hyetec.moa.view.activity.LeaveListActivity;
 import com.hyetec.moa.view.activity.LoginActivity;
 import com.hyetec.moa.view.activity.MainActivity;
 import com.hyetec.hmdp.core.di.scope.ActivityScope;
 import com.hyetec.moa.view.activity.NewActivity;
+import com.hyetec.moa.view.activity.NewLeaveActivity;
 import com.hyetec.moa.view.activity.PunchCardActivity;
 import com.hyetec.moa.view.activity.SettingActivity;
 import com.hyetec.moa.view.activity.WebViewActivity;
@@ -104,4 +106,12 @@ public abstract class BaseActivityModule {
     @ActivityScope
     @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
     abstract NewActivity contributeNewActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract NewLeaveActivity contributeNewLeaveActivity();
+
+    @ActivityScope
+    @ContributesAndroidInjector(modules = {MainModule.class, MainViewModelModule.class})
+    abstract LeaveListActivity contributeLeaveListActivity();
 }

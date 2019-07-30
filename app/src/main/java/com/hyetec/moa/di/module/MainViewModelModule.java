@@ -7,6 +7,7 @@ import com.hyetec.moa.viewmodel.ChangPasswordViewModel;
 import com.hyetec.moa.viewmodel.CompanyViewModel;
 import com.hyetec.moa.viewmodel.DetailsViewModel;
 import com.hyetec.moa.viewmodel.GroupViewModel;
+import com.hyetec.moa.viewmodel.LeaveViewModel;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 import com.hyetec.moa.viewmodel.MainViewModel;
 import com.hyetec.hmdp.core.di.scope.ViewModelScope;
@@ -71,6 +72,11 @@ public abstract class MainViewModelModule {
     @IntoMap
     @ViewModelScope(CompanyViewModel.class)
     abstract ViewModel bindCompanyViewModel(CompanyViewModel companyViewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelScope(LeaveViewModel.class)
+    abstract ViewModel bindLeaveViewModel(LeaveViewModel leaveViewModel);
 
 
 }

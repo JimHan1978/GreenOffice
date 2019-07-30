@@ -34,6 +34,13 @@
     <string name="assembingPlace" translatable="false">集合地点</string>
     <string name="startTime" translatable="false">开始时间</string>
     <string name="bonus" translatable="false">红包金额</string>
+    <string name="applicationPerson" translatable="false">申请人:</string>
+    <string name="offType" translatable="false">类     型:</string>
+    <string name="startDate" translatable="false">开始日期:</string>
+    <string name="endDate" translatable="false">结束日期:</string>
+    <string name="offDays" translatable="false">请假天数:</string>
+    <string name="replaceName" translatable="false">工作暂代:</string>
+    <string name="offReasons" translatable="false">请假理由:</string>
 
     <string name="scan">扫一扫签到</string>
     <string name="shake">摇一摇红包</string>

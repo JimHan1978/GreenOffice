@@ -12,8 +12,11 @@ import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DictionaryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
+import com.hyetec.moa.model.entity.LeaveMessageEntity;
+import com.hyetec.moa.model.entity.LeaveTypeEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MessageEntity;
+import com.hyetec.moa.model.entity.MyLeaveEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
@@ -64,6 +67,26 @@ public interface ContactsService {
 
     @POST("office/attendance/submitWorkremark.json")
     Flowable<BaseResponse<PunchCardEntity>> submitWorkremark(@QueryMap Map<String, String> request);
+
+    //新加
+    @POST("setting/selectByType.json")
+    Flowable<BaseResponse<List<LeaveTypeEntity>>> selectByType(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @POST("leaveApply/selectById.json")
+    Flowable<BaseResponse<MyLeaveEntity>> selectById(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @GET("leaveApply/excludingHolidays.json")
+    Flowable<BaseResponse<List<String>>> excludingHolidays(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @POST("leaveApply/save.json")
+    Flowable<BaseResponse<LeaveMessageEntity>> leaveApplySave(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @POST("leaveApply/selectByUserId.json")
+    Flowable<BaseResponse<List<MyLeaveEntity>>> selectByUserId(@QueryMap Map<String, String> request);
 
     @POST("office/attendance/attesign.json")
     Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);

@@ -111,7 +111,7 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         lvActivity.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                if(userInfo.getUserId()==messageList.get(position).getOrganiser()) {
+                if(userInfo.getUserId() == messageList.get(position).getOrganiser()) {
                     messageEntity = messageList.get(position);
                     pos = messageList.get(position).getActId();
                     showDialog();
