@@ -28,7 +28,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layout_update_type"
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
 
                 <TextView
@@ -42,30 +42,31 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/offName"
+                    android:id="@+id/leaveName"
                     style="@style/SettingTextStyle"
                     android:paddingTop="8dp"
                     android:gravity="center"
+                    android:layout_marginEnd="20dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:minWidth="80dp"
+                    android:minWidth="200dp"
                     android:minHeight="32dp"
                     android:hint="Name" />
 
-                <TextView
-                    android:id="@+id/offId"
-                    style="@style/SettingTextStyle"
-                    android:hint="ID"
-                    android:paddingTop="8dp"
-                    android:layout_marginEnd="40dp"
-                    android:minHeight="32dp"
-                    android:gravity="center"
-                    android:minWidth="80dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <!--<TextView-->
+                    <!--android:visibility="gone"-->
+                    <!--android:id="@+id/offId"-->
+                    <!--style="@style/SettingTextStyle"-->
+                    <!--android:hint="ID"-->
+                    <!--android:paddingTop="8dp"-->
+                    <!--android:layout_marginEnd="40dp"-->
+                    <!--android:minHeight="32dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:minWidth="80dp"-->
+                    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                    <!--app:layout_constraintRight_toRightOf="parent"-->
+                    <!--app:layout_constraintTop_toTopOf="parent" />-->
 
             </android.support.constraint.ConstraintLayout>
 
@@ -81,7 +82,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -96,7 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_marginStart="110dp"
-                    android:layout_marginLeft="280dp"
+                    android:layout_marginLeft="284dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
                     android:background="@drawable/edit_bg"
@@ -129,7 +130,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -165,7 +166,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -201,7 +202,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -237,7 +238,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -275,7 +276,7 @@
             android:padding="@dimen/dp_1">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/OffItemStyle">
+                style="@style/LeaveItemStyle">
 
                 <TextView
                     android:textStyle="bold"
@@ -302,6 +303,54 @@
 
             </android.support.constraint.ConstraintLayout>
 
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/commit_ui"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp_16"
+            android:visibility="gone">
+
+
+            <EditText
+                android:id="@+id/commit"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/edit_bg"
+                style="@style/SettingTextStyle"
+                android:gravity="left|top"
+                android:hint="请输入审批意见"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/dp_12"
+                android:paddingStart="@dimen/dp_16"
+                android:paddingEnd="@dimen/dp_16">
+
+                <Button
+                    android:id="@+id/button_pass"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingTextStyle"
+                    android:text="通过"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:id="@+id/button_rebut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/SettingTextStyle"
+                    android:text="驳回"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

@@ -8,6 +8,8 @@ import com.hyetec.hmdp.repository.http.Resource;
 import com.hyetec.hmdp.repository.utils.RepositoryUtils;
 import com.hyetec.moa.model.api.service.ContactsService;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.DaysCalculationEntity;
+import com.hyetec.moa.model.entity.HaveDoneLeaveEntity;
 import com.hyetec.moa.model.entity.LeaveMessageEntity;
 import com.hyetec.moa.model.entity.LeaveTypeEntity;
 import com.hyetec.moa.model.entity.MyLeaveEntity;
@@ -28,10 +30,13 @@ public class LeaveModel extends BaseModel {
 
     private RxErrorHandler mErrorHandler;
     private MutableLiveData<Resource<BaseResponse<List<LeaveTypeEntity>>>> mLeaveTypeListResource;
-    private MutableLiveData<Resource<BaseResponse<List<String>>>> mLeaveDaysResource;
+    private MutableLiveData<Resource<BaseResponse<List<DaysCalculationEntity>>>> mLeaveDaysResource;
     private MutableLiveData<Resource<BaseResponse<List<MyLeaveEntity>>>> mMyLeaveListResource;
     private MutableLiveData<Resource<BaseResponse<LeaveMessageEntity>>> mMyLeaveSaveResource;
     private MutableLiveData<Resource<BaseResponse<MyLeaveEntity>>> mMyLeaveDetailResource;
+    private MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> mHaveDoneLeaveResource;
+    private MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> mUnfinishLeaveResource;
+    private MutableLiveData<Resource<BaseResponse<LeaveMessageEntity>>> mCommitLeaveResource;
 
     @Inject
     public LeaveModel(Application application) {
@@ -39,6 +44,113 @@ public class LeaveModel extends BaseModel {
         mErrorHandler = RepositoryUtils.INSTANCE
                 .obtainRepositoryComponent(application)
                 .rxErrorHandler();
+    }
+
+    public MutableLiveData<Resource<BaseResponse<LeaveMessageEntity>>> getmCommitLeaveResource(Map<String, String> request){
+
+        mCommitLeaveResource = new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .leaveApply(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<LeaveMessageEntity>>(mErrorHandler){
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mCommitLeaveResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mCommitLeaveResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<LeaveMessageEntity> response) {
+                        mCommitLeaveResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mCommitLeaveResource;
+    }
+
+
+    public MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> getmUnfinishLeaveResource(Map<String, String> request){
+
+        mUnfinishLeaveResource = new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .leaveflowTask(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<HaveDoneLeaveEntity>>>(mErrorHandler){
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mUnfinishLeaveResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mUnfinishLeaveResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<HaveDoneLeaveEntity>> response) {
+                        mUnfinishLeaveResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mUnfinishLeaveResource;
+    }
+
+
+    public MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> getmHaveDoneLeaveResource(Map<String, String> request){
+
+        mHaveDoneLeaveResource = new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .leaveflowTaskHis(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(messageResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<HaveDoneLeaveEntity>>>(mErrorHandler){
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mHaveDoneLeaveResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mHaveDoneLeaveResource.setValue(Resource.error(t.getMessage(), null));
+
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<HaveDoneLeaveEntity>> response) {
+                        mHaveDoneLeaveResource.setValue(Resource.success(response));
+
+                    }
+                });
+        return mHaveDoneLeaveResource;
     }
 
     public MutableLiveData<Resource<BaseResponse<MyLeaveEntity>>> getmMyLeaveDetailResource(Map<String, String> request){
@@ -152,7 +264,7 @@ public class LeaveModel extends BaseModel {
 
 
 
-    public MutableLiveData<Resource<BaseResponse<List<String>>>> getmLeaveDaysResource(Map<String, String> request){
+    public MutableLiveData<Resource<BaseResponse<List<DaysCalculationEntity>>>> getmLeaveDaysResource(Map<String, String> request){
 
         mLeaveDaysResource = new MutableLiveData<>();
         mRepositoryManager
@@ -164,7 +276,7 @@ public class LeaveModel extends BaseModel {
 
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<String>>>(mErrorHandler){
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<DaysCalculationEntity>>>(mErrorHandler){
                     @Override
                     public void onSubscribe(Subscription s) {
                         mLeaveDaysResource.setValue(Resource.loading(null));
@@ -179,7 +291,7 @@ public class LeaveModel extends BaseModel {
                     }
 
                     @Override
-                    public void onNext(BaseResponse<List<String>> response) {
+                    public void onNext(BaseResponse<List<DaysCalculationEntity>> response) {
                         mLeaveDaysResource.setValue(Resource.success(response));
 
                     }

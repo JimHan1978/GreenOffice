@@ -9,9 +9,11 @@ import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.BillEntity;
 import com.hyetec.moa.model.entity.BonusEntity;
 import com.hyetec.moa.model.entity.BssidEntity;
+import com.hyetec.moa.model.entity.DaysCalculationEntity;
 import com.hyetec.moa.model.entity.DictionaryEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.GroupEntity;
+import com.hyetec.moa.model.entity.HaveDoneLeaveEntity;
 import com.hyetec.moa.model.entity.LeaveMessageEntity;
 import com.hyetec.moa.model.entity.LeaveTypeEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
@@ -72,13 +74,24 @@ public interface ContactsService {
     @POST("setting/selectByType.json")
     Flowable<BaseResponse<List<LeaveTypeEntity>>> selectByType(@QueryMap Map<String, String> request);
 
+    @POST("message/leaveflowTask.json")
+    Flowable<BaseResponse<List<HaveDoneLeaveEntity>>> leaveflowTask(@QueryMap Map<String, String> request);
+
+    @Headers("Content-Type: application/json")
+    @POST("leaveApply/examine.json")
+    Flowable<BaseResponse<LeaveMessageEntity>> leaveApply(@QueryMap Map<String, String> request);
+
+
+    @POST("message/leaveflowTaskHis.json")
+    Flowable<BaseResponse<List<HaveDoneLeaveEntity>>> leaveflowTaskHis(@QueryMap Map<String, String> request);
+
     @Headers("Content-Type: application/json")
     @POST("leaveApply/selectById.json")
     Flowable<BaseResponse<MyLeaveEntity>> selectById(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
     @GET("leaveApply/excludingHolidays.json")
-    Flowable<BaseResponse<List<String>>> excludingHolidays(@QueryMap Map<String, String> request);
+    Flowable<BaseResponse<List<DaysCalculationEntity>>> excludingHolidays(@QueryMap Map<String, String> request);
 
     @Headers("Content-Type: application/json")
     @POST("leaveApply/save.json")
