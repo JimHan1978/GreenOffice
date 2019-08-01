@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.HaveDoneLeaveEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MyLeaveEntity;
 import com.hyetec.moa.view.adapter.CommonAdapter;
@@ -48,12 +50,14 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
 
 
     private LoginUserEntity userInfo;
+    private int listType = 1;
+    private boolean commit = false;
 
 
     private CommonAdapter mAdapter;
     private List<MyLeaveEntity> myLeaveList;
-    private MyLeaveEntity newLeaveEntity;
-
+    private List<HaveDoneLeaveEntity> doneLeaveList;
+    private List<HaveDoneLeaveEntity> unfinishLeaveList;
 
 
 
@@ -84,8 +88,18 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(LeaveListActivity.this, NewLeaveActivity.class);
-                intent.putExtra("id", String.valueOf(myLeaveList.get(position).getId()));
+                if (listType == 1){
+                    intent.putExtra("id", String.valueOf(myLeaveList.get(position).getId()));
+                }
+                else if(listType == 2){
+                    intent.putExtra("id", String.valueOf(unfinishLeaveList.get(position).getBussinesId()));
+                    intent.putExtra("commitId",String.valueOf(unfinishLeaveList.get(position).getId()));
+                }
+                else{
+                    intent.putExtra("id", String.valueOf(doneLeaveList.get(position).getBussinesId()));
+                }
                 intent.putExtra("intent","checkDetail");
+                intent.putExtra("commit",commit);
                 startActivity(intent);
             }
         });
@@ -104,7 +118,54 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
     }
 
 
+    private void getDoneLeaveListData(){
+        commit = false;
+
+        mViewModel.getDoneLeaveList("desc", "10", "1", "start_time").observe(this, myLeaveEventList -> {
+            gvActivity.onHeaderRefreshFinish();
+            if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
+                doneLeaveList = myLeaveEventList.getResult();
+                lvActivity.setAdapter(mAdapter = new CommonAdapter<HaveDoneLeaveEntity>(
+                        getApplicationContext(), myLeaveEventList.getResult(), R.layout.leave_item_message) {
+                    @Override
+                    public void convert(ViewHolder helper, HaveDoneLeaveEntity item, int pos) {
+                        helper.setText(R.id.tv_personal_message, item.getAssignee());
+                        helper.setText(R.id.tv_message_name, item.getBussinesName());
+//                        helper.setText(R.id.ap_status, "("+item.getStatusName()+")");
+                        helper.setImageResource(R.id.iv_message, R.drawable.leave_item);
+                        helper.setText(R.id.tv_message_content, item.getStartTime());
+                    }
+                });
+            }
+        });
+    }
+
+    private void getUnfinishLeaveListData(){
+        commit = true;
+
+        mViewModel.getUnfinishLeaveList("desc", "10", "1", "start_time").observe(this, myLeaveEventList -> {
+            gvActivity.onHeaderRefreshFinish();
+            if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
+                unfinishLeaveList = myLeaveEventList.getResult();
+                lvActivity.setAdapter(mAdapter = new CommonAdapter<HaveDoneLeaveEntity>(
+                        getApplicationContext(), myLeaveEventList.getResult(), R.layout.leave_item_message) {
+                    @Override
+                    public void convert(ViewHolder helper, HaveDoneLeaveEntity item, int pos) {
+                        helper.setText(R.id.tv_personal_message, item.getAssignee());
+                        helper.setText(R.id.tv_message_name, item.getBussinesName());
+//                        helper.setText(R.id.ap_status, "("+item.getStatusName()+")");
+                        helper.setImageResource(R.id.iv_message, R.drawable.leave_item);
+                        helper.setText(R.id.tv_message_content, item.getStartTime());
+                    }
+                });
+            }
+        });
+    }
+
+
     private void getMyLeaveListData(){
+        commit = false;
+
         mViewModel.getMyLeaveList("start_date","desc","10","1").observe(this,myLeaveEventList -> {
             gvActivity.onHeaderRefreshFinish();
             if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
@@ -135,7 +196,17 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
     }
 
     @Override
-    public void onHeaderRefresh(GdPullToRefreshView view) { getMyLeaveListData(); }
+    public void onHeaderRefresh(GdPullToRefreshView view) {
+        if (listType == 1){
+            getMyLeaveListData();
+        }
+        else if (listType == 2){
+            getUnfinishLeaveListData();
+        }
+        else{
+            getDoneLeaveListData();
+        }
+             }
 
     @OnClick({R.id.iv_left, R.id.tv_title, R.id.iv_right, R.id.list1, R.id.list2, R.id.list3})
     public void onViewClicked(View view) {
@@ -149,19 +220,25 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
                 startActivity(intent);
                 break;
             case R.id.list1:
+                listType = 1;
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication1);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish2);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done2);
+                getMyLeaveListData();
                 break;
             case R.id.list2:
+                listType = 2;
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication2);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish1);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done2);
+                getUnfinishLeaveListData();
                 break;
             case R.id.list3:
+                listType = 3;
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication2);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish2);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done1);
+                getDoneLeaveListData();
                 break;
         }
     }

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.entity.DaysCalculationEntity;
 import com.hyetec.moa.model.entity.LeaveTypeEntity;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.MyLeaveEntity;
@@ -39,10 +41,10 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
 
     @BindView(R.id.tv_title)
     TextView tv_title;
-    @BindView(R.id.offName)
+    @BindView(R.id.leaveName)
     TextView ap_name;
-    @BindView(R.id.offId)
-    TextView ap_id;
+//    @BindView(R.id.offId)
+//    TextView ap_id;
     @BindView(R.id.leave_days)
     TextView leave_days;
     @BindView(R.id.start_date)
@@ -59,10 +61,18 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
     EditText replaceName;
     @BindView(R.id.reason)
     EditText leaveReason;
+    @BindView(R.id.commit_ui)
+    LinearLayout commit_ui;
+    @BindView(R.id.button_pass)
+    Button button_pass;
+    @BindView(R.id.button_rebut)
+    Button button_rebut;
+    @BindView(R.id.commit)
+    EditText et_commit;
 
     List<LeaveTypeEntity> leaveTypeEntityList;
     List<String> mLeaveType;
-    List<String> mLeaveDays;
+    List<DaysCalculationEntity> mLeaveDays;
     private DateTimePickDialogUtil dateTimePicKDialog;
     LoginUserEntity userInfo;
     Intent intent;
@@ -77,8 +87,16 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
         setContentView(R.layout.new_leave_application);
         ButterKnife.bind(this);
         ivLeft.setVisibility(View.VISIBLE);
-        endActivity.setVisibility(View.VISIBLE);
-        endActivity.setText("提交  ");
+        intent = getIntent();
+        if(intent.getStringExtra("intent").equals("create")){
+            endActivity.setVisibility(View.VISIBLE);
+            endActivity.setText("提交  ");
+        }
+        userInfo = (LoginUserEntity) ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA);
+        if(intent.getBooleanExtra("commit",false) == true){
+            commit_ui.setVisibility(View.VISIBLE);
+        }
+
         tv_title.setText("请假申请");
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LeaveViewModel.class);
         return R.layout.new_leave_application;
@@ -92,12 +110,14 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
         getLeaveType();
         userInfo = (LoginUserEntity) ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA);
         ap_name.setText(userInfo.getUserName());
-        ap_id.setText(userInfo.getUserno());
+//        ap_id.setText(userInfo.getUserno());
 
         start_date.setOnClickListener(this);
         end_date.setOnClickListener(this);
         ivLeft.setOnClickListener(this);
         endActivity.setOnClickListener(this);
+        button_pass.setOnClickListener(this);
+        button_rebut.setOnClickListener(this);
 
         intent = getIntent();
         if(intent.getStringExtra("intent").equals("checkDetail")){
@@ -130,7 +150,6 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
         mViewModel.getMyLeaveDetail(intent.getStringExtra("id")).observe(this, leaveDetail -> {
 
             if(leaveDetail.getResult().getStatus() == 1){
-                endActivity.setVisibility(View.GONE);
                 leaveReason.setEnabled(false);
                 replaceName.setEnabled(false);
                 start_date.setClickable(false);
@@ -139,6 +158,7 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
             }
 
             if (leaveDetail != null && leaveDetail.isSuccess()) {
+                ap_name.setText(leaveDetail.getResult().getApplyUserName());
                 replaceName.setText(leaveDetail.getResult().getWorkReplace());
                 leaveReason.setText(leaveDetail.getResult().getApplyReason());
                 start_date.setText(leaveDetail.getResult().getStartDate());
@@ -246,9 +266,15 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
                 finish();
                 break;
             case R.id.end_activity:
-                if(leave_type.getText().toString() == "-请选择-" || replaceName.getText().toString() == "" ||
-                        leaveReason.getText().toString() == "" || leave_days.getText().toString() == ""){
+                if(leave_type.getText().toString().equals("-请选择-") || replaceName.getText().toString() == "" ||
+                        leaveReason.getText().toString() == ""){
                     Toast.makeText(NewLeaveActivity.this, "内容不能为空",Toast.LENGTH_SHORT).show();
+                }
+                if(leave_days.getText().toString().equals("0") || leave_days.getText().toString() == ""){
+                    Toast.makeText(NewLeaveActivity.this, "请检查请假日期",Toast.LENGTH_SHORT).show();
+                    leave_days.setText("");
+                    start_date.setText("");
+                    end_date.setText("");
                 }
                 else{
                     MyLeaveEntity myLeaveEntity = new MyLeaveEntity();
@@ -275,6 +301,22 @@ public class NewLeaveActivity extends BaseActivity<LeaveViewModel> implements Vi
                     finish();
                 }
                 break;
+            case R.id.button_pass:
+                intent = getIntent();
+                mViewModel.getCommitLeaveList(intent.getStringExtra("commitId"),"pass",et_commit.getText().toString(),"").observe(this, leaveMessageList ->{
+
+            });
+                finish();
+                break;
+
+            case R.id.button_rebut:
+                intent = getIntent();
+                mViewModel.getCommitLeaveList(intent.getStringExtra("commitId"),"rebut",et_commit.getText().toString(),"").observe(this, leaveMessageList ->{
+
+                });
+                finish();
+                break;
+
             default:
                 break;
         }

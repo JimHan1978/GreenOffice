@@ -12,6 +12,8 @@ import com.hyetec.moa.model.CompanyModel;
 import com.hyetec.moa.model.LeaveModel;
 import com.hyetec.moa.model.entity.ActivityEventEntity;
 import com.hyetec.moa.model.entity.BaseResponse;
+import com.hyetec.moa.model.entity.DaysCalculationEntity;
+import com.hyetec.moa.model.entity.HaveDoneLeaveEntity;
 import com.hyetec.moa.model.entity.LeaveMessageEntity;
 import com.hyetec.moa.model.entity.LeaveTypeEntity;
 import com.hyetec.moa.model.entity.MyLeaveEntity;
@@ -29,8 +31,8 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
     private MediatorLiveData<BaseResponse<List<LeaveTypeEntity>>> mLeaveTypeListData = new MediatorLiveData<BaseResponse<List<LeaveTypeEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<LeaveTypeEntity>>>> mLeaveTypeListResponse;
 
-    private MediatorLiveData<BaseResponse<List<String>>> mLeaveDaysListData = new MediatorLiveData<BaseResponse<List<String>>>();
-    private MutableLiveData<Resource<BaseResponse<List<String>>>> mLeaveDaysListResponse;
+    private MediatorLiveData<BaseResponse<List<DaysCalculationEntity>>> mLeaveDaysListData = new MediatorLiveData<BaseResponse<List<DaysCalculationEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<DaysCalculationEntity>>>> mLeaveDaysListResponse;
 
     private MediatorLiveData<BaseResponse<List<MyLeaveEntity>>> mMyLeaveListData = new MediatorLiveData<BaseResponse<List<MyLeaveEntity>>>();
     private MutableLiveData<Resource<BaseResponse<List<MyLeaveEntity>>>> mMyLeaveListResponse;
@@ -40,6 +42,15 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
 
     private MediatorLiveData<BaseResponse<MyLeaveEntity>> mMyLeaveDetail = new MediatorLiveData<BaseResponse<MyLeaveEntity>>();
     private MutableLiveData<Resource<BaseResponse<MyLeaveEntity>>> mMyLeaveDetailResponse;
+
+    private MediatorLiveData<BaseResponse<List<HaveDoneLeaveEntity>>> mDoneLeaveListData = new MediatorLiveData<BaseResponse<List<HaveDoneLeaveEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> mDoneLeaveListResponse;
+
+    private MediatorLiveData<BaseResponse<List<HaveDoneLeaveEntity>>> mUnfinishLeaveListData = new MediatorLiveData<BaseResponse<List<HaveDoneLeaveEntity>>>();
+    private MutableLiveData<Resource<BaseResponse<List<HaveDoneLeaveEntity>>>> mUnfinishLeaveListResponse;
+
+    private MediatorLiveData<BaseResponse<LeaveMessageEntity>> mCommitLeaveData = new MediatorLiveData<BaseResponse<LeaveMessageEntity>>();
+    private MutableLiveData<Resource<BaseResponse<LeaveMessageEntity>>> mCommitLeaveResponse;
 
     @Inject
     public LeaveViewModel(Application application, LeaveModel model) {
@@ -70,7 +81,7 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
             request.put("applyReason", myLeaveEntity.getApplyReason());
         }
         if(myLeaveEntity.getStatus() != 0){
-            request.put("status", myLeaveEntity.getStatus()+"");
+            request.put("a_status", myLeaveEntity.getStatus()+"");
         }
 
         mMyLeaveSaveData = new MediatorLiveData<>();
@@ -95,7 +106,96 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
         return mMyLeaveSaveData;
     }
 
+    public LiveData<BaseResponse<LeaveMessageEntity>> getCommitLeaveList(String id, String examineStatus, String examineSuggestion, String taskId){
+        Map<String, String> request = new HashMap<>(1);
+        request.put("id", id);
+        request.put("examineStatus", examineStatus);
+        request.put("examineSuggestion", examineSuggestion);
+        request.put("taskId", taskId);
 
+        mCommitLeaveData = new MediatorLiveData<>();
+        mCommitLeaveResponse = mModel.getmCommitLeaveResource(request);
+        mCommitLeaveData.addSource(mCommitLeaveResponse, messageResource ->{
+            if (messageResource == null) {
+                messageResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", messageResource.status);
+            if (messageResource.status == Status.LOADING) {
+//                    STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (messageResource.status == Status.SUCCESS) {
+                BaseResponse<LeaveMessageEntity> result = messageResource.data;
+                mCommitLeaveData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (messageResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mCommitLeaveData;
+
+    }
+
+
+    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getUnfinishLeaveList(String sord, String pageable, String page, String sidx){
+        Map<String, String> request = new HashMap<>(1);
+        request.put("sord", sord);
+        request.put("pageable", pageable);
+        request.put("page", page);
+        request.put("sidx", sidx);
+
+        mUnfinishLeaveListData = new MediatorLiveData<>();
+        mUnfinishLeaveListResponse = mModel.getmUnfinishLeaveResource(request);
+        mUnfinishLeaveListData.addSource(mUnfinishLeaveListResponse, messageResource ->{
+            if (messageResource == null) {
+                messageResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", messageResource.status);
+            if (messageResource.status == Status.LOADING) {
+//                    STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (messageResource.status == Status.SUCCESS) {
+                BaseResponse<List<HaveDoneLeaveEntity>> result = messageResource.data;
+                mUnfinishLeaveListData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (messageResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mUnfinishLeaveListData;
+
+    }
+
+    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getDoneLeaveList(String sord, String pageable, String page, String sidx){
+        Map<String, String> request = new HashMap<>(1);
+        request.put("sord", sord);
+        request.put("pageable", pageable);
+        request.put("page", page);
+        request.put("sidx", sidx);
+
+        mDoneLeaveListData = new MediatorLiveData<>();
+        mDoneLeaveListResponse = mModel.getmHaveDoneLeaveResource(request);
+        mDoneLeaveListData.addSource(mDoneLeaveListResponse, messageResource ->{
+            if (messageResource == null) {
+                messageResource = Resource.error("", null);
+            }
+            Timber.d("Load weather now: %s", messageResource.status);
+            if (messageResource.status == Status.LOADING) {
+//                    STATUS.set(Status.LOADING);
+                Timber.d("Loadding.....");
+            } else if (messageResource.status == Status.SUCCESS) {
+                BaseResponse<List<HaveDoneLeaveEntity>> result = messageResource.data;
+                mDoneLeaveListData.postValue(result);
+                //STATUS.set(Status.SUCCESS);
+            } else if (messageResource.status == Status.ERROR) {
+                //STATUS.set(Status.ERROR);
+                Timber.d("Load error.....");
+            }
+        });
+        return mDoneLeaveListData;
+
+    }
 
     public LiveData<BaseResponse<MyLeaveEntity>> getMyLeaveDetail(String id){
         Map<String, String> request = new HashMap<>(1);
@@ -158,7 +258,7 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
 
 
 
-    public LiveData<BaseResponse<List<String>>> getLeaveDaysList(String startDate, String endDate){
+    public LiveData<BaseResponse<List<DaysCalculationEntity>>> getLeaveDaysList(String startDate, String endDate){
         Map<String, String> request = new HashMap<>(1);
         request.put("startDate",startDate);
         request.put("endDate",endDate);
@@ -174,7 +274,7 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
 //                    STATUS.set(Status.LOADING);
                 Timber.d("Loadding.....");
             } else if (messageResource.status == Status.SUCCESS) {
-                BaseResponse<List<String>> result = messageResource.data;
+                BaseResponse<List<DaysCalculationEntity>> result = messageResource.data;
                 mLeaveDaysListData.postValue(result);
                 //STATUS.set(Status.SUCCESS);
             } else if (messageResource.status == Status.ERROR) {
