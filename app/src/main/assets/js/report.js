@@ -22,41 +22,44 @@
 		}else{
 			result=json;
 		}
-        var detail = result.detail;
-        //更新首页
-        var intervalDays = getIntervalDays(new Date(joinDateStr),new Date());
-        $("#name").text(detail.name);
-        $("#nameTitle").text(sex==117?"先生":"女士")
-        $("#totalMonth").text(months);
+           var detail = result.detail;
+                //更新首页
+                var intervalDays = getIntervalDays(new Date(joinDateStr),new Date());
+                $("#name").text(detail.name);
+                //$("#nameTitle").text(sex==117?"先生":"女士")
+                $("#intervalDays").text(intervalDays);
+                //style="background-image: url('http://192.168.10.10:8180/urm/upload/2019/05/16/e0407c31-e3ce-4ca7-9c69-ef2449123b02.jpg');"
+                photo='http://192.168.10.10:8180/urm/upload/2019/05/16/e0407c31-e3ce-4ca7-9c69-ef2449123b02.jpg';
+                $("#tips-1").css("background-image","url('"+photo+"')");
 
-        var joinDate = joinDateStr.split("-");
-        $("#joinDate").text(joinDate[0] + "年"+joinDate[1] +"月"+joinDate[2] +"日");
+                var joinDate = joinDateStr.split("-");
+                $("#joinDate").text(joinDate[0] + "年"+joinDate[1] +"月"+joinDate[2] +"日");
 
-        //第二页数据
-        $("#income_month").text(Math.round(detail.bysrhj));
+                //第二页数据
+                $("#income_month").text(Math.round(detail.bysrhj));
 
-        var historyData = result.historyData;
-        var xData=[],yData=[],total=0;
-        for(var i=0;i<historyData.length;i++){
-            xData[i]=historyData[i].ym.substr(5).replace(/\b(0+)/gi,"")+"月";
-            yData[i]=historyData[i].bysrhj;
-            total+=Number(yData[i]);
-        }
-        if(historyData.length==1){
-            $("#accrualDiv").hide();
-        }else{
-        	var accrual = Math.round(detail.bysrhj-yData[historyData.length-2]);
-        	
-        	var atext = "";
-        	if(accrual>=0){
-        		atext="增加  "+Math.abs(accrual);
-        	}else if(accrual<0){
-        		atext="降低  "+Math.abs(accrual);
-        	}
-        	
-            $("#accrual").text(atext);
-            $("#accrualDiv").show();
-        }
+                var historyData = result.historyData;
+                var xData=[],yData=[],total=0;
+                for(var i=0;i<historyData.length;i++){
+                    xData[i]=historyData[i].ym.substr(5).replace(/\b(0+)/gi,"")+"月";
+                    yData[i]=historyData[i].bysrhj;
+                    total+=Number(yData[i]);
+                }
+                if(historyData.length==1){
+                    $("#accrualDiv").hide();
+                }else{
+                	var accrual = Math.round(detail.bysrhj-yData[historyData.length-2]);
+
+                	var atext = "";
+                	if(accrual>=0){
+                		atext="增加  "+Math.abs(accrual);
+                	}else if(accrual<0){
+                		atext="降低  "+Math.abs(accrual);
+                	}
+
+                    $("#accrual").text(atext);
+                    $("#accrualDiv").show();
+                }
 
         //更新图表
         updateIncomeChart(xData,yData);
