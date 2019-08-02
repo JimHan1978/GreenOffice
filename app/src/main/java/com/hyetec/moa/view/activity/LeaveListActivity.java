@@ -29,7 +29,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements GdPullToRefreshView.OnHeaderRefreshListener{
+public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements GdPullToRefreshView.OnHeaderRefreshListener,GdPullToRefreshView.OnFooterLoadListener{
 
     @BindView(R.id.iv_left)
     ImageView ivLeft;
@@ -77,7 +77,8 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
         ivLeft.setVisibility(View.VISIBLE);
         ivRight.setVisibility(View.VISIBLE);
         ivRight.setImageResource(R.drawable.ic_add);
-        gvActivity.setLoadMoreEnable(false);
+        gvActivity.setLoadMoreEnable(true);
+        gvActivity.setOnFooterLoadListener(this);
         gvActivity.setOnHeaderRefreshListener(this);
         gvActivity.getHeaderView().setHeaderProgressBarDrawable(this.getResources().getDrawable(R.drawable.progress_circular));
         if (ACache.get(this).getAsObject(MoaApp.USER_DATA) != null) {
@@ -104,7 +105,7 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
             }
         });
 
-        getMyLeaveListData();
+        getMyLeaveListData("10");
     }
 
     @Override
@@ -118,11 +119,12 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
     }
 
 
-    private void getDoneLeaveListData(){
+    private void getDoneLeaveListData(String rowNum){
         commit = false;
 
-        mViewModel.getDoneLeaveList("desc", "10", "1", "start_time").observe(this, myLeaveEventList -> {
+        mViewModel.getDoneLeaveList("desc", "1", "start_time",rowNum).observe(this, myLeaveEventList -> {
             gvActivity.onHeaderRefreshFinish();
+            gvActivity.onFooterLoadFinish();
             if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
                 doneLeaveList = myLeaveEventList.getResult();
                 lvActivity.setAdapter(mAdapter = new CommonAdapter<HaveDoneLeaveEntity>(
@@ -140,10 +142,10 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
         });
     }
 
-    private void getUnfinishLeaveListData(){
+    private void getUnfinishLeaveListData(String rowNum){
         commit = true;
 
-        mViewModel.getUnfinishLeaveList("desc", "10", "1", "start_time").observe(this, myLeaveEventList -> {
+        mViewModel.getUnfinishLeaveList("desc", rowNum, "1", "start_time").observe(this, myLeaveEventList -> {
             gvActivity.onHeaderRefreshFinish();
             if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
                 unfinishLeaveList = myLeaveEventList.getResult();
@@ -163,10 +165,10 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
     }
 
 
-    private void getMyLeaveListData(){
+    private void getMyLeaveListData(String rowNum){
         commit = false;
 
-        mViewModel.getMyLeaveList("start_date","desc","10","1").observe(this,myLeaveEventList -> {
+        mViewModel.getMyLeaveList("start_date","desc",rowNum,"1").observe(this,myLeaveEventList -> {
             gvActivity.onHeaderRefreshFinish();
             if (myLeaveEventList != null && myLeaveEventList.isSuccess()) {
                 myLeaveList = myLeaveEventList.getResult();
@@ -198,13 +200,26 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
     @Override
     public void onHeaderRefresh(GdPullToRefreshView view) {
         if (listType == 1){
-            getMyLeaveListData();
+            getMyLeaveListData("10");
         }
         else if (listType == 2){
-            getUnfinishLeaveListData();
+            getUnfinishLeaveListData("10");
         }
         else{
-            getDoneLeaveListData();
+            getDoneLeaveListData("10");
+        }
+    }
+
+    @Override
+    public void onFooterLoad(GdPullToRefreshView view) {
+        if (listType == 1){
+            getMyLeaveListData(String.valueOf(myLeaveList.size()+10));
+        }
+        else if (listType == 2){
+            getUnfinishLeaveListData(String.valueOf(unfinishLeaveList.size()+10));
+        }
+        else{
+            getDoneLeaveListData(String.valueOf(doneLeaveList.size()+10));
         }
     }
 
@@ -224,23 +239,24 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication1);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish2);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done2);
-                getMyLeaveListData();
+                getMyLeaveListData("10");
                 break;
             case R.id.list2:
                 listType = 2;
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication2);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish1);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done2);
-                getUnfinishLeaveListData();
+                getUnfinishLeaveListData("10");
                 break;
             case R.id.list3:
                 listType = 3;
                 ((ImageView)list1.findViewById(R.id.list_1_picture)).setImageResource(R.drawable.myapplication2);
                 ((ImageView)list2.findViewById(R.id.list_2_picture)).setImageResource(R.drawable.unfinish2);
                 ((ImageView)list3.findViewById(R.id.list_3_picture)).setImageResource(R.drawable.have_done1);
-                getDoneLeaveListData();
+                getDoneLeaveListData("10");
                 break;
         }
     }
+
 
 }

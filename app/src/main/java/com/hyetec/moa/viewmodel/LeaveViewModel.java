@@ -137,10 +137,10 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
     }
 
 
-    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getUnfinishLeaveList(String sord, String pageable, String page, String sidx){
+    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getUnfinishLeaveList(String sord, String rowNum, String page, String sidx){
         Map<String, String> request = new HashMap<>(1);
         request.put("sord", sord);
-        request.put("pageable", pageable);
+        request.put("rowNum",rowNum);
         request.put("page", page);
         request.put("sidx", sidx);
 
@@ -167,12 +167,13 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
 
     }
 
-    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getDoneLeaveList(String sord, String pageable, String page, String sidx){
+    public LiveData<BaseResponse<List<HaveDoneLeaveEntity>>> getDoneLeaveList(String sord, String page, String sidx, String rowNum){
         Map<String, String> request = new HashMap<>(1);
         request.put("sord", sord);
-        request.put("pageable", pageable);
         request.put("page", page);
         request.put("sidx", sidx);
+        request.put("rowNum", rowNum);
+
 
         mDoneLeaveListData = new MediatorLiveData<>();
         mDoneLeaveListResponse = mModel.getmHaveDoneLeaveResource(request);
@@ -226,11 +227,11 @@ public class LeaveViewModel extends BaseViewModel<LeaveModel> {
 
 
 
-    public LiveData<BaseResponse<List<MyLeaveEntity>>> getMyLeaveList(String sidx, String sord, String pageable, String page){
+    public LiveData<BaseResponse<List<MyLeaveEntity>>> getMyLeaveList(String sidx, String sord, String rowNum, String page){
         Map<String, String> request = new HashMap<>(1);
         request.put("sidx", sidx);
         request.put("sord", sord);
-        request.put("pageable", pageable);
+        request.put("rowNum",rowNum);
         request.put("page", page);
 
         mMyLeaveListData = new MediatorLiveData<>();
