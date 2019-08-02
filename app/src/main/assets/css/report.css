@@ -58,6 +58,16 @@
 	bottom: 24.4%;
 }
 
+.photoImg{
+	border-radius: 5%;
+    background: url(../img/wq.jpg) no-repeat center;
+    background-size: 14rem;
+    width: 14rem;
+    height: 16rem;
+    top: 10%;
+    left: 23%;
+}
+
 .company-info {
 	background: #DADADA;
 	border-radius: 4%;
@@ -101,6 +111,9 @@
 	font-size: 1.8em;
 	color: #040001;
 	margin: 0em 0.2em;
+	top: 47%;
+    left: 38%;
+    position: absolute;
 }
 
 #income_month {

@@ -41,7 +41,7 @@ public class DateTimePickDialogUtil implements OnDateChangedListener, OnTimeChan
 	}
 
 	@Override
-	public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+	public void  onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 		// TODO Auto-generated method stub
 		// 获得日历实例
 		Calendar calendar = Calendar.getInstance();

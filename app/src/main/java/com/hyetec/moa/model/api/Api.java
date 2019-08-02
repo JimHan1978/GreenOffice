@@ -20,7 +20,7 @@ public interface Api {
     // String IMG_URL = "http://192.168.176.170:8180/";
      String APP_DOMAIN = "http://192.168.176.170/";
     //String IMG_URL_ATTACHMENT = "http://192.168.176.170:8180/office/";
-   // String IMG_URL = "http://192.168.176.170:8180/";
+    // String IMG_URL = "http://192.168.176.170:8180/";
    // String APP_DOMAIN = "http://192.168.176.170:8180/";
 
 
