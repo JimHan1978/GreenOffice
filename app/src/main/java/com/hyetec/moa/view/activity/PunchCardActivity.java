@@ -162,19 +162,19 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 //        } else {
 //            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
 //        }
+        getBssID();
 
-
-        if (ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS) != null) {
-            bssIds = ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS);
-            IntentFilter filter = new IntentFilter();
-            filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-            filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-            broadcast = new Broadcast();
-            registerReceiver(broadcast, filter);
-        } else {
-            getBssID();
-        }
+//        if (ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS) != null) {
+//            bssIds = ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS);
+//            IntentFilter filter = new IntentFilter();
+//            filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+//            filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+//            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+//            broadcast = new Broadcast();
+//            registerReceiver(broadcast, filter);
+//        } else {
+//            getBssID();
+//        }
 
 
     }

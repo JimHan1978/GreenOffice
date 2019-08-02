@@ -13,6 +13,8 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -46,6 +48,7 @@ import com.hyetec.moa.viewmodel.WebViewModel;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -68,7 +71,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     @BindView(R.id.iv_home_page)
     ImageView ivHomePage;
 
-
+    private MediaPlayer mediaPlayer;
     private String url;
     private String billDate;
     private AlphaAnimation mHideAnimation;
@@ -108,7 +111,8 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             billDate = getTime();
         }
         ivLeft.setVisibility(View.VISIBLE);
-
+        mediaPlayer=new MediaPlayer();
+        play();
         mTitleView.setText(getYearAndMonth() + "月度报告");
         // 设置与Js交互的权限
         webSettings.setJavaScriptEnabled(true);
@@ -390,6 +394,16 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         billEntity1.setHistoryData(newHistoryDataBeans);
         return billEntity1;
 
+    }
+    public void play() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.summer);
+        mediaPlayer.start();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mediaPlayer.stop();
     }
 
     private String getTime() {

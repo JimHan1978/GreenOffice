@@ -206,7 +206,7 @@ public class LeaveListActivity extends BaseActivity<LeaveViewModel> implements G
         else{
             getDoneLeaveListData();
         }
-             }
+    }
 
     @OnClick({R.id.iv_left, R.id.tv_title, R.id.iv_right, R.id.list1, R.id.list2, R.id.list3})
     public void onViewClicked(View view) {
