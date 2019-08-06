@@ -33,7 +33,9 @@ public class SettingViewModel extends BaseViewModel<SettingModel> {
     }
 
     public LiveData<BaseResponse<ResultEntity>> logout() {
-
+        if (mLogoutResponse != null) {
+            mLogoutData.removeSource(mLogoutResponse);
+        }
         mLogoutResponse  = mModel.logout();
         mLogoutData.addSource(mLogoutResponse, observer -> {
             mLogoutData.removeSource(mLogoutResponse);

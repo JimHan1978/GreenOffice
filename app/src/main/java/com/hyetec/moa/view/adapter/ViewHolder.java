@@ -10,15 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.didichuxing.doraemonkit.util.DeviceUtils;
 import com.hyetec.moa.R;
 import com.hyetec.moa.model.api.Api;
-import com.hyetec.moa.view.activity.BonusListActivity;
+
 
 public class ViewHolder
 {

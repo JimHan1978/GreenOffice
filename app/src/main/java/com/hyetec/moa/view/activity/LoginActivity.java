@@ -10,14 +10,18 @@ import android.text.TextUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.hyetec.hmdp.core.base.BaseActivity;
 import com.hyetec.hmdp.core.utils.ACache;
 import com.hyetec.hmdp.view.SuperEditText;
 import com.hyetec.moa.R;
 import com.hyetec.moa.app.MoaApp;
+import com.hyetec.moa.model.api.Api;
 import com.hyetec.moa.model.entity.BaseResponse;
 import com.hyetec.moa.model.entity.LoginUserEntity;
 import com.hyetec.moa.model.entity.UserEntity;
+import com.hyetec.moa.view.fragment.PersonalFragment;
 import com.hyetec.moa.viewmodel.LoginViewModel;
 
 import butterknife.BindView;
@@ -91,14 +95,22 @@ public class LoginActivity extends BaseActivity<LoginViewModel> {
                     ACache.get(LoginActivity.this).put(MoaApp.USER_DATA,loginData.getResult());
                     ACache.get(LoginActivity.this).put(MoaApp.USER_NAME,userName);
                     ACache.get(LoginActivity.this).put(MoaApp.POSS_WORD,password);
-                    startActivity(new Intent(LoginActivity.this,MainActivity.class));
-                    finish();
+                    GetUserInfo(loginData.getResult().getUserId());
+
                 }else {
                     Toast.makeText(LoginActivity.this,loginData.getMessage(),Toast.LENGTH_SHORT).show();
                 }
-
             }
+        });
+    }
 
+    private void GetUserInfo(int id) {
+        mViewModel.getUserInfo(id+ "").observe(this, userEntity -> {
+            if (userEntity != null) {
+                ACache.get(LoginActivity.this).put(MoaApp.CARTOON,userEntity.getCartoon());
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
+                finish();
+            }
         });
     }
 

@@ -33,7 +33,7 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriberOfFlowable;
 public class LoginModel extends BaseModel {
     private RxErrorHandler mErrorHandler;
     private MutableLiveData<Resource<BaseResponse<LoginUserEntity>>> mUserResource;
-
+    private MutableLiveData<Resource<BaseResponse<UserEntity>>> mUserInfoResource;
     @Inject
     public LoginModel(Application application) {
         super(application);
@@ -93,6 +93,49 @@ public class LoginModel extends BaseModel {
                     }
                 });
         return mUserResource;
+
+    }
+    /**
+     * 服务器获取用户信息
+     * @param request
+     * @return
+     */
+    public MutableLiveData<Resource<BaseResponse<UserEntity>>> getUserInfo(Map<String,String> request) {
+        if (mUserInfoResource == null) {
+            mUserInfoResource = new MutableLiveData<>();
+        }
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .getUserInfo(request)
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(userResponse -> {
+                    if (userResponse.getResult()==null) {
+                        //  throw new RuntimeException("userResponse no result");
+                    }
+                    //保存用户信息到本地
+                    //saveLocation(weatherNowResponse.getResults().get(0).getLocation());
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<UserEntity>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mUserInfoResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mUserInfoResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<UserEntity> response) {
+                        mUserInfoResource.setValue(Resource.success(response));
+                    }
+                });
+        return mUserInfoResource;
 
     }
     @Override

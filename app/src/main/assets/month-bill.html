@@ -42,8 +42,8 @@
                     我们的缘分就是这么奇妙的开始了...
                 </div>-->
 
-                <div class="block-slide guide-show ">滑动查看账单</div>
-                <img id="block-slide-img" src="img/ic-slide-left.png"/>
+              <!--  <div class="block-slide guide-show ">滑动查看账单</div>
+                <img id="block-slide-img" src="img/ic-slide-left.png"/>-->
             </div>
         </div>
         <!-- 第一张 -->
@@ -51,13 +51,12 @@
             <div class="page-bg page-first">
 
                 <div id="tips-1"
-
                      class="photoImg animate text-welcome mui-hidden text-report">
                     <!--<div class="animated bounceInDown text-lh">尊敬的<span id="name">杨东平</span><span id="nameTitle">先生</span>，</div>
                     <div class="animated bounceInDown text-lh">这是您在公司</div>
                     <div class="animated bounceInDown text-lh">取得收入的第<span id="totalMonth">56</span>个月了。</div>-->
                 </div>
-                <span id="name">韩锦明</span>
+                <span id="name" style="display:none">韩锦明</span>
                 <div class="company-info" style="line-height: 2em; width: 72%;">
                     在<span id="joinDate">20xx年xx月xx日</span>我们相遇，相伴的<span
                         id="intervalDays">361</span>天中，我们共同成长。
@@ -277,7 +276,9 @@
 <script src="js/report.js"></script>
 
 <script>
-			
+			$(document).ready(function(){
+			$("#audio")[0].play();
+			});
 			
 			mui.back = function() {};
 			mui.plusReady(function() {

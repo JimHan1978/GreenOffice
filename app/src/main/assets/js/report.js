@@ -1,5 +1,6 @@
 
-	
+
+
 	function getIntervalMonth(startDate,endDate){
         var startMonth = startDate.getMonth();
         var endMonth = endDate.getMonth();
@@ -16,7 +17,8 @@
 	 * 设置账单数据接口
 	 * @param son_str
 	 */
-	function setData(json,sex,joinDateStr) {var result;
+	function setData(json,sex,joinDateStr,photo) {
+	    var result;
 		if(typeof(json)=='string'){
 			result = JSON.parse(json);
 		}else{
@@ -29,7 +31,7 @@
                 //$("#nameTitle").text(sex==117?"先生":"女士")
                 $("#intervalDays").text(intervalDays);
                 //style="background-image: url('http://192.168.10.10:8180/urm/upload/2019/05/16/e0407c31-e3ce-4ca7-9c69-ef2449123b02.jpg');"
-                photo='http://192.168.10.10:8180/urm/upload/2019/05/16/e0407c31-e3ce-4ca7-9c69-ef2449123b02.jpg';
+               //   photo='http://192.168.10.10:8180/urm/upload/2019/05/16/e0407c31-e3ce-4ca7-9c69-ef2449123b02.jpg';
                 $("#tips-1").css("background-image","url('"+photo+"')");
 
                 var joinDate = joinDateStr.split("-");

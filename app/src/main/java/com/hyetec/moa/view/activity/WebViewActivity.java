@@ -75,7 +75,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     private String url;
     private String billDate;
     private AlphaAnimation mHideAnimation;
-
+    private String cartoonPhoto="";
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -122,7 +122,9 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         // 格式规定为:file:///android_asset/文件名.html
         String json = getFromAssets("data/report.json");
 
-
+        if( ACache.get(this).getAsString(MoaApp.CARTOON)!=null) {
+             cartoonPhoto=Api.IMG_URL+ACache.get(this).getAsString(MoaApp.CARTOON);
+        }
 
         LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
@@ -138,7 +140,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
                         Gson gson = new Gson();
                         if (billData.getResult()!=null && billData.getResult().getDetail() != null) {
-                            wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate + "')", new ValueCallback<String>() {
+                            wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate +"','"+cartoonPhoto+ "')", new ValueCallback<String>() {
                                 @Override
                                 public void onReceiveValue(String value) {
                                     value.toString();
@@ -396,7 +398,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
     }
     public void play() {
-        mediaPlayer = MediaPlayer.create(this, R.raw.summer);
+        mediaPlayer = MediaPlayer.create(this, R.raw.bygone);
         mediaPlayer.start();
     }
 

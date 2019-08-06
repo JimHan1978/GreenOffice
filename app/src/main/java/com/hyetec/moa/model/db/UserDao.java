@@ -42,12 +42,12 @@ public interface UserDao {
 //            "FROM User,position WHERE user.positionId=position.positionId AND  user.delFlag =:delFlag" )
 //    Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
 
-    @Query("SELECT  userId,userName,User.qq,User.sex,User.joindate,User.sortNo,User.deptName,User.code,User.orgId,deptId,User.delFlag,email,User.positionId,User.orgName,photo,mobile,User.delFlag," +
+    @Query("SELECT  userId,userName,User.cartoon,User.qq,User.sex,User.joindate,User.sortNo,User.deptName,User.code,User.orgId,deptId,User.delFlag,email,User.positionId,User.orgName,photo,mobile,User.delFlag," +
             " shortName, pinyinName, initialIndex,position.name AS positionName ,`Group`.name AS orgName  FROM User,position,`Group` " +
             "WHERE user.positionId=position.positionId AND user.orgId=`Group`.orgId  AND   user.delFlag =:delFlag" )
     Flowable<List<UserEntity>>  getUserAll(boolean delFlag);
 
-    @Query("SELECT  userId,userName,User.sex,User.joindate,User.qq,User.sortNo,User.deptName,User.code,User.orgId,deptId,User.delFlag,email,User.positionId,User.orgName,photo,mobile,User.delFlag," +
+    @Query("SELECT  userId,userName,User.cartoon,User.sex,User.joindate,User.qq,User.sortNo,User.deptName,User.code,User.orgId,deptId,User.delFlag,email,User.positionId,User.orgName,photo,mobile,User.delFlag," +
             " shortName, pinyinName, initialIndex,position.name AS positionName ,`Group`.name AS orgName  FROM User,position,`Group` " +
             "WHERE user.positionId=position.positionId AND user.orgId=`Group`.orgId  AND   user.delFlag =:delFlag ORDER BY sortNo" )
     Flowable<List<UserEntity>>  getUserSort(boolean delFlag);

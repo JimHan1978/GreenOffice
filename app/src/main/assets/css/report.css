@@ -57,31 +57,29 @@
 	right: 10%;
 	bottom: 24.4%;
 }
-
 .photoImg{
 	border-radius: 5%;
     background: url(../img/wq.jpg) no-repeat center;
     background-size: 14rem;
-    width: 14rem;
-    height: 16rem;
-    top: 10%;
-    left: 23%;
+    width: 12.2rem;
+    height: 12rem;
+    top: 25.2%;
+    left: 50%;
+    margin-left: -6.1rem;
+    border: 0.2rem solid #45989B;
 }
 
+
 .company-info {
-	background: #DADADA;
-	border-radius: 4%;
-	color: black;
-	font-size: 1.2em;
-	padding: 0.8em;
-	position: absolute;
-	opacity: .8;
-	left: 10%;
-	right: 10%;
-	bottom: 30%;
-	/* line-height: 2em; */
-	/* width: 68%; */
-	text-indent: 1.2em;
+	color: #2A7D81;
+    font-size: 1.2em;
+    padding: 0.8em;
+    position: absolute;
+    left: 15%;
+    right: 15%;
+    bottom: 20%;
+    text-indent: 1.2em;
+    font-weight: 600;
 }
 
 #monthIncomeChart {
@@ -106,13 +104,15 @@
 	color: #edc73e;
 	margin: 0em 0.2em;
 }
-
 #name {
-	font-size: 1.8em;
-	color: #040001;
-	margin: 0em 0.2em;
-	top: 47%;
-    left: 38%;
+	background: #4B9FA5;
+    border-radius: 5%;
+    font-size: 1.5em;
+    color: #FFF;
+    padding: 0.5rem;
+    margin: 0em 0.2em;
+    top: 54%;
+    left: 40%;
     position: absolute;
 }
 

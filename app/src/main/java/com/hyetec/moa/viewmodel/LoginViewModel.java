@@ -35,6 +35,10 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
 
     private MediatorLiveData<BaseResponse<LoginUserEntity>> mLoginData = new MediatorLiveData<BaseResponse<LoginUserEntity>>();
     private MutableLiveData<Resource<BaseResponse<LoginUserEntity>>> mLoginResponse;
+
+    private final MediatorLiveData<UserEntity> mUserData = new MediatorLiveData<UserEntity>();
+    private MutableLiveData<Resource<BaseResponse<UserEntity>>> mUserInfoResponse;
+
     @Inject
     public LoginViewModel(Application application, LoginModel model) {
         super(application, model);
@@ -77,6 +81,40 @@ public class LoginViewModel extends BaseViewModel<LoginModel> {
 
         return mLoginData;
 
+    }
+    /**a
+     * 获取用户信息
+     * @return
+     */
+    public LiveData<UserEntity> getUserInfo(String Id) {
+
+        Map<String, String> request = new HashMap<>(1);
+        request.put(Api.API_USER_ID_KEY, Id);
+        if (mUserInfoResponse != null) {
+            mUserData.removeSource(mUserInfoResponse);
+        }
+        mUserInfoResponse = mModel.getUserInfo(request);
+        mUserData.addSource(mUserInfoResponse, observer -> {
+            mUserData.removeSource(mUserInfoResponse);
+            mUserData.addSource(mUserInfoResponse, userResource -> {
+                if (userResource == null) {
+                    userResource = Resource.error("", null);
+                }
+                Timber.d("Load weather now: %s", userResource.status);
+                if (userResource.status == Status.LOADING) {
+                    //STATUS.set(Status.LOADING);
+                    Timber.d("Loadding.....");
+                } else if (userResource.status == Status.SUCCESS) {
+                    UserEntity result = userResource.data.getResult();
+                    mUserData.postValue(result);
+                    //STATUS.set(Status.SUCCESS);
+                } else if (userResource.status == Status.ERROR) {
+                    //STATUS.set(Status.ERROR);
+                    Timber.d("Load error.....");
+                }
+            });
+        });
+        return mUserData;
     }
     @Override
     public void onCleared() {

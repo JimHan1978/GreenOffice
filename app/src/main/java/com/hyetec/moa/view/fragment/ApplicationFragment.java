@@ -109,7 +109,8 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
                                 Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
                                 break;
                             case "leave":
-                                startActivity(new Intent(getActivity(), LeaveListActivity.class));
+                                Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();
+                               // startActivity(new Intent(getActivity(), LeaveListActivity.class));
                                 break;
                             default:
                                 Toast.makeText(getActivity(), "功能未上线,敬请期待!", Toast.LENGTH_SHORT).show();

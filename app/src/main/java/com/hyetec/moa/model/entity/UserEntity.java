@@ -52,6 +52,15 @@ public class UserEntity implements Serializable {
     private String initialIndex;// 首字母
     private String qq;
 
+    public String getCartoon() {
+        return cartoon;
+    }
+
+    public void setCartoon(String cartoon) {
+        this.cartoon = cartoon;
+    }
+
+    private  String cartoon;
 
 
     private int sex;
