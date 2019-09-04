@@ -22,6 +22,7 @@ import com.hyetec.moa.model.entity.MyLeaveEntity;
 import com.hyetec.moa.model.entity.PositionEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.TodayAwardEntity;
 import com.hyetec.moa.model.entity.TodayMoneyEntity;
 import com.hyetec.moa.model.entity.UploadEntity;
 import com.hyetec.moa.model.entity.UserEntity;
@@ -100,6 +101,9 @@ public interface ContactsService {
     @Headers("Content-Type: application/json")
     @POST("leaveApply/selectByUserId.json")
     Flowable<BaseResponse<List<MyLeaveEntity>>> selectByUserId(@QueryMap Map<String, String> request);
+
+    @POST("office/lottery/todayAward.json")
+    Flowable<BaseResponse<List<TodayAwardEntity>>> todayAward();
 
     @POST("office/attendance/attesign.json")
     Flowable<BaseResponse<PunchCardEntity>> attesign(@QueryMap Map<String, String> request);

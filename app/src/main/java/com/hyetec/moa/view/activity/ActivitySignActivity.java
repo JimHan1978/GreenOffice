@@ -135,12 +135,11 @@ public class ActivitySignActivity extends BaseActivity<CompanyViewModel> impleme
         try {
             JSONObject jsonObject = new JSONObject(code);
             String activityId = jsonObject.getString("actId");
-            if (activityId.equals(messageEntity.getActId() + "")) {
+            if (activityId.equals(actId + "")) {
                 mViewModel.activitySign(userId, activityId).observe(this, activityEvent -> {
                     if (activityEvent != null && activityEvent.isSuccess()) {
                         Toast.makeText(this, activityEvent.getMessage(), Toast.LENGTH_SHORT).show();
-                        //getLotteryData(userInfo.getUserId() + "", activityId,false);
-                        //rlyShakeMoney.setVisibility(View.VISIBLE);
+
                     } else {
                         Toast.makeText(this, activityEvent.getMessage(), Toast.LENGTH_SHORT).show();
                     }

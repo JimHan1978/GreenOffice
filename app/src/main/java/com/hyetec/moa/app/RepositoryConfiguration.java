@@ -1,6 +1,9 @@
 package com.hyetec.moa.app;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.content.Context;
+import android.database.Cursor;
+import android.support.annotation.NonNull;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -16,6 +19,8 @@ import com.hyetec.hmdp.repository.http.RequestInterceptor;
 import com.hyetec.moa.utils.HMDPPersistenCookieJar;
 
 import java.util.concurrent.TimeUnit;
+
+import io.rx_cache2.Migration;
 
 
 /**
@@ -64,13 +69,15 @@ public class RepositoryConfiguration implements ConfigRepository {
                 })
                 //这里可以自定义配置 RoomDatabase，比如数据库迁移升级
                 .roomConfiguration((context1, roomBuilder) -> {
-/*                    roomBuilder.addMigrations(new Migration(2, 3) {
+                    roomBuilder.addMigrations(new android.arch.persistence.room.migration.Migration(1,2) {
                         @Override
-                        public void migrate(SupportSQLiteDatabase database) {
-                            // TODO: 2017/9/22
-                            // Since we didn't alter the table, there's nothing else to do here.
+                        public void migrate(@NonNull SupportSQLiteDatabase database) {
+//                            Cursor cursor = database.query( "SELECT * FROM User LIMIT 0", null );
+//                            if(cursor!=null && cursor.getColumnIndex("cartoon") == -1 ) {
+//                                database.execSQL("ALTER TABLE User ADD COLUMN cartoon Varchar(32)");
+//                            }
                         }
-                    });*/
+                    });
                 })
                 //可根据当前项目的情况以及环境为框架某些部件提供自定义的缓存策略,具有强大的扩展性
                 .cacheFactory(type -> {

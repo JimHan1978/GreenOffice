@@ -46,7 +46,7 @@ public class UserEntity implements Serializable {
     private String positionName;
     private String photo;
     private String mobile;
-    private boolean delFlag;
+    private int delFlag;
     private String shortName;// 简拼
     private String pinyinName;// 全拼
     private String initialIndex;// 首字母
@@ -146,11 +146,11 @@ public class UserEntity implements Serializable {
     }
 
 
-    public boolean getDelFlag() {
+    public int getDelFlag() {
         return delFlag;
     }
 
-    public void setDelFlag(boolean delFlag) {
+    public void setDelFlag(int delFlag) {
         this.delFlag = delFlag;
     }
 

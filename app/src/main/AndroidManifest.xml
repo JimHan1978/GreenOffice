@@ -102,6 +102,7 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".view.activity.BonusListActivity"
+            android:theme="@style/BoundsTheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:windowSoftInputMode="adjustPan" />
         <activity

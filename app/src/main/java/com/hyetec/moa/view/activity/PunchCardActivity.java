@@ -363,12 +363,6 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
 
                     }
                 })
-//                .setAdapter(new ArrayAdapter<String>(this, R.layout.layout_dialog_item, R.id.tv_name, items), new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                })
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -377,7 +371,6 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
                 })
                 .create();
         alertDialog3.show();
-
     }
 
 

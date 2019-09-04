@@ -6,6 +6,60 @@
 
     <include layout="@layout/base_top_bar" />
 
+    <RelativeLayout
+        android:id="@+id/rly_title_awards"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@drawable/bg_awards">
+        <ImageView
+            android:id="@+id/iv_left_awards"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:padding="12dp"
+            android:layout_alignParentLeft="true"
+            android:src="@mipmap/back_btn_white"
+            />
+        <TextView
+            android:id="@+id/tv_title_awards"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="@string/message"
+            android:textColor="@color/white"
+            android:textSize="@dimen/top_title_textSize" />
+        <ImageView
+            android:id="@+id/iv_right_awards"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
+            android:padding="12dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/scan_icon_new"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_number_awards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_title_awards"
+            android:layout_marginLeft="30dp"
+            android:textSize="20sp"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/tv_people_awards"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_below="@+id/tv_number_awards"
+            android:layout_alignLeft="@+id/tv_number_awards"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:text=""/>
+    </RelativeLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"

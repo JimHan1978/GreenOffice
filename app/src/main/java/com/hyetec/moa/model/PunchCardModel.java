@@ -13,6 +13,7 @@ import com.hyetec.moa.model.entity.BssidEntity;
 import com.hyetec.moa.model.entity.DrawLotteryEntity;
 import com.hyetec.moa.model.entity.PunchCardEntity;
 import com.hyetec.moa.model.entity.ResultEntity;
+import com.hyetec.moa.model.entity.TodayAwardEntity;
 import com.hyetec.moa.model.entity.TodayMoneyEntity;
 
 import org.reactivestreams.Subscription;
@@ -38,7 +39,7 @@ public class PunchCardModel extends BaseModel {
     private MutableLiveData<Resource<BaseResponse<DrawLotteryEntity>>> mDrawLottery;
 
     private MutableLiveData<Resource<BaseResponse<List<BonusEntity>>>> mBonusResource;
-
+    private MutableLiveData<Resource<BaseResponse<List<TodayAwardEntity>>>> mTodayAwardResource;
     private MutableLiveData<Resource<BaseResponse<List<TodayMoneyEntity>>>> mTodayMoneyResource;
     @Inject
     public PunchCardModel(Application application) {
@@ -283,6 +284,39 @@ public class PunchCardModel extends BaseModel {
                     }
                 });
         return mTodayMoneyResource;
+
+    }
+
+    public MutableLiveData<Resource<BaseResponse<List<TodayAwardEntity>>>> getTodayAward() {
+        mTodayAwardResource=new MutableLiveData<>();
+        mRepositoryManager
+                .obtainRetrofitService(ContactsService.class)
+                .todayAward()
+                .onBackpressureLatest()
+                .subscribeOn(Schedulers.io())
+                .doOnNext(logoutResponse -> {
+
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new ErrorHandleSubscriberOfFlowable<BaseResponse<List<TodayAwardEntity>>>(mErrorHandler) {
+                    @Override
+                    public void onSubscribe(Subscription s) {
+                        mTodayAwardResource.setValue(Resource.loading(null));
+                        s.request(1);
+                    }
+
+                    @Override
+                    public void onError(Throwable t) {
+                        super.onError(t);
+                        mTodayAwardResource.setValue(Resource.error(t.getMessage(), null));
+                    }
+
+                    @Override
+                    public void onNext(BaseResponse<List<TodayAwardEntity>> response) {
+                        mTodayAwardResource.setValue(Resource.success(response));
+                    }
+                });
+        return mTodayAwardResource;
 
     }
 }

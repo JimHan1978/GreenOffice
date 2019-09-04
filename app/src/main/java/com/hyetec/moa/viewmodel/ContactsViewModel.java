@@ -54,7 +54,7 @@ public class ContactsViewModel extends BaseViewModel<ContactsModel> {
      */
     public LiveData<List <UserEntity>> getUserList() {
         Map<String, String> request = new HashMap<>(1);
-//        request.put("since", "");
+        request.put("since", "");
         if (mUserListResponse != null) {
             mUserListData.removeSource(mUserListResponse);
         }

@@ -13,7 +13,7 @@ import com.hyetec.moa.model.entity.UserEntity;
  * @date 2019/02/27
  * Room Database
  */
-@Database(entities = {UserEntity.class,PositionEntity.class,GroupEntity.class} , version = 1)
+@Database(entities = {UserEntity.class,PositionEntity.class,GroupEntity.class} , version = 2)
 public abstract class GreenOfficeDb extends RoomDatabase {
 
     public static final String DB_NAME = GreenOfficeDb.class.getSimpleName();
