@@ -32,6 +32,7 @@ public class GlobalHttpHandlerImpl implements GlobalHttpHandler {
         response.body().close(); */
         //String Type=response.headers("Content-Type").toString();
 
+
         return response;
     }
 

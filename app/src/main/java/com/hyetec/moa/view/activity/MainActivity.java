@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,7 +81,6 @@ public class MainActivity extends BaseActivity<MainViewModel> {
             //Restore data
             mReplace = savedInstanceState.getInt(EventBusTags.ACTIVITY_FRAGMENT_REPLACE);
         }
-
         updataApp();
 
         // 初始化 JPush。如果已经初始化，但没有登录成功，则执行重新登录。

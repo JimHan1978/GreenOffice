@@ -1,12 +1,14 @@
 package com.hyetec.moa.view.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,7 +66,19 @@ public class ApplicationFragment extends BaseFragment<ApplicationViewModel> {
     public View initView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_application, container, false);
         ButterKnife.bind(this, view);
+        setHeadView(view);
         return view;
+    }
+
+    private  void setHeadView( View view ){
+        LinearLayout llRoot = view.findViewById(R.id.lly_main);
+        View statusBarView = new View(getActivity());
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(getActivity())/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
     }
 
     /**

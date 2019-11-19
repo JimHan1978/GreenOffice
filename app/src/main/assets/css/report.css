@@ -1,10 +1,14 @@
 @font-face {
 	font-family: 'MFYueYuan';
 	src: url(../fonts/MFYueYuan_Noncommercial-Regular.ttf) format('truetype');
+	font-family: 'fzpw';
+    src: url(../fonts/fzpw.ttf) format('truetype');
+    font-family: 'jtz';
+    src: url(../fonts/jtz.otf) format('truetype');
 }
 
 .text-report {
-	color: #040001;
+	color: #FFFFFF;
 	font-size: 1.2em;
 	font-family: 'MFYueYuan';
 	text-align: left;
@@ -31,8 +35,8 @@
 
 .text-indent-18 {
 	line-height: 2.5em;
-	text-indent: 0.2em;
-	margin: 0 3em;
+	/*text-indent: 0.2em;*/
+	margin: 0 5rem;
 }
 
 .block-slide {
@@ -57,39 +61,51 @@
 	right: 10%;
 	bottom: 24.4%;
 }
+
+
 .photoImg{
-	border-radius: 5%;
+	    border-radius: 50%;
     background: url(../img/wq.jpg) no-repeat center;
-    background-size: 14rem;
-    width: 12.2rem;
-    height: 12rem;
-    top: 25.2%;
+    background-size: 13rem;
+    width: 13rem;
+    height: 13rem;
+    top: 30.2%;
     left: 50%;
-    margin-left: -6.1rem;
-    border: 0.2rem solid #45989B;
+    margin-left: -6.5rem;
+    border: 0.01rem solid #9B4EBF;
 }
 
-
 .company-info {
-	color: #2A7D81;
-    font-size: 1.2em;
-    padding: 0.8em;
+	color: #FFF;
+    font-size: 1.1rem;
+    padding: 0.6em;
     position: absolute;
-    left: 15%;
-    right: 15%;
-    bottom: 20%;
+    left: 12%;
+    right: 12%;
+    top: 15%;
     text-indent: 1.2em;
-    font-weight: 600;
+    font-weight: 400;
+    letter-spacing: 2px;
+    font-family:"fzpw"
+
 }
 
 #monthIncomeChart {
-	background-color: #F7F7F7;
+	/*background-color: #F7F7F7;
 	border-radius: 4%;
-	opacity: 0.4;
+	opacity: 0.4;*/
 	width: 100%;
-	height: 20em;
+	height: 18em;
 	padding: 1.5em 0em;
-	margin: 2em 0em;
+	margin: 0em;
+}
+
+#tip-m{
+	width: 3.5rem;
+    height: 7rem;
+    margin-top: 1rem;
+    margin-left: 3rem;
+    float: left;
 }
 
 #container {
@@ -104,46 +120,58 @@
 	color: #edc73e;
 	margin: 0em 0.2em;
 }
+
 #name {
-	background: #4B9FA5;
-    border-radius: 5%;
-    font-size: 1.5em;
-    color: #FFF;
-    padding: 0.5rem;
-    margin: 0em 0.2em;
-    top: 54%;
-    left: 40%;
-    position: absolute;
+		border-radius: 5%;
+        font-size: 2.2em;
+        color: #F8C588;
+        padding: 0.5rem;
+        margin: 0em 0.2em;
+        top: 10%;
+        left: 35%;
+        position: absolute;
+    	font-family: 'fzpw';
+        text-shadow: 1px 1px 1px #000;
 }
 
 #income_month {
-	font-size: 2em;
-	color: #6089a1;
+	font-size: 1.4rem;
+    color: #FBC54F;
 	margin: 0em 0.2em;
+	font-family: 'jtz'
 }
 
 #accrual {
-	font-size: 1.6em;
-	color: #d9b32b;
+	font-size: 1.4rem;
+    color: #FBC54F;
 	margin: 0em 0.2em;
+	font-family: 'jtz'
+
 }
 
 .span-text-red {
-	color: #cb4137;
-	margin: 0em 0.2em;
-	font-size: 2em;
+	color: #FBC54F;
+    margin: 0em 0.2em;
+    font-size: 1.4rem;
+    font-weight: 400;
+    font-family: 'jtz';
 }
 
 .span-text-green {
-	font-size: 2em;
-	color: #4b9385;
-	margin: 0em 0.2em;
+	font-size: 1.2em;
+    color: #FBC54F;
+    margin: 0em 0.5em;
+    font-family: 'jtz';
 }
 
 .span-text-blue {
 	font-size: 2em;
 	color: #6089A1;
 	margin: 0em 0.2em;
+}
+
+.ml-2{
+	margin-left: 2rem;
 }
 
 .span-text-blue2 {
@@ -153,9 +181,9 @@
 }
 
 .span-text-orange {
-	font-size: 2em;
-	color: #d2a916;
-	margin: 0em 0.2em;
+	font-size: 1.2em;
+    color: #FBC54F;
+    margin: 0em 0.2em;
 }
 
 .page-bg {
@@ -174,31 +202,39 @@
 }
 
 .page-cover {
-	background-image: url(../img/bg-cover.jpg);
+	background-image: url(../img/bg-cover.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
+.text-title-ym{
+	text-align: center;
+    height: 10rem;
+    padding-top: 7.4rem;
+    font-size: 2rem;
+    color: white;
+}
+
 .page-first {
-	background-image: url(../img/bg-welcome.jpg);
+	background-image: url(../img/bg-welcome.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-second {
-	background-image: url(../img/bg-overview.jpg);
+	background-image: url(../img/bg-overview.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-third {
-	background-image: url(../img/bg-salary.jpg);
+	background-image: url(../img/bg-salary.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
 
 .page-welfare {
-	background-image: url(../img/bg-welfare.jpg);
+	background-image: url(../img/bg-welfare.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
@@ -322,9 +358,54 @@
     height: 2.8rem;
 }
 
+.icon_money{
+	background: url(../img/ic_card_money.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 0.1rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.5rem;
+}
+
+.icon_kq{
+	background: url(../img/ic_kq.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 0.1rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.5rem;
+}
+
+.icon_jx{
+	background: url(../img/ic-jx.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 0.1rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.5rem;
+}
+
+
+.icon_fl{
+	background: url(../img/ic-fl.png) no-repeat center center;
+	display: inline-block;
+    background-size: 100% 100%;
+    position: relative;
+    top: 0.1rem;
+    width: 1rem;
+    height: 1rem;
+    margin: 0 0.5rem;
+}
+
 
 .page-attendance {
-	background-image: url(../img/bg-all-work.jpg);
+	background-image: url(../img/bg-attendance.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
@@ -343,6 +424,12 @@
 
 .page-be-late {
 	background-image: url(../img/bg-be-late.jpg);
+	background-size: 100% 100%;
+	background-position: center;
+}
+
+.page-performance {
+	background-image: url(../img/bg-performance.png);
 	background-size: 100% 100%;
 	background-position: center;
 }
@@ -367,8 +454,8 @@
 
 .page-cumulative {
 	background-image: url(../img/bg-cumulative.jpg);
-	background-size: 100% 100%;
-	background-position: center;
+	/*background-size: 100% 100%;*/
+	background-position: initial;
 }
 
 #close {
@@ -408,25 +495,20 @@
 
 #tips-2 {
 	position: absolute;
-	/*left: 10%;
-    right: 10%;*/
-	top: 18%;
+	top: 12%;
 	width: 100%;
-	padding: 0 5%;
-	/* height: 80%; */
+	padding: 5% 5%;
 }
 
 #tips-3 {
 	position: absolute;
-	left: 10%;
-	top: 21%;
-	/* width: 60%; */
-	/* height: 84%; */
+	left: 14%;
+	top: 15%;
 }
  #tips-4 {
 	position: absolute;
-	right: 26.4%;
-    top: 25%;
+    left: 10%;
+    top: 20%
 }
 
 #tips-casual {
@@ -436,13 +518,15 @@
 }
 
 #tips-4 li {
-	    line-height: 1.6em;
+	line-height: 1.8em;
     list-style: none;
-    font-family: 'MFYueYuan';
-    text-align: center;
+    font-family: 'fzpw';
+    font-size: 0.96rem;
+    letter-spacing: 0.1rem;
+     text-shadow: 1px 1px 1px #000;
 }
 
-#tips-4 li:nth-child(1) {
+/*#tips-4 li:nth-child(1) {
 	color: #81A7CA;
 	font-size: 1.2em;
 }
@@ -451,7 +535,7 @@
 	color: #FF962E;
 	font-size: 3em;
 }
-
+*/
 #tips-41 {
 	position: absolute;
 	left: 25%;
@@ -532,7 +616,7 @@
 	list-style: none;
 	color: #d2a916;
 	font-size: 1.2em;
-	font-family: 'MFYueYuan';
+	font-family: 'fzpw';
 	text-align: left;
 }
 
@@ -553,78 +637,64 @@
 
 #tips-5 {
 	position: absolute;
-	left: 26%;
-	top: 30%;
+	left: 10%;
+	top: 20%;
 }
 
 #tips-5 li {
-	line-height: 3em;
-	list-style: none;
-	color: #d2a916;
-	font-size: 1.2em;
-	font-family: 'MFYueYuan';
-	text-align: left;
+	line-height: 1.6em;
+    list-style: none;
+    font-family: 'fzpw';
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
 }
 
 #tips-6 {
 	position: absolute;
-	left: 12%;
-	top: 16%;
+	left: 8%;
+	top: 12%;
+	padding: 1rem;
 }
 
 .welfare {
-	line-height: 1.5em;
-	color: #334E5C;
-	font-size: 1.2em;
-	font-family: 'MFYueYuan';
-	text-align: left;
+	line-height: 2rem;
+    color: #f7f7f7;
+    font-size: 1.2em;
+    font-family: 'fzpw';
+    text-align: left;
+    margin-left: 2rem;
+    text-shadow: 1px 1px 1px #000;
 }
 
 #tips-6 li {
-	line-height: 1.5em;
+	line-height: 1.8rem;
 	list-style: none;
-	color: #334E5C;
-	font-size: 1.2em;
-	font-family: 'MFYueYuan';
+	color: #f7f7f7;
+	font-size: 1rem;
+	font-family: 'fzpw';
 	text-align: left;
+	letter-spacing: 0.1rem;
 }
-
-#tips-6 li:nth-child(1) {
-	text-indent: 0.4em;
-	margin-top: 0.2em;
-}
-
-#tips-6 li:nth-child(2) {
-	text-indent: 0.4em;
-	margin-top: 0.2em;
-}
-
-#tips-6 li:nth-child(3) {
-	text-indent: 0.4em;
-	margin-top: 0.2em;
-}
-
 
 .retract1 {
-	text-indent: 3em;
+    text-indent: 3em;
 }
 
 .retract2 {
-	text-indent: 3em;
-	padding: 0.5em 0em;
+    text-indent: 3em;
+    padding: 0.5em 0em;
 }
 
 .retract3 {
-	text-indent: 6em;
+    text-indent: 5em;
+    
+    
 }
 
 .retract4 {
-	text-indent: 6em;
+    text-indent: 7em;
 }
-.retract5{
-	text-indent: 5em;
-	padding: 0.5em 0em;
-}
+
 .tips-attendance {
 	position: absolute;
 	left: 7.2em;
@@ -649,15 +719,35 @@
 	padding-top: 0.6em;
 }
 
-#cumulativeVal {
+.box-cumlative{
 	position: absolute;
-	top: 32%;
-	/* left: 16%; */
-	font-size: 3.2em;
-	line-height: 2em;
-	color: #B35A69;
+	top: 13%;
+	margin-left: 0.5rem;
+	font-size: 1.1rem;
+	line-height: 1.8rem;
+	color: #FFFFFF;
 	width: 100%;
 	text-align: center;
+	font-family: 'fzpw';
+}
+
+#lotteryContainer {
+    position: absolute;
+    background: url(../img/bg-container.png) no-repeat center;
+    background-size: 100% 100%;
+    width: 14rem;
+    height: 10.6rem;
+    top: 36%;
+    left: 18%;
+    padding: 1rem;
+    margin: 1rem;
+}
+}
+
+#cumulativeVal {
+	color: #FBC54F;
+	margin: 0 0.8rem;
+	    font-weight: 600;
 }
 
 .animate div {
@@ -666,28 +756,30 @@
 }
 
 .animate ul {
-	margin: 0px;
+	margin: 0px 1rem;
 	padding: 0px;
 }
 
 .animate h2 {
-	color: #324C5A;
-	font-size: 1.2em;
-	font-family: 'MFYueYuan';
-	text-align: left;
-	padding-top: 0.8em;
-	font-weight: normal;
-	line-height: 3em;
+	color: #f2f4f5;
+    font-size: 1.2em;
+    font-family: 'fzpw';
+    text-align: left;
+    margin-left: 1rem;
+    padding-top: 0.8em;
+    font-weight: normal;
+    line-height: 2.4rem;
+    text-shadow: 1px 1px 1px #000;
 }
 
 .animate li {
-	line-height: 3em;
-	list-style: none;
-	color: #36505C;
-	font-size: 1.2em;
-	font-family: 'MFYueYuan';
-	text-align: left;
-	/*text-indent: 18px;*/
+	line-height: 2.4rem;
+    list-style: none;
+    color: #f7f7f7;
+    font-size: 1.2em;
+    font-family: 'fzpw';
+    text-align: left;
+    text-shadow: 1px 1px 1px #000;
 }
 
 .animate li:nth-child(3) {
@@ -706,6 +798,9 @@
 	-webkit-animation-play-state: running;
 	-webkit-animation-delay: 1s;
 	display: block;
+	font-family: 'fzpw';
+	text-shadow: 1px 1px 1px #000;
+
 }
 
 .guide-show .bounceInLeft {

@@ -12,6 +12,11 @@ package com.hyetec.moa.utils;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+
+import com.hyetec.moa.R;
 
 public class SystemSettings {
 	public static String getAppName() {

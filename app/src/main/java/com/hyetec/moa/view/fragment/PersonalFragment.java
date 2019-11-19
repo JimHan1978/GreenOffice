@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -65,7 +66,7 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
         ButterKnife.bind(this, view);
         mTitleView.setText(getResources().getString(R.string.personal));
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PersonalViewModel.class);
-
+        setHeadView(view);
 
         /*ConstraintLayout setting = view.findViewById(R.id.setting);
         setting.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +77,16 @@ public class PersonalFragment extends BaseFragment<PersonalViewModel> {
         });*/
         return view;
     }
-
+    private  void setHeadView( View view ){
+        LinearLayout llRoot = view.findViewById(R.id.lly_main);
+        View statusBarView = new View(getActivity());
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(getActivity())/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
+    }
     /**
      * 数据初始化
      *

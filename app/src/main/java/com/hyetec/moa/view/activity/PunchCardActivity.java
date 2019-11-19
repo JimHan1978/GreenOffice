@@ -22,10 +22,12 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -133,7 +135,9 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
         setContentView(R.layout.activity_punch_card);
         ButterKnife.bind(this);
         //创建ViewModel
+
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PunchCardViewModel.class);
+        setHeadView();
         return R.layout.activity_punch_card;
     }
 
@@ -156,29 +160,18 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
             userEntity = (LoginUserEntity) ACache.get(getApplicationContext()).getAsObject(MoaApp.USER_DATA);
             userId = userEntity.getUserId() + "";
         }
-
-//        if (Connected.isConnected(this)) {
-//            getInfo();
-//        } else {
-//            Toast.makeText(this, "请连接网络", Toast.LENGTH_SHORT).show();
-//        }
         getBssID();
-
-//        if (ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS) != null) {
-//            bssIds = ACache.get(getApplicationContext()).getAsString(MoaApp.BSSIDS);
-//            IntentFilter filter = new IntentFilter();
-//            filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-//            filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-//            filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-//            broadcast = new Broadcast();
-//            registerReceiver(broadcast, filter);
-//        } else {
-//            getBssID();
-//        }
-
-
     }
-
+    private  void setHeadView( ){
+        LinearLayout llRoot = findViewById(R.id.lly_main);
+        View statusBarView = new View(this);
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(this)/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
+    }
     public void showMoney(double count, double sum) {
         adBuilder = new AlertDialog.Builder(PunchCardActivity.this).setTitle("中奖提示")
                 .setMessage(count != 0 ? "恭喜你摇出" + count + "元,今日总计" + sum + "元" : "本次未中奖,请继续努力").
@@ -453,7 +446,7 @@ public class PunchCardActivity extends BaseActivity<PunchCardViewModel> {
     }
 
     private void daKa() {
-        mViewModel.daKa(userId, strIMEI).observe(this, dakaData -> {
+        mViewModel.daKa(userId, strIMEI,strBSSID).observe(this, dakaData -> {
             if (dakaData != null && dakaData.isSuccess()) {
                 setDakaData(dakaData.getResult());
             } else {

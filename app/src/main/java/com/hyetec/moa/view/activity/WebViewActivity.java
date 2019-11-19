@@ -76,6 +76,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     private String billDate;
     private AlphaAnimation mHideAnimation;
     private String cartoonPhoto="";
+    private int userId;
     @Override
     public int initView(Bundle savedInstanceState) {
         setContentView(R.layout.activity_webview);
@@ -123,9 +124,13 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
         String json = getFromAssets("data/report.json");
 
         if( ACache.get(this).getAsString(MoaApp.CARTOON)!=null) {
-             cartoonPhoto=Api.IMG_URL+ACache.get(this).getAsString(MoaApp.CARTOON);
+             cartoonPhoto=Api.IMG_URL+ACache.get(this).getAsString(MoaApp.CARTOON)+"?v="+TimeUtil.getTime();
         }
 
+        if( ACache.get(this.getApplicationContext()).getAsObject(MoaApp.USER_DATA)!=null) {
+            LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
+            userId=user.getUserId();
+        }
         LoginUserEntity user = (LoginUserEntity) ACache.get(this).getAsObject(MoaApp.USER_DATA);
         int sex = user.getSex();
         String joindate = user.getJoindate();
@@ -140,7 +145,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
 
                         Gson gson = new Gson();
                         if (billData.getResult()!=null && billData.getResult().getDetail() != null) {
-                            wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate +"','"+cartoonPhoto+ "')", new ValueCallback<String>() {
+                            wv_item.evaluateJavascript("javascript:setData('" + gson.toJson(getBase64Str(billData.getResult())) + "'," + sex + ",'" + joindate +"','"+cartoonPhoto+"'," + userId + ")", new ValueCallback<String>() {
                                 @Override
                                 public void onReceiveValue(String value) {
                                     value.toString();
@@ -255,7 +260,7 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
             if (!TextUtils.isEmpty(detailBean.getDate())) {
                 newDetailBean.setDate(new String(Base64.decode(detailBean.getDate().getBytes(), Base64.DEFAULT)));
             } else {
-                newDetailBean.setDate("");
+                newDetailBean.setDate(billDate);
             }
             if (!TextUtils.isEmpty(detailBean.getTxbt())) {
                 newDetailBean.setTxbt(new String(Base64.decode(detailBean.getTxbt().getBytes(), Base64.DEFAULT)));
@@ -400,6 +405,15 @@ public class WebViewActivity extends BaseActivity<WebViewModel> {
     public void play() {
         mediaPlayer = MediaPlayer.create(this, R.raw.bygone);
         mediaPlayer.start();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer arg0) {
+                mediaPlayer.start();
+                mediaPlayer.setLooping(true);
+            }
+        });
+
+
     }
 
     @Override

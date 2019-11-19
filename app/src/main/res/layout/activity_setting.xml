@@ -114,6 +114,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/SettingArrowStyle" />
             </android.support.constraint.ConstraintLayout >
+
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/layout_about"
                 style="@style/SettingItemStyle">

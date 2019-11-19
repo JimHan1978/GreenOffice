@@ -2,33 +2,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rly_title"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="50dp"
     android:background="@color/colorPrimary">
     <ImageView
         android:id="@+id/iv_left"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="5dp"
-        android:padding="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="12dp"
         android:layout_alignParentLeft="true"
         android:src="@mipmap/back_btn_white"
         android:visibility="gone" />
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
-        android:layout_height="55dp"
+        android:layout_height="50dp"
         android:layout_centerInParent="true"
-        android:layout_marginTop="5dp"
         android:gravity="center_vertical"
         android:text="@string/message"
         android:textColor="@color/white"
         android:textSize="@dimen/top_title_textSize" />
     <ImageView
         android:id="@+id/iv_right"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="5dp"
-        android:padding="15dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:padding="12dp"
         android:layout_alignParentRight="true"
         android:src="@drawable/scan_icon_new"
         android:visibility="gone"/>

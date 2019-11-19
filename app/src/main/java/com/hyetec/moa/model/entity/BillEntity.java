@@ -23,6 +23,15 @@ public class BillEntity implements Serializable {
      */
 
     private DetailBean detail;
+
+    @Override
+    public String toString() {
+        return "BillEntity{" +
+                "detail=" + detail +
+                ", historyData=" + historyData +
+                '}';
+    }
+
     private List<HistoryDataBean> historyData;
 
     public DetailBean getDetail() {

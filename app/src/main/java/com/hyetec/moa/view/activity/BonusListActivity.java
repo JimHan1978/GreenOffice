@@ -3,7 +3,9 @@ package com.hyetec.moa.view.activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -65,10 +67,21 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
         setContentView(R.layout.activity_bonus_list);
         ButterKnife.bind(this);
         //创建ViewModel
+
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(PunchCardViewModel.class);
         return R.layout.activity_bonus_list;
     }
 
+    private  void setHeadView( ){
+        LinearLayout llRoot = findViewById(R.id.lly_main);
+        View statusBarView = new View(this);
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(this)/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
+    }
     /**
      * 数据初始化
      *
@@ -85,11 +98,13 @@ public class BonusListActivity extends BaseActivity<PunchCardViewModel> {
             rlyTitle.setVisibility(View.GONE);
             rlyTitleAwards.setVisibility(View.VISIBLE);
             tvTitleAwards.setText("考勤红包月排行榜");
+
             getTodayAward();
         } else if (type.equals("All")) {
             rlyTitle.setVisibility(View.VISIBLE);
             rlyTitleAwards.setVisibility(View.GONE);
             tvTitle.setText("红包总榜");
+            setHeadView();
         }
 
 

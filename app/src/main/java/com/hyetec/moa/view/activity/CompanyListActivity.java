@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -83,10 +84,21 @@ public class CompanyListActivity extends BaseActivity<CompanyViewModel> implemen
         setContentView(R.layout.activity_company_list);
         ButterKnife.bind(this);
         //创建ViewModel
+        setHeadView();
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(CompanyViewModel.class);
         return R.layout.activity_company_list;
     }
 
+    private  void setHeadView( ){
+        LinearLayout llRoot = findViewById(R.id.mPullRefreshView);
+        View statusBarView = new View(this);
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(this)/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
+    }
     /**
      * 数据初始化
      * @param savedInstanceState Bundle

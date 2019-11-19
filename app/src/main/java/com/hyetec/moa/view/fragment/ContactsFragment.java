@@ -102,6 +102,7 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
         View view = inflater.inflate(R.layout.fragment_contacts, container, false);
         mViewModel = ViewModelProviders.of(this, mViewModelFactory).get(ContactsViewModel.class);
         ButterKnife.bind(this, view);
+        setHeadView(view);
         stickyLayout.setOnGiveUpTouchEventListener(ContactsFragment.this);
         mTitleView.setText("通讯录");
         view.setOnTouchListener(new View.OnTouchListener() {
@@ -113,6 +114,16 @@ public class ContactsFragment extends BaseFragment<ContactsViewModel> implements
             }
         });
         return view;
+    }
+    private  void setHeadView( View view ){
+        LinearLayout llRoot = view.findViewById(R.id.lly_main);
+        View statusBarView = new View(getActivity());
+        statusBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                getStatusBarHeight(getActivity())/2);
+        // 在根布局中添加一个状态栏高度的View
+        llRoot.addView(statusBarView, 0, lp);
     }
 
     /**

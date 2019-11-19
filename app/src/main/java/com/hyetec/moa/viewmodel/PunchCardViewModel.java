@@ -59,11 +59,11 @@ public class PunchCardViewModel extends BaseViewModel<PunchCardModel> {
     }
 
 
-    public LiveData<BaseResponse<PunchCardEntity>> daKa(String userId, String deviceid) {
+    public LiveData<BaseResponse<PunchCardEntity>> daKa(String userId, String deviceid,String bssid) {
         Map<String, String> request = new HashMap<>(1);
         request.put("userId", userId);
         request.put("deviceid", deviceid);
-
+        request.put("bssid", bssid);
         mDakaData = new MediatorLiveData<>();
         mDakaResponse = mModel.daKa(request);
         mDakaData.addSource(mDakaResponse, infoResource -> {
